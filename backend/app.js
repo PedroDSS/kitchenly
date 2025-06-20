@@ -1,4 +1,6 @@
 const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
 const AppError = require('./utils/appError');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
@@ -6,30 +8,32 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const { xss } = require('express-xss-sanitizer');
 const cookieParser = require('cookie-parser');
-const mongoSanitize = require('express-mongo-sanitize');
+// const mongoSanitize = require('express-mongo-sanitize');
 const globalErrorHandler = require('./controllers/errorController');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const logger = require('./utils/logger');
+// const logger = require('./utils/logger');
 const initDeliveryCronJob = require("./cron/delivery");
-const webhookStripeHandler = require("./webhook/stripe");
-const bodyParser = require('body-parser');
+// const webhookStripeHandler = require("./webhook/stripe");
+// const bodyParser = require('body-parser');
 
+// Route imports
+const okRouter = require('./routes/okRouter');
+const authRouter = require('./routes/authRouter');
+const userRouter = require('./routes/userRouter');
+
+// Initialize MongoDB connection after dotenv
 require("./models/mongo/db");
 
 // Start express app
 const app = express();
 
 // Webhook for Stripe
-app.post(
-  "/webhook/stripe",
-  bodyParser.raw({ type: "application/json" }),
-  webhookStripeHandler
-);
-
-//Set env variable globally
-dotenv.config({ path: './config.env' });
+// app.post(
+//   "/webhook/stripe",
+//   bodyParser.raw({ type: "application/json" }),
+//   webhookStripeHandler
+// );
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -65,13 +69,8 @@ app.use(helmet());
 //Data sanictization against xss
 app.use(xss());
 
-// Data sanitization against NoSQL query injection
-app.use(mongoSanitize());
-
-// ROUTE TEST
-app.use('/helloworld', async (req, res, next) => {
-  logger.info('Hello world');
-});
+// Data sanitization against NoSQL query injection (disabled for Express 5 compatibility)
+// app.use(mongoSanitize());
 
 // API Routes
 app.use('/api', okRouter);
@@ -81,7 +80,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 
 // Handle requests for routes that are not defined in the application.
-app.all('*', (req, res, next) => {
+app.all('/{*any}', (req, res, next) => {
   next(new AppError(404));
 });
 

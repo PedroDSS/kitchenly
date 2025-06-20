@@ -2,7 +2,7 @@ const { Cart, CustomerAddress, CustomerOrder, Shipping, PaymentMethod, Stock, Or
 const stripe = require('../services/stripe');
 const dotenv = require('dotenv');
 
-dotenv.config({ path: './config.env' });
+dotenv.config();
 const signature_token = process.env.NODE_ENV === 'development' ? process.env.STRIPE_LOCAL_WH_TOKEN : process.env.STRIPE_PROD_WH_TOKEN;
 
 

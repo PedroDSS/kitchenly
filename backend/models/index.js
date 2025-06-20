@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const logger = require('../utils/logger');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -15,6 +16,15 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+(async () => {
+  try {
+    await sequelize.authenticate();
+    logger.info('PostgreSQL connection successful!')
+  } catch (error) {
+    logger.error('Unable to connect to the PostgreSQL database:', error);
+  }
+})();
 
 fs
   .readdirSync(__dirname)
@@ -32,9 +42,8 @@ fs
   });
 
 Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+  if (db[modelName].associate) db[modelName].associate(db);
+  if (db[modelName].addHooks) db[modelName].addHooks(db);
 });
 
 db.sequelize = sequelize;
