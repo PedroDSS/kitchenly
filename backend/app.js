@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const AppError = require('./utils/appError');
 const path = require('path');
-const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const hpp = require('hpp');
 const { xss } = require('express-xss-sanitizer');
@@ -14,6 +13,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 // const logger = require('./utils/logger');
 const initDeliveryCronJob = require("./cron/delivery");
+const initCartCleanupCronJob = require("./cron/cartCleanup");
+const { generalLimiter } = require('./middleware/rateLimiter');
 // const webhookStripeHandler = require("./webhook/stripe");
 // const bodyParser = require('body-parser');
 
@@ -21,6 +22,8 @@ const initDeliveryCronJob = require("./cron/delivery");
 const okRouter = require('./routes/okRouter');
 const authRouter = require('./routes/authRouter');
 const userRouter = require('./routes/userRouter');
+const productRouter = require('./routes/productRouter');
+const cartRouter = require('./routes/cartRouter');
 
 // Initialize MongoDB connection after dotenv
 require("./models/db");
@@ -72,12 +75,17 @@ app.use(xss());
 // Data sanitization against NoSQL query injection (disabled for Express 5 compatibility)
 // app.use(mongoSanitize());
 
+// Apply general rate limiting to all routes
+app.use('/api/', generalLimiter);
+
 // API Routes
 app.use('/api', okRouter);
 app.use('/api/auth', authRouter);
+app.use('/api', productRouter);
 
 // Private
 app.use('/api/users', userRouter);
+app.use('/api/cart', cartRouter);
 
 // Handle requests for routes that are not defined in the application.
 app.all('/{*any}', (req, res, next) => {
@@ -86,18 +94,8 @@ app.all('/{*any}', (req, res, next) => {
 
 app.use(globalErrorHandler);
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  keyGenerator: (req) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    return ip;
-  },
-});
-
-app.use(limiter);
-
-// Init the cron job for delivery
+// Init the cron jobs
 initDeliveryCronJob();
+initCartCleanupCronJob();
 
 module.exports = app;

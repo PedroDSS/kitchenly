@@ -1,6 +1,7 @@
 'use strict';
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const { validatePassword } = require('../../utils/passwordValidator');
 
 const {
   Model
@@ -23,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     static addHooks(models) {
       User.addHook('beforeCreate', async (user) => {
         if (user.password) {
+          validatePassword(user.password);
           const salt = await bcrypt.genSalt(12);
           user.password = await bcrypt.hash(user.password, salt);
         }
@@ -30,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
       User.addHook('beforeUpdate', async (user, { fields }) => {
         if (fields.includes('password')) {
+          validatePassword(user.password);
           const salt = await bcrypt.genSalt(12);
           user.password = await bcrypt.hash(user.password, salt);
           user.passwordChangedAt = new Date();

@@ -1,0 +1,96 @@
+doctype html
+html(lang="fr")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= subject
+    style.
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .header {
+        background-color: #2c3e50;
+        color: #ffffff;
+        padding: 30px;
+        text-align: center;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 300;
+      }
+      .content {
+        padding: 40px 30px;
+      }
+      .footer {
+        background-color: #f8f9fa;
+        padding: 20px 30px;
+        text-align: center;
+        font-size: 14px;
+        color: #6c757d;
+        border-top: 1px solid #e9ecef;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #007bff;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 500;
+        margin: 20px 0;
+      }
+      .button:hover {
+        background-color: #0056b3;
+      }
+      .text-muted {
+        color: #6c757d;
+      }
+      .mt-3 {
+        margin-top: 20px;
+      }
+      .mb-3 {
+        margin-bottom: 20px;
+      }
+      @media (max-width: 600px) {
+        .container {
+          margin: 0;
+          border-radius: 0;
+        }
+        .content {
+          padding: 30px 20px;
+        }
+      }
+  body
+    .container
+      .header
+        h1 Kitchenly
+        p Votre partenaire en électroménager de luxe
+      
+      .content
+        block content
+      
+      .footer
+        p.text-muted
+          | Cet email a été envoyé depuis Kitchenly.
+          br
+          | Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer cet email.
+        p.text-muted
+          | © #{new Date().getFullYear()} Kitchenly. Tous droits réservés.
+          br
+          a(href=`${appUrl}/privacy` style="color: #6c757d;") Politique de confidentialité
+          |  | 
+          a(href=`${appUrl}/terms` style="color: #6c757d;") Conditions d'utilisation
