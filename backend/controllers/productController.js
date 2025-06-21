@@ -3,6 +3,7 @@ const { ProductSearch } = require('../models/mongo');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { Op } = require('sequelize');
+const { processImmediateAlerts } = require('../cron/emailAlerts');
 
 const getPaginationParams = (query) => {
   const page = parseInt(query.page) || 1;
@@ -166,6 +167,14 @@ exports.createProduct = catchAsync(async (req, res, next) => {
       ]
     });
     
+    // Process email alerts for new products
+    await processImmediateAlerts('product_created', {
+      productId: product.id,
+      product: createdProduct,
+      categoryId: product.categoryId,
+      categoryPath: [] // This would need to be populated if using hierarchical categories
+    });
+    
     res.status(201).json({
       status: 'success',
       data: { product: createdProduct }
@@ -186,6 +195,10 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
       await transaction.rollback();
       return next(new AppError('Product not found', 404));
     }
+    
+    // Store old values for alert processing
+    const oldPrice = product.price;
+    const oldStock = product.stock;
     
     await product.update(req.body, { transaction });
     
@@ -217,6 +230,25 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
         { model: Brand, as: 'brand' }
       ]
     });
+    
+    // Process email alerts for price and stock changes
+    if (oldPrice !== product.price) {
+      await processImmediateAlerts('price_changed', {
+        productId: product.id,
+        product: updatedProduct,
+        oldPrice,
+        newPrice: product.price
+      });
+    }
+    
+    if (oldStock !== product.stock) {
+      await processImmediateAlerts('stock_changed', {
+        productId: product.id,
+        product: updatedProduct,
+        oldStock,
+        newStock: product.stock
+      });
+    }
     
     res.status(200).json({
       status: 'success',

@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  Op
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -200,7 +201,15 @@ module.exports = (sequelize, DataTypes) => {
     cancelledAt: DataTypes.DATE,
     returnedAt: DataTypes.DATE,
     refundedAt: DataTypes.DATE,
-    estimatedDeliveryDate: DataTypes.DATE
+    estimatedDeliveryDate: DataTypes.DATE,
+    cancelReason: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    returnReason: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Order',
@@ -229,6 +238,79 @@ module.exports = (sequelize, DataTypes) => {
       }
     ]
   });
+
+  // Static methods
+  Order.generateOrderNumber = async function() {
+    const prefix = 'ORD';
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    
+    // Find the last order number for this month
+    const lastOrder = await this.findOne({
+      where: {
+        orderNumber: {
+          [Op.like]: `${prefix}-${year}${month}%`
+        }
+      },
+      order: [['orderNumber', 'DESC']]
+    });
+
+    let sequence = 1;
+    if (lastOrder) {
+      const lastSequence = parseInt(lastOrder.orderNumber.split('-')[2]);
+      sequence = lastSequence + 1;
+    }
+
+    return `${prefix}-${year}${month}-${String(sequence).padStart(4, '0')}`;
+  };
+
+  // Instance methods
+  Order.prototype.canBeCancelled = function() {
+    return ['pending', 'processing'].includes(this.status) && 
+           this.paymentStatus !== 'refunded';
+  };
+
+  Order.prototype.canBeReturned = function() {
+    if (this.status !== 'delivered') return false;
+    
+    // Check if within return period (30 days)
+    const deliveredDate = this.deliveredAt || this.updatedAt;
+    const daysSinceDelivery = Math.floor((new Date() - deliveredDate) / (1000 * 60 * 60 * 24));
+    
+    return daysSinceDelivery <= 30;
+  };
+
+  Order.prototype.calculateTotal = function() {
+    return this.subtotal - this.discount + this.deliveryFee;
+  };
+
+  Order.prototype.generateInvoice = async function() {
+    const Invoice = sequelize.models.Invoice;
+    
+    // Check if invoice already exists
+    const existingInvoice = await Invoice.findOne({
+      where: { orderId: this.id }
+    });
+
+    if (existingInvoice) {
+      return existingInvoice;
+    }
+
+    // Generate invoice number
+    const invoiceNumber = `INV-${this.orderNumber}`;
+    
+    // TODO: Implement PDF generation logic here
+    // For now, we'll create the invoice record with a placeholder path
+    const invoice = await Invoice.create({
+      orderId: this.id,
+      number: invoiceNumber,
+      path: `/invoices/${invoiceNumber}.pdf`,
+      amount: this.totalAmount
+    });
+
+    return invoice;
+  };
 
   return Order;
 };

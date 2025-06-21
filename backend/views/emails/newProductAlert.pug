@@ -1,0 +1,42 @@
+doctype html
+html(lang="fr")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= subject
+    style
+      include ./styles.css
+  body
+    .email-container
+      .header
+        h1.logo Kitchenly
+        p.tagline L'excellence pour votre cuisine
+      
+      .content
+        h2 Nouveauté dans #{category.name}, #{firstName} !
+        
+        .alert-box.success
+          p Un nouveau produit vient d'arriver dans la catégorie que vous suivez
+        
+        .product-card
+          if product.images && product.images.length > 0
+            img.product-image(src=product.images[0], alt=product.name)
+          h3= product.name
+          p= product.description
+          p.price #{product.price.toFixed(2)} €
+          
+          a.cta-button(href=productUrl) Découvrir le produit
+        
+        .info-box
+          p 🆕 Ce produit vient tout juste d'être ajouté à notre catalogue
+        
+        p.footer-text
+          | Vous recevez cet email car vous avez activé une alerte pour les nouveaux produits dans la catégorie #{category.name}. 
+          a(href=`${appUrl}/account/alerts`) Gérer mes alertes
+        
+      .footer
+        p © 2024 Kitchenly. Tous droits réservés.
+        p.small
+          a(href=`${appUrl}/privacy`) Politique de confidentialité
+          |  | 
+          a(href=`${appUrl}/terms`) Conditions d'utilisation

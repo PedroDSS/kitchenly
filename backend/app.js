@@ -14,6 +14,7 @@ const cors = require('cors');
 // const logger = require('./utils/logger');
 const initDeliveryCronJob = require("./cron/delivery");
 const initCartCleanupCronJob = require("./cron/cartCleanup");
+const { initEmailAlertsCronJob } = require("./cron/emailAlerts");
 const { generalLimiter } = require('./middleware/rateLimiter');
 // const webhookStripeHandler = require("./webhook/stripe");
 // const bodyParser = require('body-parser');
@@ -24,6 +25,9 @@ const authRouter = require('./routes/authRouter');
 const userRouter = require('./routes/userRouter');
 const productRouter = require('./routes/productRouter');
 const cartRouter = require('./routes/cartRouter');
+const orderRouter = require('./routes/orderRouter');
+const paymentRoutes = require('./routes/paymentRoutes');
+const alertRoutes = require('./routes/alertRoutes');
 
 // Initialize MongoDB connection after dotenv
 require("./models/db");
@@ -31,12 +35,8 @@ require("./models/db");
 // Start express app
 const app = express();
 
-// Webhook for Stripe
-// app.post(
-//   "/webhook/stripe",
-//   bodyParser.raw({ type: "application/json" }),
-//   webhookStripeHandler
-// );
+// Webhook for Stripe - must be before body parsing middleware
+app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -86,6 +86,9 @@ app.use('/api', productRouter);
 // Private
 app.use('/api/users', userRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api', orderRouter);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/alerts', alertRoutes);
 
 // Handle requests for routes that are not defined in the application.
 app.all('/{*any}', (req, res, next) => {
@@ -97,5 +100,6 @@ app.use(globalErrorHandler);
 // Init the cron jobs
 initDeliveryCronJob();
 initCartCleanupCronJob();
+initEmailAlertsCronJob();
 
 module.exports = app;

@@ -1,0 +1,63 @@
+doctype html
+html(lang="fr")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= subject
+    style
+      include ./styles.css
+  body
+    .email-container
+      .header
+        h1.logo Kitchenly
+        p.tagline L'excellence pour votre cuisine
+      
+      .content
+        h2 Bonjour #{firstName},
+        p Voici un résumé de vos alertes Kitchenly :
+        
+        each alertGroup in alerts
+          .alert-section
+            if alertGroup.alert.type === 'price_drop'
+              h3 📉 Baisses de prix
+              each change in alertGroup.changes
+                .alert-item
+                  h4= change.product.name
+                  p.price-info
+                    span.old-price #{change.oldPrice.toFixed(2)} €
+                    span.arrow →
+                    span.new-price #{change.newPrice.toFixed(2)} €
+                    span.discount (-#{Math.round((1 - change.newPrice / change.oldPrice) * 100)}%)
+                  a.link(href=`${appUrl}/products/${change.product.slug}`) Voir le produit
+            
+            else if alertGroup.alert.type === 'back_in_stock'
+              h3 ✅ Retour en stock
+              each change in alertGroup.changes
+                .alert-item
+                  h4= change.product.name
+                  p.stock-info #{change.product.stock} unités disponibles
+                  a.link(href=`${appUrl}/products/${change.product.slug}`) Voir le produit
+            
+            else if alertGroup.alert.type === 'new_product'
+              h3 🆕 Nouveaux produits dans #{alertGroup.alert.category.name}
+              each product in alertGroup.changes
+                .alert-item
+                  h4= product.name
+                  p.price #{product.price.toFixed(2)} €
+                  a.link(href=`${appUrl}/products/${product.slug}`) Découvrir
+        
+        .cta-section
+          a.cta-button(href=appUrl) Visiter la boutique
+          p.manage-alerts
+            a(href=manageAlertsUrl) Gérer mes alertes
+        
+      .footer
+        p © 2024 Kitchenly. Tous droits réservés.
+        p.small
+          | Vous recevez ce résumé car vous avez configuré des alertes sur Kitchenly.
+          br
+          a(href=`${appUrl}/privacy`) Politique de confidentialité
+          |  | 
+          a(href=`${appUrl}/terms`) Conditions d'utilisation
+          |  | 
+          a(href=manageAlertsUrl) Se désabonner

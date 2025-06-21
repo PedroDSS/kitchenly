@@ -122,14 +122,16 @@ class EmailService {
     );
   }
 
-  async sendOrderConfirmation(user, order) {
+  async sendOrderConfirmation(email, order) {
+    const user = order.user || { email, firstName: 'Client' };
     await this.send(
-      user.email,
+      email,
       `Confirmation de commande #${order.orderNumber} - Kitchenly`,
       'orderConfirmation',
       {
         firstName: user.firstName,
-        order
+        order,
+        orderUrl: `${process.env.FRONTEND_URL}/orders/${order.id}`
       }
     );
   }
@@ -207,6 +209,96 @@ class EmailService {
         oldEmail,
         newEmail,
         changedAt: new Date().toLocaleString('fr-FR')
+      }
+    );
+  }
+
+  async sendOrderCancellation(email, order) {
+    const user = order.user || { email, firstName: 'Client' };
+    await this.send(
+      email,
+      `Annulation de commande #${order.orderNumber} - Kitchenly`,
+      'orderCancellation',
+      {
+        firstName: user.firstName,
+        order,
+        cancelReason: order.cancelReason || 'Demande client',
+        refundInfo: order.paymentStatus === 'refunded' ? 'Votre remboursement a été initié et sera crédité sous 5-10 jours ouvrés.' : null
+      }
+    );
+  }
+
+  async sendReturnConfirmation(email, order, returnedItems) {
+    const user = order.user || { email, firstName: 'Client' };
+    await this.send(
+      email,
+      `Confirmation de retour - Commande #${order.orderNumber} - Kitchenly`,
+      'returnConfirmation',
+      {
+        firstName: user.firstName,
+        order,
+        returnedItems,
+        returnReason: order.returnReason,
+        nextSteps: 'Notre équipe examinera votre demande de retour dans les 48 heures.'
+      }
+    );
+  }
+
+  async sendOrderShipped(email, order) {
+    const user = order.user || { email, firstName: 'Client' };
+    await this.send(
+      email,
+      `Votre commande #${order.orderNumber} a été expédiée - Kitchenly`,
+      'orderShipped',
+      {
+        firstName: user.firstName,
+        order,
+        trackingNumber: order.trackingNumber,
+        trackingUrl: order.trackingNumber ? `https://track.laposte.fr/track?trackingNumber=${order.trackingNumber}` : null,
+        estimatedDelivery: order.estimatedDeliveryDate
+      }
+    );
+  }
+
+  async sendOrderDelivered(email, order) {
+    const user = order.user || { email, firstName: 'Client' };
+    await this.send(
+      email,
+      `Votre commande #${order.orderNumber} a été livrée - Kitchenly`,
+      'orderDelivered',
+      {
+        firstName: user.firstName,
+        order,
+        reviewUrl: `${process.env.FRONTEND_URL}/orders/${order.id}/review`
+      }
+    );
+  }
+
+  async sendNewProductAlert(user, product, category) {
+    await this.send(
+      user.email,
+      `Nouveau produit dans ${category.name} - Kitchenly`,
+      'newProductAlert',
+      {
+        firstName: user.firstName,
+        product,
+        category,
+        productUrl: `${process.env.FRONTEND_URL}/products/${product.slug}`
+      }
+    );
+  }
+
+  async sendLowStockAlert(user, product, currentStock, threshold) {
+    await this.send(
+      user.email,
+      `Stock faible: ${product.name} - Kitchenly`,
+      'lowStockAlert',
+      {
+        firstName: user.firstName,
+        product,
+        currentStock,
+        threshold,
+        productUrl: `${process.env.FRONTEND_URL}/products/${product.slug}`
       }
     );
   }
