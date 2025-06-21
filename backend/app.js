@@ -23,7 +23,7 @@ const authRouter = require('./routes/authRouter');
 const userRouter = require('./routes/userRouter');
 
 // Initialize MongoDB connection after dotenv
-require("./models/mongo/db");
+require("./models/db");
 
 // Start express app
 const app = express();
