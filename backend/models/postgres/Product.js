@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const denormalizeProduct = require("../../dtos/denormalization/product");
 
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
@@ -40,6 +41,19 @@ module.exports = (sequelize, DataTypes) => {
             .replace(/-+/g, '-')
             .trim();
         }
+      });
+
+      Product.addHook('afterCreate', async (product) => {
+        await denormalizeProduct(product, models);
+      });
+
+      Product.addHook('afterUpdate', async (product, { fields }) => {
+        await denormalizeProduct(product, models);
+      });
+
+      Product.addHook('afterDestroy', async (product) => {
+        const ProductSearch = require("../../models/mongo/ProductSearch");
+        await ProductSearch.findOneAndDelete({ productId: product.id });
       });
     }
 

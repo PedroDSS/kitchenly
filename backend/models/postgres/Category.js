@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const denormalizeCategory = require("../../dtos/denormalization/category");
 
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
@@ -39,6 +40,19 @@ module.exports = (sequelize, DataTypes) => {
             .replace(/-+/g, '-')
             .trim();
         }
+      });
+
+      Category.addHook('afterCreate', async (category) => {
+        await denormalizeCategory(category, models);
+      });
+
+      Category.addHook('afterUpdate', async (category, { fields }) => {
+        await denormalizeCategory(category, models);
+      });
+
+      Category.addHook('afterDestroy', async (category) => {
+        const CategoryMongo = require("../../models/mongo/category");
+        await CategoryMongo.findOneAndDelete({ categoryId: category.id });
       });
     }
 

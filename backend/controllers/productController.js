@@ -58,31 +58,60 @@ const buildSortOrder = (sortBy) => {
 };
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
-  const { page, limit, offset } = getPaginationParams(req.query);
-  const where = buildFilterConditions(req.query);
-  const order = buildSortOrder(req.query.sortBy);
+  const { page, limit } = getPaginationParams(req.query);
   
-  const { count, rows: products } = await Product.findAndCountAll({
-    where,
-    include: [
-      {
-        model: Category,
-        as: 'category',
-        attributes: ['id', 'name', 'slug']
-      },
-      {
-        model: Brand,
-        as: 'brand',
-        attributes: ['id', 'name', 'slug', 'logo']
-      }
-    ],
-    limit,
-    offset,
-    order,
-    distinct: true
-  });
+  // Build MongoDB query
+  const mongoQuery = { isActive: true };
   
-  const totalPages = Math.ceil(count / limit);
+  if (req.query.categoryId) {
+    mongoQuery['category.id'] = parseInt(req.query.categoryId);
+  }
+  
+  if (req.query.brandId) {
+    mongoQuery['brand.id'] = parseInt(req.query.brandId);
+  }
+  
+  if (req.query.minPrice || req.query.maxPrice) {
+    mongoQuery.price = {};
+    if (req.query.minPrice) mongoQuery.price.$gte = parseFloat(req.query.minPrice);
+    if (req.query.maxPrice) mongoQuery.price.$lte = parseFloat(req.query.maxPrice);
+  }
+  
+  if (req.query.inStock === 'true') {
+    mongoQuery.stock = { $gt: 0 };
+  }
+  
+  if (req.query.search) {
+    mongoQuery.$text = { $search: req.query.search };
+  }
+  
+  // Build sort options for MongoDB
+  const sortOptions = {
+    'price-asc': { price: 1 },
+    'price-desc': { price: -1 },
+    'name-asc': { name: 1 },
+    'name-desc': { name: -1 },
+    'newest': { createdAt: -1 },
+    'popular': { purchaseCount: -1 },
+    'relevance': { searchScore: -1 }
+  };
+  
+  const sort = sortOptions[req.query.sortBy] || { createdAt: -1 };
+  
+  // Execute MongoDB query with pagination
+  const skip = (page - 1) * limit;
+  
+  const [products, totalCount] = await Promise.all([
+    ProductSearch.find(mongoQuery)
+      .select('-__v -searchScore -clickCount')
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    ProductSearch.countDocuments(mongoQuery)
+  ]);
+  
+  const totalPages = Math.ceil(totalCount / limit);
   
   res.status(200).json({
     status: 'success',
@@ -91,7 +120,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
       pagination: {
         currentPage: page,
         totalPages,
-        totalItems: count,
+        totalItems: totalCount,
         itemsPerPage: limit,
         hasNext: page < totalPages,
         hasPrev: page > 1
@@ -101,33 +130,61 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.getProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findOne({
-    where: { 
-      id: req.params.id,
-      isActive: true
-    },
-    include: [
-      {
-        model: Category,
-        as: 'category',
-        attributes: ['id', 'name', 'slug', 'description']
-      },
-      {
-        model: Brand,
-        as: 'brand',
-        attributes: ['id', 'name', 'slug', 'logo', 'description', 'website']
-      }
+  const { id } = req.params;
+  
+  // Use MongoDB for faster reads
+  const productMongo = await ProductSearch.findOne({
+    $and: [
+      { isActive: true },
+      { $or: [
+        { productId: id },
+        { slug: id }
+      ]}
     ]
   });
   
-  if (!product) {
+  if (!productMongo) {
     return next(new AppError('Product not found', 404));
   }
   
+  // Increment click count
   await ProductSearch.findOneAndUpdate(
-    { productId: product.id },
+    { productId: productMongo.productId },
     { $inc: { clickCount: 1 } }
   );
+  
+  // Transform MongoDB document to match expected format
+  const product = {
+    id: productMongo.productId,
+    name: productMongo.name,
+    slug: productMongo.slug || productMongo.name.toLowerCase().replace(/\s+/g, '-'),
+    description: productMongo.description,
+    shortDescription: productMongo.shortDescription,
+    price: productMongo.price,
+    compareAtPrice: productMongo.compareAtPrice,
+    stock: productMongo.stock,
+    sku: productMongo.sku,
+    images: productMongo.images || [],
+    mainImage: productMongo.images?.[0]?.url || null,
+    category: productMongo.category,
+    brand: productMongo.brand,
+    weight: productMongo.weight,
+    dimensions: productMongo.dimensions,
+    features: productMongo.attributes?.filter(a => a.name === 'feature').map(a => a.value) || [],
+    specifications: productMongo.attributes?.reduce((specs, attr) => {
+      if (attr.name !== 'feature') {
+        specs[attr.name] = attr.value;
+      }
+      return specs;
+    }, {}) || {},
+    tags: productMongo.tags || [],
+    isActive: productMongo.isActive,
+    isFeatured: productMongo.isFeatured,
+    viewCount: productMongo.clickCount,
+    salesCount: productMongo.purchaseCount,
+    rating: productMongo.rating?.average || 0,
+    reviewCount: productMongo.rating?.count || 0
+  };
   
   res.status(200).json({
     status: 'success',
@@ -141,19 +198,36 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   try {
     const product = await Product.create(req.body, { transaction });
     
+    // Get category and brand data for denormalization
+    const [category, brand] = await Promise.all([
+      product.categoryId ? Category.findByPk(product.categoryId, {
+        attributes: ['id', 'name', 'slug']
+      }) : null,
+      product.brandId ? Brand.findByPk(product.brandId, {
+        attributes: ['id', 'name', 'slug']
+      }) : null
+    ]);
+    
     const productSearchData = {
       productId: product.id,
       name: product.name,
       description: product.description,
       price: product.price,
-      categoryId: product.categoryId,
-      brandId: product.brandId,
+      category: category ? {
+        id: category.id,
+        name: category.name,
+        slug: category.slug
+      } : null,
+      brand: brand ? {
+        id: brand.id,
+        name: brand.name,
+        slug: brand.slug
+      } : null,
       tags: product.tags || [],
-      features: product.features || {},
-      specifications: product.specifications || {},
+      attributes: product.features ? Object.entries(product.features).map(([name, value]) => ({ name, value })) : [],
       isActive: product.isActive,
       stock: product.stock,
-      searchText: `${product.name} ${product.description} ${product.SKU}`.toLowerCase()
+      images: product.images || []
     };
     
     await ProductSearch.create(productSearchData);
@@ -202,18 +276,36 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     
     await product.update(req.body, { transaction });
     
+    // Get category and brand data for denormalization
+    const [category, brand] = await Promise.all([
+      product.categoryId ? Category.findByPk(product.categoryId, {
+        attributes: ['id', 'name', 'slug']
+      }) : null,
+      product.brandId ? Brand.findByPk(product.brandId, {
+        attributes: ['id', 'name', 'slug']
+      }) : null
+    ]);
+    
     const updateData = {
       name: product.name,
       description: product.description,
       price: product.price,
-      categoryId: product.categoryId,
-      brandId: product.brandId,
+      category: category ? {
+        id: category.id,
+        name: category.name,
+        slug: category.slug
+      } : null,
+      brand: brand ? {
+        id: brand.id,
+        name: brand.name,
+        slug: brand.slug
+      } : null,
       tags: product.tags || [],
-      features: product.features || {},
-      specifications: product.specifications || {},
+      attributes: product.features ? Object.entries(product.features).map(([name, value]) => ({ name, value })) : [],
       isActive: product.isActive,
       stock: product.stock,
-      searchText: `${product.name} ${product.description} ${product.SKU}`.toLowerCase()
+      images: product.images || [],
+      lastUpdated: new Date()
     };
     
     await ProductSearch.findOneAndUpdate(
@@ -292,9 +384,9 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 
 exports.searchProducts = catchAsync(async (req, res, next) => {
   const {
-    q: searchQuery,
-    categories,
-    brands,
+    q: text,
+    category,
+    brand,
     minPrice,
     maxPrice,
     tags,
@@ -304,21 +396,31 @@ exports.searchProducts = catchAsync(async (req, res, next) => {
     sortBy = 'relevance'
   } = req.query;
   
-  const searchParams = {
-    searchQuery,
-    filters: {
-      categories: categories ? categories.split(',') : undefined,
-      brands: brands ? brands.split(',') : undefined,
-      priceRange: (minPrice || maxPrice) ? { min: minPrice, max: maxPrice } : undefined,
-      tags: tags ? tags.split(',') : undefined,
-      inStock: inStock === 'true'
-    },
-    page: parseInt(page),
-    limit: parseInt(limit),
-    sortBy
+  // Build sort object
+  const sortOptions = {
+    'relevance': { searchScore: -1 },
+    'price-asc': { price: 1 },
+    'price-desc': { price: -1 },
+    'name-asc': { name: 1 },
+    'name-desc': { name: -1 },
+    'newest': { createdAt: -1 },
+    'popular': { purchaseCount: -1 }
   };
   
-  const results = await ProductSearch.facetedSearch(searchParams);
+  const options = {
+    text,
+    category,
+    brand,
+    minPrice: minPrice ? parseFloat(minPrice) : undefined,
+    maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
+    tags: tags ? tags.split(',') : undefined,
+    inStock: inStock === 'true',
+    sort: sortOptions[sortBy] || { searchScore: -1 },
+    page: parseInt(page),
+    limit: parseInt(limit)
+  };
+  
+  const results = await ProductSearch.facetedSearch({}, options);
   
   res.status(200).json({
     status: 'success',

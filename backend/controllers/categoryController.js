@@ -1,4 +1,5 @@
 const { Category, Product } = require('../models/index');
+const CategoryMongo = require('../models/mongo/category');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { Op } = require('sequelize');
@@ -15,24 +16,26 @@ const buildCategoryTree = (categories, parentId = null) => {
 exports.getAllCategories = catchAsync(async (req, res, next) => {
   const { tree = 'false', includeInactive = 'false' } = req.query;
   
-  const where = {};
+  const filter = {};
   if (includeInactive !== 'true') {
-    where.isActive = true;
+    filter.isActive = true;
   }
   
-  const categories = await Category.findAll({
-    where,
-    order: [['displayOrder', 'ASC'], ['name', 'ASC']],
-    attributes: [
-      'id', 'name', 'slug', 'description', 'image', 'icon',
-      'parentId', 'displayOrder', 'isActive', 'metaTitle', 'metaDescription'
-    ]
-  });
+  // Use MongoDB for faster reads
+  const categories = await CategoryMongo.find(filter)
+    .sort({ displayOrder: 1, name: 1 })
+    .select('-_id -__v');
   
   let data = categories;
   
   if (tree === 'true') {
-    data = buildCategoryTree(categories);
+    // Convert MongoDB documents to plain objects for tree building
+    const plainCategories = categories.map(cat => ({
+      ...cat.toObject(),
+      id: cat.categoryId,
+      toJSON: () => cat.toObject()
+    }));
+    data = buildCategoryTree(plainCategories);
   }
   
   res.status(200).json({
@@ -45,40 +48,56 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const { includeProducts = 'false', includeAncestors = 'false', includeDescendants = 'false' } = req.query;
   
-  const category = await Category.findOne({
-    where: { 
-      [Op.or]: [
-        { id: id },
+  // Try to find by ID or slug in MongoDB
+  const category = await CategoryMongo.findOne({
+    $and: [
+      { isActive: true },
+      { $or: [
+        { categoryId: id },
         { slug: id }
-      ],
-      isActive: true
-    }
+      ]}
+    ]
   });
   
   if (!category) {
     return next(new AppError('Category not found', 404));
   }
   
-  const result = category.toJSON();
+  const result = category.toObject();
+  result.id = result.categoryId;
+  delete result._id;
+  delete result.__v;
+  delete result.categoryId;
   
   if (includeAncestors === 'true') {
-    result.ancestors = await category.getAncestors();
+    result.ancestors = result.path || [];
   }
   
   if (includeDescendants === 'true') {
-    result.descendants = await category.getDescendants();
+    result.descendants = result.children || [];
   }
   
   if (includeProducts === 'true') {
-    const products = await Product.findAll({
-      where: { 
-        categoryId: category.id,
-        isActive: true
-      },
-      limit: 20,
-      order: [['createdAt', 'DESC']]
-    });
-    result.products = products;
+    // For products, we still need to query PostgreSQL or use ProductSearch
+    const ProductSearch = require('../models/mongo/ProductSearch');
+    const products = await ProductSearch.find({
+      'category.id': category.categoryId,
+      isActive: true
+    })
+    .limit(20)
+    .sort({ createdAt: -1 })
+    .select('-_id -__v');
+    
+    result.products = products.map(p => ({
+      id: p.productId,
+      name: p.name,
+      slug: p.slug,
+      price: p.price,
+      stock: p.stock,
+      mainImage: p.images?.[0]?.url || null,
+      rating: p.rating,
+      isFeatured: p.isFeatured
+    }));
   }
   
   res.status(200).json({

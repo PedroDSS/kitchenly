@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { validatePassword } = require('../../utils/passwordValidator');
+const denormalizeUser = require("../../dtos/denormalization/user");
 
 const {
   Model
@@ -37,6 +38,14 @@ module.exports = (sequelize, DataTypes) => {
           user.password = await bcrypt.hash(user.password, salt);
           user.passwordChangedAt = new Date();
         }
+      });
+
+      User.addHook('afterCreate', async (user) => {
+        await denormalizeUser(user, models);
+      });
+
+      User.addHook('afterUpdate', async (user, { fields }) => {
+        await denormalizeUser(user, models);
       });
     }
 

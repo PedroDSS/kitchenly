@@ -28,6 +28,8 @@ const cartRouter = require('./routes/cartRouter');
 const orderRouter = require('./routes/orderRouter');
 const paymentRoutes = require('./routes/paymentRoutes');
 const alertRoutes = require('./routes/alertRoutes');
+const adminRouter = require('./routes/adminRouter');
+const deliveryRouter = require('./routes/deliveryRouter');
 
 // Initialize MongoDB connection after dotenv
 require("./models/db");
@@ -89,6 +91,8 @@ app.use('/api/cart', cartRouter);
 app.use('/api', orderRouter);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/alerts', alertRoutes);
+app.use('/api/admin', adminRouter);
+app.use('/api', deliveryRouter);
 
 // Handle requests for routes that are not defined in the application.
 app.all('/{*any}', (req, res, next) => {

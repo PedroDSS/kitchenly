@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const productSearchSchema = new mongoose.Schema({
   productId: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     index: true
@@ -18,12 +18,12 @@ const productSearchSchema = new mongoose.Schema({
     text: true
   },
   brand: {
-    id: Number,
+    id: String,
     name: String,
     slug: String
   },
   category: {
-    id: Number,
+    id: String,
     name: String,
     slug: String,
     path: [String],
