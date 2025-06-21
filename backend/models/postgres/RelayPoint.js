@@ -20,7 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     isOpen(date = new Date()) {
-      const dayOfWeek = date.toLocaleLowerCase('en-US', { weekday: 'long' }).toLowerCase();
+      if (!this.openingHours) return false;
+      
+      const dayOfWeek = date.toLocaleDateString('fr-FR', { weekday: 'long' }).toLowerCase();
       const hours = this.openingHours[dayOfWeek];
       
       if (!hours || hours.closed) {
@@ -95,6 +97,23 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    postalCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        is: /^[0-9]{5}$/,
+        msg: 'Code postal français requis (5 chiffres)'
+      }
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'France'
+    },
     coordinates: {
       type: DataTypes.GEOMETRY('POINT'),
       allowNull: false
@@ -147,6 +166,11 @@ module.exports = (sequelize, DataTypes) => {
     wheelchairAccessible: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    accessibilityFeatures: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+      comment: 'Caractéristiques d\'accessibilité (rampe, ascenseur, etc.)'
     },
     lockerCount: {
       type: DataTypes.INTEGER,

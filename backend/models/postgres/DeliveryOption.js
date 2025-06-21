@@ -26,11 +26,11 @@ module.exports = (sequelize, DataTypes) => {
 
     calculatePrice(weight, zone) {
       if (this.pricingType === 'fixed') {
-        return this.price;
+        return this.basePrice || this.price;
       }
       
       // Weight-based pricing
-      let price = this.price;
+      let price = this.basePrice || this.price;
       if (weight > this.baseWeight) {
         const extraWeight = weight - this.baseWeight;
         price += Math.ceil(extraWeight / this.additionalWeightUnit) * this.additionalWeightPrice;
@@ -42,6 +42,19 @@ module.exports = (sequelize, DataTypes) => {
       }
       
       return price;
+    }
+
+    checkAvailability(postalCode) {
+      // Check if delivery option is available for the given postal code
+      if (!this.isActive) return false;
+      
+      // For now, all active options are available everywhere in France
+      // In production, this would check coverage maps
+      if (postalCode && !postalCode.match(/^[0-9]{5}$/)) {
+        return false; // Invalid French postal code
+      }
+      
+      return this.isAvailable();
     }
   }
 
@@ -87,6 +100,23 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Price must be greater than or equal to 0'
         }
       }
+    },
+    basePrice: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+      validate: {
+        min: {
+          args: [0],
+          msg: 'Base price must be greater than or equal to 0'
+        }
+      },
+      comment: 'Base price for delivery (can be different from price for promotional purposes)'
+    },
+    pricePerKg: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+      defaultValue: 0,
+      comment: 'Additional price per kilogram above base weight'
     },
     pricingType: {
       type: DataTypes.ENUM('fixed', 'weight_based', 'zone_based'),

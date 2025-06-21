@@ -210,15 +210,7 @@ relayPointGeoSchema.index({ services: 1 });
 relayPointGeoSchema.index({ 'ratings.average': -1 });
 relayPointGeoSchema.index({ isActive: 1, isTemporarilyClosed: 1 });
 
-relayPointGeoSchema.statics.findNearby = async function(coordinates, maxDistance = 10000, options = {}) {
-  const {
-    limit = 20,
-    type,
-    services = [],
-    onlyActive = true,
-    includeTemporarilyClosed = false
-  } = options;
-
+relayPointGeoSchema.statics.findNearby = async function(coordinates, maxDistance = 10000, limit = 20) {
   const query = {
     location: {
       $near: {
@@ -228,28 +220,21 @@ relayPointGeoSchema.statics.findNearby = async function(coordinates, maxDistance
         },
         $maxDistance: maxDistance
       }
-    }
+    },
+    isActive: true,
+    isTemporarilyClosed: false
   };
 
-  if (onlyActive) {
-    query.isActive = true;
-  }
-
-  if (!includeTemporarilyClosed) {
-    query.isTemporarilyClosed = false;
-  }
-
-  if (type) {
-    query.type = type;
-  }
-
-  if (services.length > 0) {
-    query.services = { $all: services };
-  }
-
-  return this.find(query)
+  const results = await this.find(query)
     .limit(limit)
-    .lean();
+    .lean()
+    .exec();
+
+  // Add distance calculation to each result
+  return results.map(result => ({
+    ...result,
+    distance: this.prototype.getDistance.call({ location: result.location }, coordinates) / 1000 // Convert to km
+  }));
 };
 
 relayPointGeoSchema.statics.findInArea = async function(bounds, options = {}) {
@@ -283,20 +268,12 @@ relayPointGeoSchema.statics.findInArea = async function(bounds, options = {}) {
   return this.find(query).lean();
 };
 
-relayPointGeoSchema.statics.findByPostalCode = async function(postalCode, options = {}) {
-  const {
-    onlyActive = true,
-    limit = 10
-  } = options;
-
+relayPointGeoSchema.statics.findByPostalCode = async function(postalCode, limit = 10) {
   const query = {
-    'address.postalCode': postalCode
+    'address.postalCode': postalCode,
+    isActive: true,
+    isTemporarilyClosed: false
   };
-
-  if (onlyActive) {
-    query.isActive = true;
-    query.isTemporarilyClosed = false;
-  }
 
   return this.find(query)
     .limit(limit)
@@ -305,7 +282,7 @@ relayPointGeoSchema.statics.findByPostalCode = async function(postalCode, option
 };
 
 relayPointGeoSchema.methods.isOpenAt = function(date = new Date()) {
-  const dayOfWeek = date.toLocaleLowerCase();
+  const dayOfWeek = date.toLocaleDateString('fr-FR', { weekday: 'long' }).toLowerCase();
   const daySchedule = this.openingHours[dayOfWeek];
 
   if (!daySchedule || daySchedule.closed) {

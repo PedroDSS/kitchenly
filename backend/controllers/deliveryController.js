@@ -232,7 +232,7 @@ exports.getRelayPoints = catchAsync(async (req, res, next) => {
         openingHours: pgPoint.openingHours,
         services: pgPoint.services,
         accessibilityFeatures: pgPoint.accessibilityFeatures,
-        availableCapacity: mongoPoint.availableCapacity,
+        availableCapacity: mongoPoint.capacity ? mongoPoint.capacity.maxPackagesPerDay - mongoPoint.capacity.currentPackages : null,
         isOpen: pgPoint.isOpen()
       };
     }).filter(point => point !== null);
