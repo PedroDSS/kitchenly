@@ -121,7 +121,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         vatNumber: 'FR12345678901',
         siret: '12345678900001',
-        email: 'invoicing@kitchenly.com',
+        email: 'contact.kitchenly@gmail.com',
         phone: '+33 1 23 45 67 89'
       }
     },

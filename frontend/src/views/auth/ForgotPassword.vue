@@ -190,7 +190,7 @@
                           <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 1.414L10.586 9.5 9.707 8.621a1 1 0 00-1.414 1.414l1.5 1.5a1 1 0 001.414 0l4-4a1 1 0 000-1.414z" clip-rule="evenodd" />
                           </svg>
-                          Add noreply@kitchenly.com to safe senders
+                          Add contact.kitchenly@gmail.com to safe senders
                         </li>
                       </ul>
                     </div>
@@ -212,7 +212,7 @@
           </router-link>
           <span class="text-gray-400">•</span>
           <a
-            href="mailto:support@kitchenly.com"
+            href="mailto:contact.kitchenly@gmail.com"
             class="text-gray-600 hover:text-gray-900 transition-colors"
           >
             Contact support

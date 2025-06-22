@@ -42,19 +42,19 @@
       <div class="space-y-3">
         <nav class="flex items-center justify-center space-x-6 text-sm">
           <a href="/terms" class="text-gray-600 hover:text-gray-900 transition-colors">
-            Terms
+            Conditions d'utilisation
           </a>
           <span class="text-gray-300">•</span>
           <a href="/privacy" class="text-gray-600 hover:text-gray-900 transition-colors">
-            Privacy
+            Politique de confidentialité
           </a>
           <span class="text-gray-300">•</span>
-          <a href="mailto:support@kitchenly.com" class="text-gray-600 hover:text-gray-900 transition-colors">
+          <a href="mailto:contact.kitchenly@gmail.com" class="text-gray-600 hover:text-gray-900 transition-colors">
             Support
           </a>
         </nav>
         <p class="text-xs text-gray-500">
-          © {{ new Date().getFullYear() }} Kitchenly. All rights reserved.
+          © {{ new Date().getFullYear() }} Kitchenly. Tous droits réservés.
         </p>
       </div>
     </footer>

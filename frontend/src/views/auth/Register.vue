@@ -306,7 +306,7 @@
       <!-- Confirm Password -->
       <div>
         <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
-          Confirm Password
+          Confirmer le mot de passe
         </label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -327,7 +327,7 @@
               'border-red-300 focus:ring-red-500': errors.confirmPassword,
               'border-green-300 focus:ring-green-500': passwordsMatch && confirmPassword
             }"
-            placeholder="Confirmer le mot de passe"
+            placeholder="M3ubl3.2.M4rbr3"
           />
           <button
             type="button"
@@ -381,16 +381,17 @@
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-0.5 transition-colors"
           />
           <label for="acceptTerms" class="ml-2 block text-sm text-gray-700 cursor-pointer select-none">
-            I agree to the
+            J'accepte les
             <a href="/terms" class="text-blue-600 hover:text-blue-700 underline" target="_blank">
-              Terms of Service
+              Conditions d'utilisation
             </a>
-            and
+            et la
             <a href="/privacy" class="text-blue-600 hover:text-blue-700 underline" target="_blank">
-              Privacy Policy
+              Politique de confidentialité
             </a>
           </label>
         </div>
+
 
         <!-- Marketing Consent -->
         <div class="flex items-start">
@@ -401,7 +402,7 @@
             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-0.5 transition-colors"
           />
           <label for="marketingConsent" class="ml-2 block text-sm text-gray-700 cursor-pointer select-none">
-            Send me exclusive offers and product updates
+            Envoyez-moi des offres exclusives et des mises à jour produits
           </label>
         </div>
       </div>
@@ -426,7 +427,7 @@
           <div class="w-full border-t border-gray-300"></div>
         </div>
         <div class="relative flex justify-center text-sm">
-          <span class="px-4 bg-white text-gray-500">Already have an account?</span>
+          <span class="px-4 bg-white text-gray-500">Vous avez déjà un compte ?</span>
         </div>
       </div>
 
@@ -440,7 +441,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
               d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
           </svg>
-          Sign In Instead
+          Se connecter
         </router-link>
       </div>
     </form>
@@ -449,12 +450,12 @@
     <template #footer>
       <div class="space-y-3">
         <p class="text-sm text-gray-600">
-          <span class="font-medium">Special Offer:</span> Get €50 off your first order over €500!
+          <span class="font-medium">Offre spéciale :</span> Bénéficiez de 50 € de réduction sur votre première commande de plus de 500 € !
         </p>
         <p class="text-sm text-gray-600">
-          Need help? 
-          <a href="mailto:support@kitchenly.com" class="font-medium text-blue-600 hover:text-blue-700 transition-colors">
-            Contact support
+          Besoin d’aide ? 
+          <a href="mailto:contact.kitchenly@gmail.com" class="font-medium text-blue-600 hover:text-blue-700 transition-colors">
+            Contactez le support
           </a>
         </p>
       </div>

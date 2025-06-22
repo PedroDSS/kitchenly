@@ -6,7 +6,7 @@ const logger = require('../utils/logger');
 
 class EmailService {
   constructor() {
-    this.from = `Kitchenly <${process.env.EMAIL_FROM || 'noreply@kitchenly.com'}>`;
+    this.from = `Kitchenly <${process.env.EMAIL_FROM || 'contact.kitchenly@gmail.com'}>`;
   }
 
   createTransport() {
