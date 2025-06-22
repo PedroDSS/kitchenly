@@ -1,0 +1,142 @@
+<template>
+  <footer class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+      <!-- Main Footer Content -->
+      <div class="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <!-- Brand Section -->
+        <div>
+          <div class="flex items-center mb-4 space-x-3">
+            <div class="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+              <img src="/kitchenly-no-bg.png" alt="Kitchenly" class="h-8 w-auto filter brightness-0 invert" />
+            </div>
+            <span class="text-xl font-bold">Kitchenly</span>
+          </div>
+          <p class="text-sm text-gray-400 mb-6">
+            Votre spécialiste en électroménager. Des produits de qualité pour votre maison connectée.
+          </p>
+          <div class="space-y-2 text-sm text-gray-400">
+            <div class="flex items-center space-x-2">
+              <PhoneIcon class="w-4 h-4" />
+              <span>01 23 45 67 89</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <EnvelopeIcon class="w-4 h-4" />
+              <span>contact@kitchenly.fr</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <MapPinIcon class="w-4 h-4" />
+              <span>Paris, France</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Client -->
+        <div>
+          <h5 class="text-white font-semibold mb-4">Service client</h5>
+          <ul class="space-y-3 text-sm text-gray-400">
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><QuestionMarkCircleIcon class="w-4 h-4" /><span>Contact & Support</span></a></li>
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><TruckIcon class="w-4 h-4" /><span>Livraison & Retours</span></a></li>
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><ShieldCheckIcon class="w-4 h-4" /><span>Garantie & SAV</span></a></li>
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><ChatBubbleLeftRightIcon class="w-4 h-4" /><span>FAQ</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Informations -->
+        <div>
+          <h5 class="text-white font-semibold mb-4">Entreprise</h5>
+          <ul class="space-y-3 text-sm text-gray-400">
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><InformationCircleIcon class="w-4 h-4" /><span>À propos</span></a></li>
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><DocumentTextIcon class="w-4 h-4" /><span>Conditions générales</span></a></li>
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><LockClosedIcon class="w-4 h-4" /><span>Politique de confidentialité</span></a></li>
+            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><CreditCardIcon class="w-4 h-4" /><span>Paiement sécurisé</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Social & Newsletter -->
+        <div>
+          <h5 class="text-white font-semibold mb-4">Restez connecté</h5>
+
+          <!-- Réseaux sociaux -->
+          <div class="flex space-x-3 mb-6">
+              <a href="#" class="social-link" aria-label="Facebook">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a href="#" class="social-link" aria-label="Twitter">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                </svg>
+              </a>
+              <a href="#" class="social-link" aria-label="LinkedIn">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            </div>
+
+          <!-- Newsletter -->
+          <form class="flex" @submit.prevent="handleNewsletterSubmit">
+            <input
+              v-model="newsletterEmail"
+              type="email"
+              placeholder="Votre email"
+              class="flex-1 px-3 py-2 text-sm bg-gray-800 border border-gray-700 rounded-l-md placeholder-gray-400 text-white focus:outline-none"
+              required
+            />
+            <button type="submit" class="bg-primary-600 hover:bg-primary-700 px-4 py-2 rounded-r-md transition">
+              <PaperAirplaneIcon class="w-4 h-4" />
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer bottom -->
+      <div class="border-t border-gray-800 pt-6 mt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 space-y-4 md:space-y-0">
+        <p>&copy; {{ currentYear }} Kitchenly. Tous droits réservés.</p>
+        <div class="flex items-center space-x-2">
+          <span>Paiement sécurisé :</span>
+          <CreditCardIcon class="w-6 h-6" />
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M1 7h22v2H1V7zm0 4h22v10H1V11zm2 2v2h4v-2H3z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import {
+  PhoneIcon,
+  EnvelopeIcon,
+  MapPinIcon,
+  QuestionMarkCircleIcon,
+  TruckIcon,
+  ShieldCheckIcon,
+  ChatBubbleLeftRightIcon,
+  InformationCircleIcon,
+  DocumentTextIcon,
+  LockClosedIcon,
+  CreditCardIcon,
+  PaperAirplaneIcon
+} from '@heroicons/vue/24/outline'
+import { toast } from '@/utils/toast'
+
+const newsletterEmail = ref('')
+const currentYear = computed(() => new Date().getFullYear())
+
+const handleNewsletterSubmit = () => {
+  if (newsletterEmail.value) {
+    toast.success('Merci pour votre inscription !')
+    newsletterEmail.value = ''
+  }
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'Footer',
+}
+</script>

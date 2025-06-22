@@ -30,6 +30,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const adminRouter = require('./routes/adminRouter');
 const deliveryRouter = require('./routes/deliveryRouter');
+const logger = require('./utils/logger');
 
 // Initialize MongoDB connection after dotenv
 require("./models/db");
@@ -93,6 +94,8 @@ app.use('/api/payment', paymentRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/admin', adminRouter);
 app.use('/api', deliveryRouter);
+app.use('/api/promo-codes', require('./routes/promoCodeRouter'));
+app.use('/api/relay-points', require('./routes/relayPointRouter'));
 
 // Handle requests for routes that are not defined in the application.
 app.all('/{*any}', (req, res, next) => {
@@ -102,7 +105,7 @@ app.all('/{*any}', (req, res, next) => {
 app.use(globalErrorHandler);
 
 // Init the cron jobs
-initDeliveryCronJob();
+// initDeliveryCronJob();
 initCartCleanupCronJob();
 initEmailAlertsCronJob();
 

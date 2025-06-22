@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/webhook', paymentController.handleWebhook);
 
 // Protected routes
-router.use(authMiddleware);
+router.use(authMiddleware.protect);
 
 // Create payment intent
 router.post('/create-intent', paymentController.createPaymentIntent);

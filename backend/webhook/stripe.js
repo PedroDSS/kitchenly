@@ -1,4 +1,4 @@
-const { Cart, CustomerAddress, CustomerOrder, Shipping, PaymentMethod, Stock, OrderBilling } = require('../models');
+const { Cart, Order, PaymentTransaction, Product, StockMovement } = require('../models');
 const stripe = require('../services/stripe');
 const dotenv = require('dotenv');
 

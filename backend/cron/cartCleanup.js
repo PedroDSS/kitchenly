@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { Cart, CartItem } = require('../models/postgres');
+const { Cart, CartItem } = require('../models');
 const { Op } = require('sequelize');
 const logger = require('../utils/logger');
 

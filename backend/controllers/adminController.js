@@ -712,6 +712,107 @@ const getAnalytics = async (req, res, next) => {
   }
 };
 
+const getStockMovementHistory = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    
+    const movements = await StockMovement.findAll({
+      where: { productId },
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'email', 'firstName', 'lastName']
+        }
+      ],
+      limit: 50
+    });
+    
+    res.status(200).json({
+      status: 'success',
+      data: movements
+    });
+  } catch (error) {
+    logger.error('Stock movement history error:', error);
+    return next(new AppError('Error fetching stock movement history', 500));
+  }
+};
+
+const getStockAnalytics = async (req, res, next) => {
+  try {
+    const { type, days = 30 } = req.query;
+    const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+    
+    if (type === 'stock-evolution') {
+      // Generate dates for the last N days
+      const dates = [];
+      const labels = [];
+      for (let i = days; i >= 0; i--) {
+        const date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+        dates.push(date);
+        labels.push(date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }));
+      }
+      
+      // Get stock movements aggregated by day
+      const movements = await StockMovement.findAll({
+        where: {
+          createdAt: { [Op.gte]: startDate }
+        },
+        attributes: [
+          [Sequelize.fn('DATE', Sequelize.col('createdAt')), 'date'],
+          [Sequelize.fn('SUM', Sequelize.col('quantity')), 'totalChange']
+        ],
+        group: [Sequelize.fn('DATE', Sequelize.col('createdAt'))],
+        order: [[Sequelize.fn('DATE', Sequelize.col('createdAt')), 'ASC']]
+      });
+      
+      // Calculate total stock and value over time
+      const currentStock = await Product.sum('stock');
+      const stockByDay = {};
+      let runningStock = currentStock;
+      
+      // Work backwards from current stock
+      movements.reverse().forEach(movement => {
+        const dateStr = movement.get('date');
+        runningStock -= parseFloat(movement.get('totalChange'));
+        stockByDay[dateStr] = runningStock;
+      });
+      
+      // Fill in the data for each day
+      const totalStock = [];
+      const stockValue = [];
+      
+      for (const date of dates) {
+        const dateStr = date.toISOString().split('T')[0];
+        const stock = stockByDay[dateStr] || runningStock;
+        totalStock.push(stock);
+        
+        // Calculate approximate stock value (simplified)
+        const avgPrice = await Product.findOne({
+          attributes: [[Sequelize.fn('AVG', Sequelize.col('price')), 'avgPrice']]
+        });
+        stockValue.push(stock * (avgPrice?.get('avgPrice') || 0));
+      }
+      
+      res.status(200).json({
+        status: 'success',
+        data: {
+          labels,
+          totalStock,
+          stockValue
+        }
+      });
+    } else {
+      // Default analytics
+      const analytics = await getAnalytics(req, res, next);
+      return analytics;
+    }
+  } catch (error) {
+    logger.error('Stock analytics error:', error);
+    return next(new AppError('Error fetching stock analytics', 500));
+  }
+};
+
 module.exports = {
   getDashboard,
   getUsers,
@@ -720,5 +821,7 @@ module.exports = {
   updateOrderStatus,
   getStock,
   createStockMovement,
-  getAnalytics
+  getAnalytics,
+  getStockMovementHistory,
+  getStockAnalytics
 };

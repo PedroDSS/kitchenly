@@ -1,5 +1,5 @@
 const { body, validationResult } = require('express-validator');
-const { AppError } = require('../../utils/errors');
+const AppError = require('../../utils/appError');
 
 const validateAlert = [
   body('type')

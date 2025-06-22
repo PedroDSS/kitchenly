@@ -1,6 +1,6 @@
 const express = require('express');
 const deliveryController = require('../controllers/deliveryController');
-const { authenticate } = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.post('/delivery/calculate', deliveryController.calculateDelivery);
 router.get('/delivery/relay-points', deliveryController.getRelayPoints);
 
 // Protected routes (require authentication)
-router.post('/delivery/track', authenticate, deliveryController.trackDelivery);
+router.post('/delivery/track', protect, deliveryController.trackDelivery);
 
 // Webhook endpoint (for carrier updates - typically secured with webhook secret)
 router.post('/delivery/webhook/carrier', deliveryController.handleCarrierWebhook);

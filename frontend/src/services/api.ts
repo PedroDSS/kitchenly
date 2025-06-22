@@ -178,15 +178,15 @@ class ApiService {
 
   // Payment endpoints
   async createPaymentIntent(amount: number, orderId: string): Promise<PaymentIntent> {
-    return this.api.post('/payments/create-intent', { amount, orderId })
+    return this.api.post('/payment/create-intent', { amount, orderId })
   }
 
   async getPaymentStatus(orderId: string) {
-    return this.api.get(`/payments/${orderId}/status`)
+    return this.api.get(`/payment/${orderId}/status`)
   }
 
   async refundPayment(orderId: string, amount?: number) {
-    return this.api.post('/payments/refund', { orderId, amount })
+    return this.api.post('/payment/refund', { orderId, amount })
   }
 
   // Email Alert endpoints
@@ -306,4 +306,7 @@ class ApiService {
   }
 }
 
-export const apiService = new ApiService()
+const apiService = new ApiService()
+
+export default apiService
+export { apiService }

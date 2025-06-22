@@ -9,7 +9,7 @@ const EmailConfirmation = () => import('@/views/auth/EmailConfirmation.vue')
 const ForgotPassword = () => import('@/views/auth/ForgotPassword.vue')
 const ResetPassword = () => import('@/views/auth/ResetPassword.vue')
 const Profile = () => import('@/views/user/Profile.vue')
-const Products = () => import('@/views/products/ProductList.vue')
+const Dashboard = () => import('@/views/user/Dashboard.vue')
 const ProductDetail = () => import('@/views/products/ProductDetail.vue')
 const Cart = () => import('@/views/cart/Cart.vue')
 const Checkout = () => import('@/views/checkout/Checkout.vue')
@@ -63,15 +63,16 @@ const routes = [
     meta: { requiresGuest: true }
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: Profile,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/products',
-    name: 'Products',
-    component: Products
   },
   {
     path: '/products/:id',

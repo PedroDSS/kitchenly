@@ -1,4 +1,4 @@
-const { Product, CartItem } = require('../models/postgres');
+const { Product, CartItem } = require('../models');
 const { Op } = require('sequelize');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');

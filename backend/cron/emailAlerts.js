@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { EmailAlert, Product, Category, User } = require('../models/postgres');
+const { EmailAlert, Product, Category, User } = require('../models');
 const emailService = require('../services/email');
 const logger = require('../utils/logger');
 const { Op } = require('sequelize');

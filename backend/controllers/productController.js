@@ -1,4 +1,4 @@
-const { Product, Category, Brand, sequelize } = require('../models/index');
+const { Product, Category, Brand, EmailAlert, sequelize } = require('../models/index');
 const { ProductSearch } = require('../models/mongo');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -425,5 +425,50 @@ exports.searchProducts = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: results
+  });
+});
+
+exports.updateAlertThreshold = catchAsync(async (req, res, next) => {
+  const { threshold } = req.body;
+  const productId = req.params.id;
+  
+  if (threshold === undefined || threshold < 0) {
+    return next(new AppError('Invalid threshold value', 400));
+  }
+  
+  const product = await Product.findByPk(productId);
+  
+  if (!product) {
+    return next(new AppError('Product not found', 404));
+  }
+  
+  // Update or create low stock alert for this product
+  const [alert, created] = await EmailAlert.findOrCreate({
+    where: {
+      productId,
+      type: 'low_stock'
+    },
+    defaults: {
+      userId: req.user.id,
+      type: 'low_stock',
+      productId,
+      enabled: true,
+      threshold,
+      frequency: 'immediate'
+    }
+  });
+  
+  if (!created) {
+    await alert.update({ threshold });
+  }
+  
+  res.status(200).json({
+    status: 'success',
+    data: { 
+      product: {
+        id: product.id,
+        alertThreshold: threshold
+      }
+    }
   });
 });

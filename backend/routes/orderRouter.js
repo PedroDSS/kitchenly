@@ -1,12 +1,12 @@
 const express = require('express');
 const orderController = require('../controllers/orderController');
-const { authenticate } = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 const { validateOrder } = require('../middleware/validators/orderValidator');
 
 const router = express.Router();
 
 // All order routes require authentication
-router.use(authenticate);
+router.use(protect);
 
 // User order routes
 router.post('/orders', validateOrder.create, orderController.createOrder);

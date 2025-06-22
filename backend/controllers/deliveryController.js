@@ -1,4 +1,4 @@
-const { DeliveryOption, RelayPoint, Order } = require('../models/postgres');
+const { DeliveryOption, RelayPoint, Order } = require('../models');
 const { RelayPointGeo } = require('../models/mongo');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');

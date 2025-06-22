@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // On supprime toutes les collections dans la base de données
 async function dropDatabase() {
     try {
-        await mongoose.connect(process.env.MONGO_URL);
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log('Connection to database for reset...');
         console.log('Trying to drop the database...');
         await mongoose.connection.db.dropDatabase();

@@ -1,10 +1,10 @@
 const express = require('express');
 const cartController = require('../controllers/cartController');
-const authController = require('../controllers/authController');
+const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.use(authController.protect);
+router.use(protect);
 
 router
   .route('/')

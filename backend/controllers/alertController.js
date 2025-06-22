@@ -1,5 +1,5 @@
-const { EmailAlert, User, Product, Category } = require('../models/postgres');
-const { AppError } = require('../utils/errors');
+const { EmailAlert, User, Product, Category } = require('../models');
+const AppError = require('../utils/appError');
 const logger = require('../utils/logger');
 const { Op } = require('sequelize');
 

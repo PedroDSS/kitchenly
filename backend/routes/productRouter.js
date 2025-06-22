@@ -2,7 +2,7 @@ const express = require('express');
 const productController = require('../controllers/productController');
 const categoryController = require('../controllers/categoryController');
 const brandController = require('../controllers/brandController');
-const { authenticate, restrictTo } = require('../middleware/auth');
+const { protect, restrictTo } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/brands/:id', brandController.getBrand);
 router.get('/brands/:id/products', brandController.getBrandProducts);
 
 // Protected routes - Admin only
-router.use(authenticate);
+router.use(protect);
 
 // Product management (Admin/Store Keeper)
 router
@@ -33,6 +33,9 @@ router
   .route('/products/:id')
   .put(restrictTo('ROLE_ADMIN', 'ROLE_STORE_KEEPER'), productController.updateProduct)
   .delete(restrictTo('ROLE_ADMIN'), productController.deleteProduct);
+
+// Alert threshold update (Admin/Store Keeper)
+router.put('/products/:id/alert-threshold', restrictTo('ROLE_ADMIN', 'ROLE_STORE_KEEPER'), productController.updateAlertThreshold);
 
 // Category management (Admin only)
 router
