@@ -106,7 +106,7 @@ module.exports = {
         isActive: true,
         isFeatured: true,
         displayOrder: 1,
-        metadata: { established: 1919, specialty: 'Stand Mixers' },
+        metadata: JSON.stringify({ established: 1919, specialty: 'Stand Mixers' }),
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -121,7 +121,7 @@ module.exports = {
         isActive: true,
         isFeatured: true,
         displayOrder: 2,
-        metadata: { established: 1948, specialty: 'Retro Design' },
+        metadata: JSON.stringify({ established: 1948, specialty: 'Retro Design' }),
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -136,7 +136,7 @@ module.exports = {
         isActive: true,
         isFeatured: true,
         displayOrder: 3,
-        metadata: { established: 1925, specialty: 'Cast Iron Cookware' },
+        metadata: JSON.stringify({ established: 1925, specialty: 'Cast Iron Cookware' }),
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -151,7 +151,7 @@ module.exports = {
         isActive: true,
         isFeatured: false,
         displayOrder: 4,
-        metadata: { established: 1932, specialty: 'Espresso Machines' },
+        metadata: JSON.stringify({ established: 1932, specialty: 'Espresso Machines' }),
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -166,7 +166,7 @@ module.exports = {
         isActive: true,
         isFeatured: false,
         displayOrder: 5,
-        metadata: { established: 1971, specialty: 'Food Processors' },
+        metadata: JSON.stringify({ established: 1971, specialty: 'Food Processors' }),
         createdAt: new Date(),
         updatedAt: new Date()
       }

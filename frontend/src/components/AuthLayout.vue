@@ -14,7 +14,7 @@
 
     <!-- Main Content -->
     <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
-      <div class="w-full max-w-2xl">
+      <div class="w-full max-w-7xl">
         <!-- Card Container -->
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
           <!-- Card Header (optional) -->

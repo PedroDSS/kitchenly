@@ -79,8 +79,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     type: {
-      type: DataTypes.ENUM('standard', 'express', 'relay_point'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['standard', 'express', 'relay_point']],
+          msg: 'Type must be standard, express, or relay_point'
+        }
+      }
     },
     carrier: {
       type: DataTypes.STRING,
@@ -119,8 +125,14 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Additional price per kilogram above base weight'
     },
     pricingType: {
-      type: DataTypes.ENUM('fixed', 'weight_based', 'zone_based'),
-      defaultValue: 'fixed'
+      type: DataTypes.STRING,
+      defaultValue: 'fixed',
+      validate: {
+        isIn: {
+          args: [['fixed', 'weight_based', 'zone_based']],
+          msg: 'Pricing type must be fixed, weight_based, or zone_based'
+        }
+      }
     },
     baseWeight: {
       type: DataTypes.DECIMAL(10, 3),

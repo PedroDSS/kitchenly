@@ -65,17 +65,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     type: {
-      type: DataTypes.ENUM(
-        'purchase',      // Stock purchase/receipt
-        'sale',          // Customer sale
-        'return',        // Customer return
-        'adjustment',    // Manual adjustment
-        'damage',        // Damaged goods
-        'loss',          // Lost/stolen
-        'transfer',      // Transfer between locations
-        'production'     // Manufacturing/assembly
-      ),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['purchase', 'sale', 'return', 'adjustment', 'damage', 'loss', 'transfer', 'production']],
+          msg: 'Type must be purchase, sale, return, adjustment, damage, loss, transfer, or production'
+        }
+      }
     },
     reason: {
       type: DataTypes.TEXT,

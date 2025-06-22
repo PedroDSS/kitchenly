@@ -12,23 +12,23 @@ const validatePassword = (password) => {
   const errors = [];
 
   if (!passwordRegex.minLength.test(password)) {
-    errors.push('Password must be at least 12 characters long');
+    errors.push('Le mot de passe doit contenir au moins 12 caractères');
   }
 
   if (!passwordRegex.uppercase.test(password)) {
-    errors.push('Password must contain at least one uppercase letter');
+    errors.push('Le mot de passe doit contenir au moins une lettre majuscule');
   }
 
   if (!passwordRegex.lowercase.test(password)) {
-    errors.push('Password must contain at least one lowercase letter');
+    errors.push('Le mot de passe doit contenir au moins une lettre minuscule');
   }
 
   if (!passwordRegex.number.test(password)) {
-    errors.push('Password must contain at least one number');
+    errors.push('Le mot de passe doit contenir au moins un chiffre');
   }
 
   if (!passwordRegex.symbol.test(password)) {
-    errors.push('Password must contain at least one special character (!@#$%^&*()_+-=[]{};\':"|,.<>/?)')
+    errors.push('Le mot de passe doit contenir au moins un caractère spécial (!@#$%^&*()_+-=[]{};\':"|,.<>/?)');
   }
 
   if (errors.length > 0) {

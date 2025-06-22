@@ -17,7 +17,10 @@
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
     "db:seed": "sequelize-cli db:seed:all",
     "db:seed:undo": "sequelize-cli db:seed:undo:all",
-    "db:setup": "npm run db:migrate:fresh"
+    "db:setup": "npm run db:migrate:fresh && npm run db:seed",
+    "mongo:reset": "node scripts/resetMongoDatabase.js",
+    "db:reset:all": "npm run mongo:reset && npm run db:migrate:reset",
+    "db:fresh:all": "npm run db:migrate:fresh"
   },
   "keywords": [],
   "author": "",

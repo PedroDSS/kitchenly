@@ -57,8 +57,8 @@ class ApiService {
           window.location.href = '/login'
         }
         
-        const message = error.response?.data?.message || error.message || 'An error occurred'
-        throw new Error(message)
+        // Preserve the original error structure for better error handling
+        throw error
       }
     )
   }

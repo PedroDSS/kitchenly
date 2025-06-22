@@ -83,8 +83,14 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'External payment provider transaction ID'
     },
     provider: {
-      type: DataTypes.ENUM('stripe', 'paypal'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['stripe', 'paypal']],
+          msg: 'Provider must be stripe or paypal'
+        }
+      }
     },
     method: {
       type: DataTypes.STRING,
@@ -106,8 +112,14 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'EUR'
     },
     status: {
-      type: DataTypes.ENUM('pending', 'processing', 'succeeded', 'failed', 'cancelled', 'refunded', 'partial_refund'),
-      defaultValue: 'pending'
+      type: DataTypes.STRING,
+      defaultValue: 'pending',
+      validate: {
+        isIn: {
+          args: [['pending', 'processing', 'succeeded', 'failed', 'cancelled', 'refunded', 'partial_refund']],
+          msg: 'Invalid payment status'
+        }
+      }
     },
     refundId: {
       type: DataTypes.STRING,

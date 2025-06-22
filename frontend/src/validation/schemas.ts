@@ -16,15 +16,34 @@ export const loginSchema = z.object({
 })
 
 export const registerSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email: z.string().email('Veuillez entrer une adresse email valide'),
   password: passwordSchema,
   confirmPassword: z.string(),
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  role: z.enum(['user', 'b2b']).optional()
+  firstName: z.string().min(2, 'Le prénom doit contenir au moins 2 caractères'),
+  lastName: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  phone: z.string().min(10, 'Le numéro de téléphone doit contenir au moins 10 chiffres'),
+  customerType: z.enum(['B2C', 'B2B']).default('B2C'),
+  companyName: z.string().optional(),
+  vatNumber: z.string().optional()
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ['confirmPassword']
+}).refine((data) => {
+  if (data.customerType === 'B2B') {
+    return !!data.companyName && data.companyName.length >= 2
+  }
+  return true
+}, {
+  message: 'Company name is required for B2B accounts',
+  path: ['companyName']
+}).refine((data) => {
+  if (data.customerType === 'B2B') {
+    return !!data.vatNumber && data.vatNumber.length >= 5
+  }
+  return true
+}, {
+  message: 'VAT number is required for B2B accounts',
+  path: ['vatNumber']
 })
 
 export const forgotPasswordSchema = z.object({

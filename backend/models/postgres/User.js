@@ -150,8 +150,18 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     roles: {
-      type: DataTypes.ARRAY(DataTypes.ENUM('ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN', 'ROLE_COMPTA')),
-      defaultValue: ['ROLE_USER']
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: ['ROLE_USER'],
+      validate: {
+        isValidRoles(values) {
+          const validRoles = ['ROLE_USER', 'ROLE_STORE_KEEPER', 'ROLE_ADMIN', 'ROLE_COMPTA'];
+          for (const value of values) {
+            if (!validRoles.includes(value)) {
+              throw new Error(`Invalid role: ${value}`);
+            }
+          }
+        }
+      }
     },
     isEmailConfirmed: {
       type: DataTypes.BOOLEAN,
@@ -176,8 +186,14 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true
     },
     customerType: {
-      type: DataTypes.ENUM('B2C', 'B2B'),
-      defaultValue: 'B2C'
+      type: DataTypes.STRING,
+      defaultValue: 'B2C',
+      validate: {
+        isIn: {
+          args: [['B2C', 'B2B']],
+          msg: 'Customer type must be B2C or B2B'
+        }
+      }
     },
     companyName: {
       type: DataTypes.STRING,
@@ -192,8 +208,14 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false
     },
     preferredLanguage: {
-      type: DataTypes.ENUM('fr', 'en'),
-      defaultValue: 'fr'
+      type: DataTypes.STRING,
+      defaultValue: 'fr',
+      validate: {
+        isIn: {
+          args: [['fr', 'en']],
+          msg: 'Language must be fr or en'
+        }
+      }
     },
     gdprConsentDate: DataTypes.DATE,
     deletionRequestedAt: DataTypes.DATE

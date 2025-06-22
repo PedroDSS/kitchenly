@@ -75,8 +75,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     type: {
-      type: DataTypes.ENUM('post_office', 'partner_shop', 'locker'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['post_office', 'partner_shop', 'locker']],
+          msg: 'Type must be post_office, partner_shop, or locker'
+        }
+      }
     },
     carrier: {
       type: DataTypes.STRING,
@@ -115,8 +121,25 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'France'
     },
     coordinates: {
-      type: DataTypes.GEOMETRY('POINT'),
-      allowNull: false
+      type: DataTypes.JSONB,
+      allowNull: false,
+      validate: {
+        isValidCoordinates(value) {
+          if (!value || !value.type || !value.coordinates) {
+            throw new Error('Coordinates must be a valid GeoJSON Point');
+          }
+          if (value.type !== 'Point') {
+            throw new Error('Coordinates must be a Point');
+          }
+          const [lng, lat] = value.coordinates;
+          if (typeof lng !== 'number' || typeof lat !== 'number') {
+            throw new Error('Coordinates must be valid numbers');
+          }
+          if (lng < -180 || lng > 180 || lat < -90 || lat > 90) {
+            throw new Error('Coordinates must be within valid ranges');
+          }
+        }
+      }
     },
     phone: {
       type: DataTypes.STRING,
@@ -215,8 +238,7 @@ module.exports = (sequelize, DataTypes) => {
         fields: ['isActive']
       },
       {
-        fields: ['coordinates'],
-        using: 'GIST'
+        fields: ['coordinates']
       }
     ]
   });

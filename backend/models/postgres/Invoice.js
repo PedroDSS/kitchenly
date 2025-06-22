@@ -79,8 +79,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM('draft', 'sent', 'paid', 'overdue', 'cancelled'),
-      defaultValue: 'draft'
+      type: DataTypes.STRING,
+      defaultValue: 'draft',
+      validate: {
+        isIn: {
+          args: [['draft', 'sent', 'paid', 'overdue', 'cancelled']],
+          msg: 'Status must be draft, sent, paid, overdue, or cancelled'
+        }
+      }
     },
     issueDate: {
       type: DataTypes.DATE,

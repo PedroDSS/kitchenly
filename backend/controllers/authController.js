@@ -15,7 +15,7 @@ const register = async (req, res, next) => {
     });
 
     if (existingUser) {
-      return next(new AppError('Un compte avec cette adresse email existe déjà', 400));
+      return next(new AppError(400, 'Un compte avec cette adresse email existe déjà'));
     }
 
     validatePassword(password);
@@ -41,7 +41,7 @@ const register = async (req, res, next) => {
       newUser.confirmationToken = undefined;
       newUser.confirmationTokenExpiry = undefined;
       await newUser.save({ validate: false });
-      return next(new AppError('Erreur lors de l\'envoi de l\'email de confirmation. Veuillez réessayer.', 500));
+      return next(new AppError(500, 'Erreur lors de l\'envoi de l\'email de confirmation. Veuillez réessayer.'));
     }
 
     res.status(201).json({

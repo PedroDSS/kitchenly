@@ -38,6 +38,10 @@ services:
       context: ./backend
       dockerfile: ../docker/backend/Dockerfile
     container_name: backend
+    environment:
+      STRIPE_SECRET: ${STRIPE_SECRET}
+      MONGODB_URI: ${MONGODB_URI}
+      NODE_ENV: ${NODE_ENV}
     ports:
       - 3000:3000
     volumes:

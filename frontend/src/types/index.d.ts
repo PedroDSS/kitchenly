@@ -37,7 +37,11 @@ export interface RegisterData {
   password: string
   firstName: string
   lastName: string
-  role?: 'user' | 'b2b'
+  phone: string
+  customerType: 'B2C' | 'B2B'
+  companyName?: string
+  vatNumber?: string
+  marketingConsent?: boolean
 }
 
 export interface Product {

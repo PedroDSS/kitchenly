@@ -112,8 +112,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     type: {
-      type: DataTypes.ENUM('percentage', 'fixed_amount'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['percentage', 'fixed_amount']],
+          msg: 'Type must be percentage or fixed_amount'
+        }
+      }
     },
     discount: {
       type: DataTypes.DECIMAL(10, 2),

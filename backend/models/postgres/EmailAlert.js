@@ -69,8 +69,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     type: {
-      type: DataTypes.ENUM('price_drop', 'back_in_stock', 'new_product', 'low_stock'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['price_drop', 'back_in_stock', 'new_product', 'low_stock']],
+          msg: 'Type must be price_drop, back_in_stock, new_product, or low_stock'
+        }
+      }
     },
     categoryId: {
       type: DataTypes.UUID,
@@ -93,8 +99,14 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true
     },
     frequency: {
-      type: DataTypes.ENUM('immediate', 'daily', 'weekly'),
-      defaultValue: 'immediate'
+      type: DataTypes.STRING,
+      defaultValue: 'immediate',
+      validate: {
+        isIn: {
+          args: [['immediate', 'daily', 'weekly']],
+          msg: 'Frequency must be immediate, daily, or weekly'
+        }
+      }
     },
     threshold: {
       type: DataTypes.INTEGER,

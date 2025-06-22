@@ -20,11 +20,6 @@ module.exports = {
       defaultValue: 0,
       allowNull: false
     });
-
-    await queryInterface.addColumn('order_items', 'returnedAt', {
-      type: Sequelize.DATE,
-      allowNull: true
-    });
   },
 
   async down (queryInterface, Sequelize) {
@@ -34,6 +29,5 @@ module.exports = {
 
     // Remove fields from order_items table
     await queryInterface.removeColumn('order_items', 'returnedQuantity');
-    await queryInterface.removeColumn('order_items', 'returnedAt');
   }
 };

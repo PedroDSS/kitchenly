@@ -98,16 +98,34 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled', 'returned', 'refunded'),
-      defaultValue: 'pending'
+      type: DataTypes.STRING,
+      defaultValue: 'pending',
+      validate: {
+        isIn: {
+          args: [['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'returned', 'refunded']],
+          msg: 'Invalid order status'
+        }
+      }
     },
     paymentStatus: {
-      type: DataTypes.ENUM('pending', 'paid', 'failed', 'refunded', 'partial_refund'),
-      defaultValue: 'pending'
+      type: DataTypes.STRING,
+      defaultValue: 'pending',
+      validate: {
+        isIn: {
+          args: [['pending', 'paid', 'failed', 'refunded', 'partial_refund']],
+          msg: 'Invalid payment status'
+        }
+      }
     },
     paymentMethod: {
-      type: DataTypes.ENUM('stripe', 'paypal'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        isIn: {
+          args: [['stripe', 'paypal']],
+          msg: 'Payment method must be stripe or paypal'
+        }
+      }
     },
     subtotal: {
       type: DataTypes.DECIMAL(10, 2),
@@ -160,8 +178,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     deliveryMethod: {
-      type: DataTypes.ENUM('standard', 'express', 'relay_point'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['standard', 'express', 'relay_point']],
+          msg: 'Delivery method must be standard, express, or relay_point'
+        }
+      }
     },
     deliveryOptionId: {
       type: DataTypes.UUID,

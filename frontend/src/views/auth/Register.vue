@@ -1,35 +1,36 @@
 <template>
-  <AuthLayout title="Create Your Account">
+  <AuthLayout title="Créer votre compte">
     <!-- Progress Steps -->
     <div class="flex items-center justify-between mb-8">
       <div class="flex items-center flex-1">
         <div class="flex items-center">
           <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
-          <span class="ml-2 text-sm font-medium text-gray-900">Account Info</span>
+          <span class="ml-2 text-sm font-medium text-gray-900">Informations du compte</span>
         </div>
         <div class="flex-1 mx-3">
           <div class="h-0.5 bg-gray-200"></div>
         </div>
         <div class="flex items-center">
           <div class="w-8 h-8 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-sm font-medium">2</div>
-          <span class="ml-2 text-sm text-gray-500">Verify Email</span>
+          <span class="ml-2 text-sm text-gray-500">Vérification du mail</span>
         </div>
       </div>
     </div>
 
     <!-- Form -->
-    <form @submit.prevent="handleSubmit" class="space-y-6">
+    <form @submit.prevent="onSubmit" class="space-y-6">
 
       <!-- Personal Information -->
       <div class="grid grid-cols-2 gap-4">
         <!-- First Name -->
         <div>
           <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
-            First Name
+            Prénom
           </label>
           <input
             id="firstName"
-            v-model="values.firstName"
+            v-model="firstName"
+            v-bind="firstNameAttrs"
             type="text"
             autocomplete="given-name"
             required
@@ -45,11 +46,12 @@
         <!-- Last Name -->
         <div>
           <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
-            Last Name
+            Nom
           </label>
           <input
             id="lastName"
-            v-model="values.lastName"
+            v-model="lastName"
+            v-bind="lastNameAttrs"
             type="text"
             autocomplete="family-name"
             required
@@ -63,10 +65,39 @@
         </div>
       </div>
 
+      <!-- Phone -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+          Numéro de téléphone
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+          </div>
+          <input
+            id="phone"
+            v-model="phone"
+            v-bind="phoneAttrs"
+            type="tel"
+            autocomplete="tel"
+            required
+            class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            :class="{ 'border-red-300 focus:ring-red-500': errors.phone }"
+            placeholder="+33 6 12 34 56 78"
+          />
+        </div>
+        <p v-if="errors.phone" class="mt-2 text-sm text-red-600">
+          {{ errors.phone }}
+        </p>
+      </div>
+
       <!-- Email -->
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-          Email Address
+          Adresse email
         </label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -77,7 +108,8 @@
           </div>
           <input
             id="email"
-            v-model="values.email"
+            v-model="email"
+            v-bind="emailAttrs"
             type="email"
             autocomplete="email"
             required
@@ -94,53 +126,100 @@
       <!-- Account Type -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-3">
-          Account Type
+          Type de compte
         </label>
         <div class="grid grid-cols-2 gap-3">
           <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm hover:bg-gray-50 focus:outline-none transition-all duration-200" 
-                 :class="values.role === 'user' ? 'border-blue-600 ring-2 ring-blue-600' : 'border-gray-300'">
+                 :class="values.customerType === 'B2C' ? 'border-blue-600 ring-2 ring-blue-600' : 'border-gray-300'">
             <input
-              v-model="values.role"
+              v-model="customerType"
+              v-bind="customerTypeAttrs"
               type="radio"
-              value="user"
+              value="B2C"
               class="sr-only"
             />
             <div class="flex w-full">
               <div class="flex flex-col">
-                <span class="block text-sm font-medium text-gray-900">Personal</span>
-                <span class="mt-1 text-xs text-gray-500">For individual use</span>
+                <span class="block text-sm font-medium text-gray-900">Particulier</span>
+                <span class="mt-1 text-xs text-gray-500">Pour usage personnel</span>
               </div>
             </div>
-            <svg v-if="values.role === 'user'" class="absolute top-4 right-4 h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <svg v-if="customerType === 'B2C'" class="absolute top-4 right-4 h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
           </label>
           
           <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm hover:bg-gray-50 focus:outline-none transition-all duration-200" 
-                 :class="values.role === 'b2b' ? 'border-blue-600 ring-2 ring-blue-600' : 'border-gray-300'">
+                 :class="values.customerType === 'B2B' ? 'border-blue-600 ring-2 ring-blue-600' : 'border-gray-300'">
             <input
-              v-model="values.role"
+              v-model="customerType"
+              v-bind="customerTypeAttrs"
               type="radio"
-              value="b2b"
+              value="B2B"
               class="sr-only"
             />
             <div class="flex w-full">
               <div class="flex flex-col">
-                <span class="block text-sm font-medium text-gray-900">Business</span>
-                <span class="mt-1 text-xs text-gray-500">B2B pricing</span>
+                <span class="block text-sm font-medium text-gray-900">Professionnel</span>
+                <span class="mt-1 text-xs text-gray-500">Tarifs B2B</span>
               </div>
             </div>
-            <svg v-if="values.role === 'b2b'" class="absolute top-4 right-4 h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <svg v-if="customerType === 'B2B'" class="absolute top-4 right-4 h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
           </label>
         </div>
       </div>
 
+      <!-- B2B Additional Fields -->
+      <div v-if="customerType === 'B2B'" class="space-y-4">
+        <!-- Company Name -->
+        <div>
+          <label for="companyName" class="block text-sm font-medium text-gray-700 mb-2">
+            Nom de l'entreprise
+          </label>
+          <input
+            id="companyName"
+            v-model="companyName"
+            v-bind="companyNameAttrs"
+            type="text"
+            autocomplete="organization"
+            required
+            class="block w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            :class="{ 'border-red-300 focus:ring-red-500': errors.companyName }"
+            placeholder="Nom de votre entreprise"
+          />
+          <p v-if="errors.companyName" class="mt-2 text-sm text-red-600">
+            {{ errors.companyName }}
+          </p>
+        </div>
+
+        <!-- VAT Number -->
+        <div>
+          <label for="vatNumber" class="block text-sm font-medium text-gray-700 mb-2">
+            Numéro de TVA intracommunautaire
+          </label>
+          <input
+            id="vatNumber"
+            v-model="vatNumber"
+            v-bind="vatNumberAttrs"
+            type="text"
+            autocomplete="off"
+            required
+            class="block w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            :class="{ 'border-red-300 focus:ring-red-500': errors.vatNumber }"
+            placeholder="FR12345678901"
+          />
+          <p v-if="errors.vatNumber" class="mt-2 text-sm text-red-600">
+            {{ errors.vatNumber }}
+          </p>
+        </div>
+      </div>
+
       <!-- Password -->
       <div>
         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
-          Password
+          Mot de passe
         </label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -151,13 +230,14 @@
           </div>
           <input
             id="password"
-            v-model="values.password"
+            v-model="password"
+            v-bind="passwordAttrs"
             :type="showPassword ? 'text' : 'password'"
             autocomplete="new-password"
             required
             class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             :class="{ 'border-red-300 focus:ring-red-500': errors.password }"
-            placeholder="Create a strong password"
+            placeholder="M3ubl3.2.M4rbr3"
           />
           <button
             type="button"
@@ -237,16 +317,17 @@
           </div>
           <input
             id="confirmPassword"
-            v-model="values.confirmPassword"
+            v-model="confirmPassword"
+            v-bind="confirmPasswordAttrs"
             :type="showConfirmPassword ? 'text' : 'password'"
             autocomplete="new-password"
             required
             class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             :class="{ 
               'border-red-300 focus:ring-red-500': errors.confirmPassword,
-              'border-green-300 focus:ring-green-500': passwordsMatch && values.confirmPassword
+              'border-green-300 focus:ring-green-500': passwordsMatch && confirmPassword
             }"
-            placeholder="Re-enter your password"
+            placeholder="Confirmer le mot de passe"
           />
           <button
             type="button"
@@ -259,7 +340,7 @@
         </div>
         
         <!-- Password Match Indicator -->
-        <div v-if="values.confirmPassword" class="mt-2 flex items-center text-xs transition-all duration-200">
+        <div v-if="confirmPassword" class="mt-2 flex items-center text-xs transition-all duration-200">
           <svg 
             class="h-4 w-4 mr-1.5" 
             :class="passwordsMatch ? 'text-green-500' : 'text-red-500'"
@@ -385,7 +466,8 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { useFormWrapper } from '@/composables/useFormWrapper'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
 import { useToast } from '@/composables/useToast'
 import { registerSchema, type RegisterFormData } from '@/validation/schemas'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
@@ -396,24 +478,38 @@ const router = useRouter()
 const authStore = useAuthStore()
 const { success, error } = useToast()
 
-// Form setup
+// Form setup with VeeValidate
 const {
   values,
   errors,
-  isValid,
   isSubmitting,
-  handleSubmit: formHandleSubmit
-} = useFormWrapper<RegisterFormData>({
-  validationSchema: registerSchema,
+  defineField,
+  handleSubmit
+} = useForm<RegisterFormData>({
+  validationSchema: toTypedSchema(registerSchema),
   initialValues: {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'user'
+    customerType: 'B2C',
+    phone: '',
+    companyName: '',
+    vatNumber: ''
   }
 })
+
+// Define form fields
+const [firstName, firstNameAttrs] = defineField('firstName')
+const [lastName, lastNameAttrs] = defineField('lastName')
+const [email, emailAttrs] = defineField('email')
+const [password, passwordAttrs] = defineField('password')
+const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword')
+const [customerType, customerTypeAttrs] = defineField('customerType')
+const [phone, phoneAttrs] = defineField('phone')
+const [companyName, companyNameAttrs] = defineField('companyName')
+const [vatNumber, vatNumberAttrs] = defineField('vatNumber')
 
 // Component state
 const showPassword = ref(false)
@@ -423,24 +519,24 @@ const marketingConsent = ref(false)
 
 // Password validation checks
 const passwordChecks = computed(() => {
-  const password = values.value.password
+  const pwd = password.value || ''
   return {
-    minLength: password.length >= 12,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /\d/.test(password),
-    special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    minLength: pwd.length >= 12,
+    uppercase: /[A-Z]/.test(pwd),
+    lowercase: /[a-z]/.test(pwd),
+    number: /\d/.test(pwd),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd)
   }
 })
 
 // Password checks for display
 const passwordChecksDisplay = computed(() => {
   return {
-    minLength: { text: 'At least 12 characters', valid: passwordChecks.value.minLength },
-    uppercase: { text: 'One uppercase letter', valid: passwordChecks.value.uppercase },
-    lowercase: { text: 'One lowercase letter', valid: passwordChecks.value.lowercase },
-    number: { text: 'One number', valid: passwordChecks.value.number },
-    special: { text: 'One special character', valid: passwordChecks.value.special }
+    minLength: { text: 'Au moins 12 caractères', valid: passwordChecks.value.minLength },
+    uppercase: { text: 'Une lettre majuscule', valid: passwordChecks.value.uppercase },
+    lowercase: { text: 'Une lettre minuscule', valid: passwordChecks.value.lowercase },
+    number: { text: 'Un chiffre', valid: passwordChecks.value.number },
+    special: { text: 'Un caractère spécial', valid: passwordChecks.value.special }
   }
 })
 
@@ -508,21 +604,34 @@ const passwordStrengthBarColor = computed(() => {
 
 // Password match indicator
 const passwordsMatch = computed(() => {
-  return values.value.password === values.value.confirmPassword && 
-         values.value.confirmPassword.length > 0
+  return password.value === confirmPassword.value && 
+         (confirmPassword.value?.length || 0) > 0
+})
+
+// Form validation state
+const isValid = computed(() => {
+  return acceptTerms.value && Object.keys(errors.value).length === 0
 })
 
 // Methods
-const handleSubmit = formHandleSubmit(async (formData) => {
+const onSubmit = handleSubmit(async (formData) => {
   try {
+    // Prepare data for backend API
     const registerData = {
-      ...formData,
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      phone: formData.phone,
+      customerType: formData.customerType,
+      companyName: formData.customerType === 'B2B' ? formData.companyName : undefined,
+      vatNumber: formData.customerType === 'B2B' ? formData.vatNumber : undefined,
       marketingConsent: marketingConsent.value
     }
     
     await authStore.register(registerData)
     
-    success('Account created successfully! Please check your email for confirmation instructions.')
+    success('Inscription réussie ! Veuillez vérifier votre email pour confirmer votre compte.')
     
     // Redirect to email confirmation page
     router.push({
@@ -535,11 +644,11 @@ const handleSubmit = formHandleSubmit(async (formData) => {
 })
 
 const handleRegistrationError = (err: any) => {
-  const errorMessage = err.response?.data?.message || err.message || 'Registration failed'
+  const errorMessage = err.response?.data?.message || err.message || 'L\'inscription a échoué'
   
   // Handle specific errors
-  if (err.response?.status === 409) {
-    error('An account with this email address already exists')
+  if (err.response?.status === 400 && errorMessage.includes('existe déjà')) {
+    error('Un compte avec cette adresse email existe déjà')
   } else if (err.response?.status === 422) {
     // Validation errors
     const validationErrors = err.response.data?.errors
