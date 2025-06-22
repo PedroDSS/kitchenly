@@ -1,0 +1,42 @@
+extends base
+
+block content
+  h2 Votre compte a été temporairement verrouillé
+  
+  p Bonjour #{user.firstName},
+  
+  p Pour des raisons de sécurité, votre compte a été temporairement verrouillé suite à plusieurs tentatives de connexion infructueuses.
+  
+  .alert(style="background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 4px; margin: 20px 0;")
+    p(style="margin: 0;")
+      strong 🔒 Compte verrouillé
+      br
+      | Nombre de tentatives : #{attempts || '5'}
+      br
+      | Date du verrouillage : #{new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+  
+  p
+    strong Que faire maintenant ?
+  
+  ol
+    li Attendez #{lockDuration || '30'} minutes avant de réessayer
+    li Ou réinitialisez votre mot de passe immédiatement
+  
+  .text-center
+    a.button(href=`${appUrl}/auth/forgot-password`) Réinitialiser mon mot de passe
+  
+  p.mt-3
+    strong ⚠️ Vous n'êtes pas à l'origine de ces tentatives ?
+    br
+    | Il est possible que quelqu'un essaie d'accéder à votre compte.
+    br
+    | Nous vous recommandons de :
+  
+  ul
+    li Réinitialiser votre mot de passe immédiatement
+    li Vérifier vos autres comptes en ligne
+    li Contacter notre équipe de sécurité
+  
+  p
+    | Email : 
+    a(href="mailto:contact.kitchenly@gmail.com") contact.kitchenly@gmail.com

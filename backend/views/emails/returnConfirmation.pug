@@ -1,0 +1,69 @@
+extends base
+
+block content
+  h2 Confirmation de votre demande de retour
+  
+  p Bonjour #{user.firstName},
+  
+  p Nous avons bien reçu votre demande de retour pour la commande ##{order.orderNumber}.
+  
+  .return-info(style="background-color: #f8f9fa; padding: 20px; border-radius: 4px; margin: 20px 0;")
+    h3(style="margin-top: 0;") Détails du retour
+    p
+      strong Numéro de retour :
+      |  #{returnNumber}
+      br
+      strong Commande originale :
+      |  ##{order.orderNumber}
+      br
+      strong Date de la demande :
+      |  #{new Date().toLocaleDateString('fr-FR')}
+      if returnReason
+        br
+        strong Motif du retour :
+        |  #{returnReason}
+  
+  p
+    strong Produits concernés :
+  ul
+    each item in returnItems
+      li
+        | #{item.quantity}x #{item.product.name}
+        if item.product.brand
+          |  - #{item.product.brand.name}
+  
+  .next-steps(style="background-color: #e3f2fd; border: 1px solid #90caf9; padding: 15px; border-radius: 4px; margin: 20px 0;")
+    h4(style="margin-top: 0;") Prochaines étapes :
+    ol(style="margin-bottom: 0;")
+      li Imprimez l'étiquette de retour ci-jointe
+      li Emballez soigneusement les produits dans leur emballage d'origine
+      li Déposez votre colis dans un point relais sous 14 jours
+      li Vous recevrez un email de confirmation dès réception
+  
+  .text-center
+    a.button(href=returnLabelUrl) Télécharger l'étiquette de retour
+  
+  p.mt-3
+    strong 📋 Conditions de retour :
+  ul
+    li Produits non utilisés et dans leur emballage d'origine
+    li Retour sous 14 jours après réception
+    li Remboursement sous 14 jours après réception du retour
+  
+  p
+    strong Suivi de votre retour :
+    br
+    | Vous pouvez suivre l'état de votre retour dans votre espace client.
+  
+  .text-center
+    a.button(href=`${appUrl}/account/returns/${returnNumber}` style="background-color: #6c757d;") Suivre mon retour
+  
+  p.mt-3
+    strong Questions sur votre retour ?
+    br
+    | Notre service retours est à votre disposition :
+    br
+    | Email : 
+    a(href="mailto:contact.kitchenly@gmail.com") contact.kitchenly@gmail.com
+    br
+    | Téléphone : 01 23 45 67 88

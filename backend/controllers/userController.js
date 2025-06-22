@@ -32,7 +32,7 @@ const getProfile = async (req, res, next) => {
 
 const updateProfile = async (req, res, next) => {
   try {
-    const allowedFields = ['firstName', 'lastName', 'phone', 'birthDate', 'newsletterOptIn'];
+    const allowedFields = ['firstName', 'lastName', 'phone', 'birthDate', 'newsletterSubscribed'];
     const filteredBody = {};
 
     Object.keys(req.body).forEach(key => {
@@ -63,7 +63,7 @@ const updateProfile = async (req, res, next) => {
           lastName: user.lastName,
           phone: user.phone,
           birthDate: user.birthDate,
-          newsletterOptIn: user.newsletterOptIn,
+          newsletterSubscribed: user.newsletterSubscribed,
           customerType: user.customerType,
           companyName: user.companyName,
           vatNumber: user.vatNumber
@@ -162,7 +162,7 @@ const deleteAccount = async (req, res, next) => {
       confirmationTokenExpiry: null,
       resetPasswordToken: null,
       resetPasswordExpiry: null,
-      newsletterOptIn: false
+      newsletterSubscribed: false
     };
 
     await user.update(anonymizedData);
@@ -230,7 +230,7 @@ const exportUserData = async (req, res, next) => {
         customerType: userData.customerType,
         companyName: userData.companyName,
         vatNumber: userData.vatNumber,
-        newsletterOptIn: userData.newsletterOptIn,
+        newsletterSubscribed: userData.newsletterSubscribed,
         accountCreatedAt: userData.createdAt,
         lastLoginAt: userData.lastLoginAt,
         gdprConsentDate: userData.gdprConsentDate

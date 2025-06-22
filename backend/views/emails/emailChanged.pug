@@ -1,0 +1,39 @@
+extends base
+
+block content
+  h2 Changement d'adresse email
+  
+  p Bonjour #{user.firstName},
+  
+  p Nous vous confirmons que votre adresse email a été modifiée avec succès.
+  
+  .email-change(style="background-color: #f8f9fa; padding: 20px; border-radius: 4px; margin: 20px 0;")
+    p
+      strong Ancienne adresse :
+      |  #{oldEmail}
+      br
+      strong Nouvelle adresse :
+      |  #{newEmail}
+      br
+      strong Date de modification :
+      |  #{new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+  
+  p
+    strong ⚠️ Si vous n'êtes pas à l'origine de cette modification :
+  
+  ol
+    li Contactez immédiatement notre équipe de sécurité
+    li Tentez de vous connecter avec votre ancienne adresse email
+    li Vérifiez que votre compte n'a pas été compromis
+  
+  p.mt-3
+    | Pour des raisons de sécurité, cet email a été envoyé à votre ancienne ET nouvelle adresse email.
+  
+  .text-center
+    a.button(href=`${appUrl}/account/security`) Vérifier ma sécurité
+  
+  p.mt-3
+    strong Contact sécurité urgent :
+    br
+    | Email : 
+    a(href="mailto:contact.kitchenly@gmail.com") contact.kitchenly@gmail.com

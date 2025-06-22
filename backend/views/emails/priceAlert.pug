@@ -1,52 +1,32 @@
-doctype html
-html(lang="fr")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title= subject
-    style
-      include ./styles.css
-  body
-    .email-container
-      .header
-        h1.logo Kitchenly
-        p.tagline L'excellence pour votre cuisine
-      
-      .content
-        h2 Excellente nouvelle #{firstName} !
-        
-        .alert-box.discount
-          p Le prix du produit que vous surveillez a baissé !
-          .discount-badge -#{discount}%
-        
-        .product-card
-          if product.images && product.images.length > 0
-            img.product-image(src=product.images[0], alt=product.name)
-          h3= product.name
-          
-          .price-comparison
-            p.old-price
-              span.label Ancien prix : 
-              span.value #{oldPrice.toFixed(2)} €
-            p.new-price
-              span.label Nouveau prix : 
-              span.value #{newPrice.toFixed(2)} €
-            p.savings
-              span.label Vous économisez : 
-              span.value #{(oldPrice - newPrice).toFixed(2)} €
-          
-          a.cta-button(href=`${appUrl}/products/${product.slug}`) Profiter de l'offre
-        
-        .info-box
-          p 💡 Cette offre est limitée dans le temps. Profitez-en maintenant !
-        
-        p.footer-text
-          | Vous recevez cet email car vous avez activé une alerte de prix pour ce produit. 
-          a(href=`${appUrl}/account/alerts`) Gérer mes alertes
-        
-      .footer
-        p © 2025 Kitchenly. Tous droits réservés.
-        p.small
-          a(href=`${appUrl}/privacy`) Politique de confidentialité
-          |  | 
-          a(href=`${appUrl}/terms`) Conditions d'utilisation
+extends base
+
+block content
+  h2 Alerte prix : #{product.name}
+  
+  p Bonjour #{user.firstName},
+  
+  p Bonne nouvelle ! Le prix d'un produit que vous suivez vient de baisser.
+  
+  .price-drop(style="background-color: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 4px; margin: 20px 0; text-align: center;")
+    h3(style="margin-top: 0;")= product.name
+    if product.brand
+      p(style="color: #6c757d;")= product.brand.name
+    
+    p(style="font-size: 24px; margin: 20px 0;")
+      span(style="text-decoration: line-through; color: #6c757d;") #{oldPrice.toFixed(2)} €
+      |  → 
+      span(style="color: #28a745; font-weight: bold;") #{newPrice.toFixed(2)} €
+    
+    p(style="color: #28a745; font-size: 18px;")
+      | Économisez #{(oldPrice - newPrice).toFixed(2)} € (-#{Math.round((1 - newPrice / oldPrice) * 100)}%)
+  
+  .text-center
+    a.button(href=`${appUrl}/products/${product.slug}`) Voir le produit
+  
+  p.mt-3
+    | ⏰ Cette offre peut être limitée dans le temps. Ne tardez pas !
+  
+  p.text-muted(style="margin-top: 30px; font-size: 14px;")
+    | Vous recevez cette alerte car vous suivez ce produit.
+    br
+    a(href=`${appUrl}/account/alerts` style="color: #6c757d;") Gérer mes alertes

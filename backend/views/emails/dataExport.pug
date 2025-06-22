@@ -1,0 +1,50 @@
+extends base
+
+block content
+  h2 Vos données personnelles sont prêtes
+  
+  p Bonjour #{user.firstName},
+  
+  p Conformément au RGPD et à votre demande, nous avons préparé l'export de toutes vos données personnelles stockées sur Kitchenly.
+  
+  .export-info(style="background-color: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 4px; margin: 20px 0;")
+    p(style="margin: 0;")
+      strong ✅ Export disponible
+      br
+      | Format : JSON
+      br
+      | Taille : #{exportSize || 'Variable'}
+      br
+      | Validité : 7 jours
+  
+  p Vos données incluent :
+  ul
+    li Informations de profil
+    li Historique de commandes
+    li Adresses de livraison
+    li Préférences et alertes
+    li Historique de navigation (si activé)
+    li Communications reçues
+  
+  .text-center
+    a.button(href=exportUrl) Télécharger mes données
+  
+  p.mt-3
+    strong ⚠️ Important :
+    br
+    | • Ce lien expirera dans 7 jours
+    br
+    | • Pour votre sécurité, le lien ne peut être utilisé qu'une seule fois
+    br
+    | • Les données sont chiffrées avec votre email comme clé
+  
+  p.mt-3
+    | Conformément à l'article 20 du RGPD, ces données sont fournies dans un format structuré, couramment utilisé et lisible par machine.
+  
+  p
+    strong Questions sur vos données ?
+    br
+    | Notre délégué à la protection des données est à votre disposition :
+    br
+    | Email : 
+    a(href="mailto:contact.kitchenly@gmail.com") contact.kitchenly@gmail.com

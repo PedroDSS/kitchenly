@@ -1,0 +1,28 @@
+extends base
+
+block content
+  h2 Bienvenue chez Kitchenly, #{user.firstName} !
+  
+  p Nous sommes ravis de vous accueillir dans notre communauté d'amateurs d'électroménager haut de gamme.
+  
+  p Votre compte a été créé avec succès. Vous pouvez maintenant :
+  
+  ul
+    li Parcourir notre sélection exclusive de produits
+    li Configurer des alertes pour vos marques préférées
+    li Profiter de nos offres exclusives
+    li Accéder à votre espace client personnalisé
+  
+  .text-center
+    a.button(href=`${appUrl}/products`) Découvrir nos produits
+  
+  p.mt-3
+    strong Besoin d'aide ?
+    br
+    | Notre équipe est disponible du lundi au vendredi de 9h à 18h.
+    br
+    | Email : 
+    a(href="mailto:contact.kitchenly@gmail.com") contact.kitchenly@gmail.com
+  
+  p.text-muted.mt-3
+    | Vous recevez cet email car vous venez de créer un compte sur Kitchenly.

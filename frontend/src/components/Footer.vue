@@ -1,9 +1,7 @@
 <template>
   <footer class="bg-gray-900 text-white">
     <div class="container mx-auto px-4">
-      <!-- Main Footer Content -->
-      <div class="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        <!-- Brand Section -->
+      <div class="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
           <div class="flex items-center mb-4 space-x-3">
             <div class="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
@@ -30,7 +28,6 @@
           </div>
         </div>
 
-        <!-- Service Client -->
         <div>
           <h5 class="text-white font-semibold mb-4">Service client</h5>
           <ul class="space-y-3 text-sm text-gray-400">
@@ -41,22 +38,18 @@
           </ul>
         </div>
 
-        <!-- Informations -->
         <div>
           <h5 class="text-white font-semibold mb-4">Entreprise</h5>
           <ul class="space-y-3 text-sm text-gray-400">
-            <li><a href="#" class="flex items-center space-x-2 hover:text-white"><InformationCircleIcon class="w-4 h-4" /><span>À propos</span></a></li>
             <li><a href="#" class="flex items-center space-x-2 hover:text-white"><DocumentTextIcon class="w-4 h-4" /><span>Conditions générales</span></a></li>
             <li><a href="#" class="flex items-center space-x-2 hover:text-white"><LockClosedIcon class="w-4 h-4" /><span>Politique de confidentialité</span></a></li>
             <li><a href="#" class="flex items-center space-x-2 hover:text-white"><CreditCardIcon class="w-4 h-4" /><span>Paiement sécurisé</span></a></li>
           </ul>
         </div>
 
-        <!-- Social & Newsletter -->
         <div>
           <h5 class="text-white font-semibold mb-4">Restez connecté</h5>
 
-          <!-- Réseaux sociaux -->
           <div class="flex space-x-3 mb-6">
               <a href="#" class="social-link" aria-label="Facebook">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -74,32 +67,15 @@
                 </svg>
               </a>
             </div>
-
-          <!-- Newsletter -->
-          <form class="flex" @submit.prevent="handleNewsletterSubmit">
-            <input
-              v-model="newsletterEmail"
-              type="email"
-              placeholder="Votre email"
-              class="flex-1 px-3 py-2 text-sm bg-gray-800 border border-gray-700 rounded-l-md placeholder-gray-400 text-white focus:outline-none"
-              required
-            />
-            <button type="submit" class="bg-primary-600 hover:bg-primary-700 px-4 py-2 rounded-r-md transition">
-              <PaperAirplaneIcon class="w-4 h-4" />
-            </button>
-          </form>
         </div>
       </div>
 
-      <!-- Footer bottom -->
       <div class="border-t border-gray-800 pt-6 mt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 space-y-4 md:space-y-0">
         <p>&copy; {{ currentYear }} Kitchenly. Tous droits réservés.</p>
         <div class="flex items-center space-x-2">
           <span>Paiement sécurisé :</span>
           <CreditCardIcon class="w-6 h-6" />
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M1 7h22v2H1V7zm0 4h22v10H1V11zm2 2v2h4v-2H3z"/>
-          </svg>
+          <img src="/stripe.png" alt="Stripe" class="h-6 w-auto filter" />
         </div>
       </div>
     </div>
@@ -126,13 +102,6 @@ import { toast } from '@/utils/toast'
 
 const newsletterEmail = ref('')
 const currentYear = computed(() => new Date().getFullYear())
-
-const handleNewsletterSubmit = () => {
-  if (newsletterEmail.value) {
-    toast.success('Merci pour votre inscription !')
-    newsletterEmail.value = ''
-  }
-}
 </script>
 
 <script lang="ts">

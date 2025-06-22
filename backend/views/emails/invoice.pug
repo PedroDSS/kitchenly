@@ -1,0 +1,39 @@
+extends base
+
+block content
+  h2 Votre facture est disponible
+  
+  p Bonjour #{user.firstName},
+  
+  p Votre facture pour la commande ##{order.orderNumber} est maintenant disponible.
+  
+  .invoice-details(style="background-color: #f8f9fa; padding: 20px; border-radius: 4px; margin: 20px 0;")
+    p
+      strong Numéro de facture :
+      |  #{invoice.number}
+      br
+      strong Date :
+      |  #{new Date(invoice.createdAt).toLocaleDateString('fr-FR')}
+      br
+      strong Montant total TTC :
+      |  #{order.totalAmount.toFixed(2)} €
+  
+  p Vous pouvez télécharger votre facture en cliquant sur le bouton ci-dessous :
+  
+  .text-center
+    a.button(href=`${appUrl}/invoices/${invoice.id}/download`) Télécharger ma facture
+  
+  p.mt-3
+    | Vous pouvez également retrouver toutes vos factures dans votre espace client, rubrique "Mes commandes".
+  
+  p.text-muted
+    small
+      | Conformément à la législation française, cette facture doit être conservée pendant une durée minimale de 10 ans.
+  
+  p.mt-3
+    strong Besoin d'assistance ?
+    br
+    | Notre service comptabilité est à votre disposition :
+    br
+    | Email : 
+    a(href="mailto:contact.kitchenly@gmail.com") contact.kitchenly@gmail.com

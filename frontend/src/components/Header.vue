@@ -18,14 +18,6 @@
         
         <!-- Desktop Navigation -->
         <nav class="hidden lg:flex items-center space-x-8">
-          <router-link 
-            to="/" 
-            class="nav-link"
-            :class="{ 'active': $route.path === '/' }"
-          >
-            Accueil
-          </router-link>
-          <a href="#about" class="nav-link">À propos</a>
           
           <!-- Divider -->
           <div class="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
@@ -96,14 +88,6 @@
     >
       <nav class="container py-4">
         <div class="space-y-1">
-          <router-link to="/" class="mobile-nav-item" @click="mobileMenuOpen = false">
-            <HomeIcon class="w-5 h-5" />
-            Accueil
-          </router-link>
-          <a href="#about" class="mobile-nav-item" @click="mobileMenuOpen = false">
-            <InformationCircleIcon class="w-5 h-5" />
-            À propos
-          </a>
           
           <div class="border-t border-gray-200 dark:border-gray-600 my-3"></div>
           

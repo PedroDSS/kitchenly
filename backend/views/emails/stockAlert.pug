@@ -1,42 +1,35 @@
-doctype html
-html(lang="fr")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title= subject
-    style
-      include ./styles.css
-  body
-    .email-container
-      .header
-        h1.logo Kitchenly
-        p.tagline L'excellence pour votre cuisine
-      
-      .content
-        h2 Bonne nouvelle #{firstName} !
-        
-        .alert-box.success
-          p Le produit que vous surveillez est de nouveau disponible !
-        
-        .product-card
-          if product.images && product.images.length > 0
-            img.product-image(src=product.images[0], alt=product.name)
-          h3= product.name
-          p.price #{product.price.toFixed(2)} €
-          p.stock-info #{product.stock} unités en stock
-          
-          a.cta-button(href=`${appUrl}/products/${product.slug}`) Voir le produit
-        
-        .info-box
-          p.urgent ⚡ Attention : Ce produit est très demandé. N'attendez pas pour passer commande !
-        
-        p.footer-text
-          | Vous recevez cet email car vous avez activé une alerte de stock pour ce produit. 
-          a(href=`${appUrl}/account/alerts`) Gérer mes alertes
-        
-      .footer
-        p © 2025 Kitchenly. Tous droits réservés.
-        p.small
-          a(href=`${appUrl}/privacy`) Politique de confidentialité
-          |  | 
-          a(href=`${appUrl}/terms`) Conditions d'utilisation
+extends base
+
+block content
+  h2 Retour en stock : #{product.name}
+  
+  p Bonjour #{user.firstName},
+  
+  p Excellente nouvelle ! Le produit que vous attendez est de nouveau disponible.
+  
+  .back-in-stock(style="background-color: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 4px; margin: 20px 0; text-align: center;")
+    h3(style="margin-top: 0;")= product.name
+    if product.brand
+      p(style="color: #6c757d;")= product.brand.name
+    
+    p(style="font-size: 20px; color: #28a745; margin: 20px 0;")
+      | ✅ Disponible maintenant
+    
+    p
+      strong Stock actuel : 
+      | #{product.stock} unités
+    
+    p(style="font-size: 18px;")
+      strong Prix : 
+      | #{product.price.toFixed(2)} €
+  
+  .text-center
+    a.button(href=`${appUrl}/products/${product.slug}`) Commander maintenant
+  
+  p.mt-3
+    | ⚡ Les stocks sont limités. Commandez rapidement pour ne pas manquer cette opportunité !
+  
+  p.text-muted(style="margin-top: 30px; font-size: 14px;")
+    | Vous recevez cette alerte car vous avez demandé à être notifié du retour en stock de ce produit.
+    br
+    a(href=`${appUrl}/account/alerts` style="color: #6c757d;") Gérer mes alertes

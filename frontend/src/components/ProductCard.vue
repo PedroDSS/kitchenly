@@ -148,7 +148,7 @@
         >
           <LoadingSpinner v-if="isAddingToCart" size="sm" variant="white" customClass="mr-2" />
           <ShoppingCartIcon v-else class="w-4 h-4 mr-1" />
-          {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+          {{ product.stock === 0 ? 'Plus de stock' : 'Ajouter au panier' }}
         </button>
         
         <button

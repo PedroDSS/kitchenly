@@ -1,0 +1,63 @@
+extends base
+
+block content
+  h2 Votre commande a été livrée ! ✅
+  
+  p Bonjour #{user.firstName},
+  
+  p Nous espérons que vous êtes satisfait(e) de votre commande ##{order.orderNumber} qui a été livrée avec succès.
+  
+  .delivery-confirmation(style="background-color: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 4px; margin: 20px 0;")
+    h3(style="margin-top: 0;") Confirmation de livraison
+    p
+      strong Date de livraison :
+      |  #{new Date(deliveryDate).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+      br
+      strong Heure :
+      |  #{new Date(deliveryDate).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+      if signature
+        br
+        strong Signé par :
+        |  #{signature}
+  
+  p
+    strong Produits livrés :
+  ul
+    each item in order.items
+      li
+        | #{item.quantity}x #{item.product.name}
+        if item.product.brand
+          |  - #{item.product.brand.name}
+  
+  .rating-request(style="background-color: #e3f2fd; border: 1px solid #90caf9; padding: 20px; border-radius: 4px; margin: 30px 0; text-align: center;")
+    h3(style="margin-top: 0;") Votre avis compte !
+    p Aidez d'autres clients en partageant votre expérience
+    a.button(href=`${appUrl}/account/orders/${order.id}/review`) Donner mon avis
+  
+  .warranty-info(style="margin-top: 30px;")
+    h3 📋 Informations importantes
+    ul
+      li
+        strong Facture :
+        |  Disponible dans votre espace client
+      li
+        strong Garantie :
+        |  2 ans constructeur + extension possible
+      li
+        strong SAV :
+        |  Disponible 6j/7 au 01 23 45 67 90
+  
+  p.mt-3
+    strong 🎁 Offre exclusive pour vous !
+    br
+    | En remerciement de votre confiance, profitez de 10% de réduction sur votre prochaine commande avec le code :
+    strong  MERCI10
+  
+  .text-center
+    a.button(href=`${appUrl}/products`) Découvrir nos nouveautés
+  
+  p.mt-3
+    | Merci de votre confiance et à bientôt sur Kitchenly !
+    br
+    br
+    | L'équipe Kitchenly
