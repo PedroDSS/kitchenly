@@ -205,8 +205,8 @@
               01 23 45 67 89
             </a>
             ou par email à 
-            <a href="mailto:support@kitchenly.fr" class="text-primary-600 hover:text-primary-700 dark:text-primary-400">
-              support@kitchenly.fr
+            <a href="mailto:contact.kitchenly@gmail.com" class="text-primary-600 hover:text-primary-700 dark:text-primary-400">
+              contact.kitchenly@gmail.com
             </a>
           </p>
         </div>
