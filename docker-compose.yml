@@ -1,6 +1,6 @@
-version: "3.8"
 services:
   mongodb:
+    container_name: mongodb
     image: mongo:latest
     volumes:
       - mongodb-data:/data/db
@@ -11,6 +11,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
 
   postgresql:
+    container_name: postgres
     image: postgres:latest
     volumes:
       - postgresql-data:/var/lib/postgresql/data
@@ -22,7 +23,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   server:
-    build: ./server
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    container_name: server
     ports:
       - "3000:3000"
     depends_on:
@@ -46,7 +50,10 @@ services:
       POSTGRES_PORT: 5432
       
   client:
-    build: ./client
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    container_name: client
     ports:
       - "5173:5173"
     volumes:

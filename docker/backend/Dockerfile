@@ -1,12 +1,11 @@
 FROM node:20.0.0-alpine
 
-WORKDIR /app
+WORKDIR /src
 
-COPY package*.json ./
-RUN npm install && npm install -g sequelize-cli
+COPY server/package*.json ./
 
-COPY . .
+RUN npm install
+
+COPY server .
 
 EXPOSE 3000
-
-CMD ["npm", "run", "dev"]
