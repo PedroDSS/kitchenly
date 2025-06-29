@@ -104,7 +104,7 @@ const toggleSidebar = () => {
           >
             <span class="w-full flex justify-center">
               <img
-                src="@/assets/SellerTo-logo.svg"
+                src="@/assets/kitchenly-no-bg.png"
                 class="max-h-16 max-w-32"
                 alt="Kitchenly Logo"
               />
