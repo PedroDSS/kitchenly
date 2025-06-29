@@ -76,7 +76,7 @@ const basicProductInfo = ref<Record<string, ProductField>>({
   product_photo: {
     value: [],
     type: "file",
-    placeholder: "Ajouter des URLs d'images du produit...",
+    placeholder: "Ajouter des photos du produit...",
   },
   product_title: {
     value: "",
@@ -109,6 +109,11 @@ const basicProductInfo = ref<Record<string, ProductField>>({
     type: "string",
     placeholder: "Saisir le délai de livraison...",
   },
+  product_stock: {
+    value: "",
+    type: "number",
+    placeholder: "Saisir le stock du produit...",
+  },
   active: {
     value: "",
     type: "select",
@@ -124,114 +129,97 @@ const basicProductInfo = ref<Record<string, ProductField>>({
 });
 
 const productSpecifications = ref<Record<string, ProductField>>({
-  brand: { value: "", type: "string", placeholder: "Saisir la marque" },
+  brand: {
+    value: "",
+    type: "select",
+    selectLabel: "Marque",
+    placeholder: "Choisir la marque du produit...",
+    options: [
+      "Samsung",
+      "LG",
+      "Whirlpool",
+      "Bosch",
+      "Haier",
+      "Siemens",
+      "Electrolux",
+      "Miele",
+      "Panasonic",
+      "Sharp",
+      "Dyson",
+      "Rowenta",
+      "Philips",
+      "Daikin",
+      "Mitsubishi Electric",
+      "Toshiba",
+      "De'Longhi",
+      "Nespresso",
+      "Krups",
+      "Breville"
+    ],
+  },
   itemModelNumber: {
     value: "",
     type: "string",
     placeholder: "Saisir le numéro de modèle...",
   },
-  color: { value: "", type: "string", placeholder: "Saisir la couleur..." },
-  operatingSystem: {
+  color: {
     value: "",
     type: "string",
-    placeholder: "Saisir le système d'exploitation...",
+    placeholder: "Saisir la couleur...",
   },
-  computerHardwarePlatform: {
+  powerConsumption: {
     value: "",
     type: "string",
-    placeholder: "Saisir la plateforme matérielle...",
+    placeholder: "Saisir la consommation électrique (ex: 1500W)...",
   },
-  keyboardDescription: {
+  voltage: {
     value: "",
     type: "string",
-    placeholder: "Saisir la description du clavier...",
+    placeholder: "Saisir la tension (ex: 220V)...",
   },
-  processorBrand: {
+  capacity: {
     value: "",
     type: "string",
-    placeholder: "Saisir la marque du processeur...",
+    placeholder: "Saisir la capacité (ex: 7kg, 350L)...",
   },
-  typeOfProcessor: {
+  dimensions: {
     value: "",
     type: "string",
-    placeholder: "Saisir le type de processeur...",
+    placeholder: "Saisir les dimensions (LxPxH)...",
   },
-  speedOfProcessor: {
+  weight: {
     value: "",
     type: "string",
-    placeholder: "Saisir la vitesse du processeur...",
+    placeholder: "Saisir le poids...",
   },
-  numberOfHearts: {
+  energyEfficiencyClass: {
     value: "",
     type: "string",
-    placeholder: "Saisir le nombre de cœurs...",
+    placeholder: "Saisir la classe énergétique (ex: A++)...",
   },
-  sizeRam: {
+  noiseLevel: {
     value: "",
     type: "string",
-    placeholder: "Saisir la taille de la RAM...",
+    placeholder: "Saisir le niveau sonore (ex: 55dB)...",
   },
-  sizeSsd: {
+  warranty: {
     value: "",
     type: "string",
-    placeholder: "Saisir la taille du SSD...",
+    placeholder: "Saisir la garantie (ex: 2 ans)...",
   },
-  typeOfStorage: {
+  material: {
     value: "",
     type: "string",
-    placeholder: "Saisir le type de stockage...",
-  },
-  sizeScreen: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir la taille de l'écran...",
-  },
-  gpu: { value: "", type: "string", placeholder: "Saisir le GPU" },
-  gpuRam: { value: "", type: "string", placeholder: "Saisir la RAM du GPU..." },
-  connectivityType: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir le type de connectivité...",
-  },
-  wirelessTechnologyType: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir le type de technologie sans fil...",
-  },
-  computerHardwareInterface: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir l'interface matérielle...",
-  },
-  connectorType: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir le type de connecteur...",
-  },
-  softwareIncluded: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir les logiciels inclus...",
-  },
-  itemDimensionsLxWxH: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir les dimensions de l'article (LxWxH)",
-  },
-  weight: { value: "", type: "string", placeholder: "Saisir le poids..." },
-  resolution: {
-    value: "",
-    type: "string",
-    placeholder: "Saisir la résolution...",
+    placeholder: "Saisir le matériau (ex: Acier inoxydable)...",
   },
 });
 
 const additionalProductDetails = ref<Record<string, ProductField>>({
   series: { value: "", type: "string", placeholder: "Saisir la série..." },
-  keyboardAndLanguage: {
+  plugType: {
     value: "",
     type: "string",
-    placeholder: "Saisir le clavier et la langue...",
+    placeholder: "Saisir le type de prise éléctrique...",
   },
 });
 
@@ -316,8 +304,8 @@ const getLabel = (key: string) => {
       return "Évaluation du produit";
     case "product_url":
       return "URL du produit";
-    case "image_urls":
-      return "URLs des images du produit*";
+    case "product_photo":
+      return "Photo du produit*";
     // case "product_minimum_offer_price":
     //   return "Prix minimum de l'offre*";
     case "product_category":
@@ -334,54 +322,26 @@ const getLabel = (key: string) => {
       return "Numéro de modèle";
     case "color":
       return "Couleur";
-    case "operatingSystem":
-      return "Système d'exploitation";
-    case "computerHardwarePlatform":
-      return "Plateforme matériel informatique";
-    case "keyboardDescription":
-      return "Description du clavier";
-    case "processorBrand":
-      return "Marque du processeur";
-    case "typeOfProcessor":
-      return "Type de processeur";
-    case "speedOfProcessor":
-      return "Vitesse du processeur";
-    case "numberOfHearts":
-      return "Nombre de cœurs";
-    case "sizeRam":
-      return "Taille RAM";
-    case "sizeSsd":
-      return "Taille SSD";
-    case "typeOfStorage":
-      return "Type de stockage";
-    case "sizeScreen":
-      return "Taille de l'écran";
-    case "gpu":
-      return "GPU";
-    case "gpuRam":
-      return "RAM du GPU";
-    case "connectivityType":
-      return "Type de connectivité";
-    case "wirelessTechnologyType":
-      return "Type de technologie sans fil";
-    case "computerHardwareInterface":
-      return "Interface matériel informatique";
-    case "connectorType":
-      return "Type de connecteur";
-    case "softwareIncluded":
-      return "Logiciel inclus";
-    case "itemDimensionsLxWxH":
-      return "Dimensions L x l x H";
     case "weight":
       return "Poids";
-    case "resolution":
-      return "Résolution";
-    case "series":
-      return "Série";
-    case "keyboardAndLanguage":
-      return "Clavier et langue";
-    case "active":
-      return "Mise en vente*";
+    case "powerConsumption":
+      return "Consommation électrique";
+    case "voltage":
+      return "Tension électrique";
+    case "capacity":
+      return "Capacité";
+    case "dimensions":
+      return "Dimensions";
+    case "energyEfficiencyClass":
+      return "Classe énergétique";
+    case "noiseLevel":
+      return "Niveau sonore";
+    case "warranty":
+      return "Garantie";
+    case "material":
+      return "Matériau";
+    case "plugType":
+      return "Type de prise éléctrique";
     default:
       return key;
   }

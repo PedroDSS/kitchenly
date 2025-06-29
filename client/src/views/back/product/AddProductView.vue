@@ -49,12 +49,12 @@ const basicProductInfo = ref<Record<string, ProductField>>({
   product_title: {
     value: "",
     type: "string",
-    placeholder: "Saisir le titre du produit..",
+    placeholder: "Saisir le titre du produit...",
   },
   product_price: {
     value: "",
     type: "number",
-    placeholder: "Saisir le prix du produit......",
+    placeholder: "Saisir le prix du produit...",
   },
   product_category: {
     value: "",

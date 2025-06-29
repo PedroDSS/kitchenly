@@ -1,5 +1,5 @@
 import OrderMongo from "../../models/mongo/orderModel.js";
-import sequelize from "../../config/sequelize-config.js";
+import sequelize from "../../config/database.js";
 
 export default async function denormalizeOrder(orderId, models) {
     const { Order } = models;

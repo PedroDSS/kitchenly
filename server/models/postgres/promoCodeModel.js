@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../config/sequelize-config.js";
+import sequelize from "../../config/database.js";
 
 const PromoCodes = sequelize.define(
     "PromoCodes",

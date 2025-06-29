@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Sequelize, DataTypes } from 'sequelize';
-import sequelizeConfig from '../config/sequelize-config.js';
+import sequelize from '../config/database.js';
 import process from 'process';
 
 const basename = path.basename(import.meta.url);
@@ -18,7 +18,7 @@ fs
     );
   })
   .forEach(async file => {
-    const model = (await import(path.join(new URL('.', import.meta.url).pathname, file))).default(sequelizeConfig, DataTypes);
+    const model = (await import(path.join(new URL('.', import.meta.url).pathname, file))).default(sequelize, DataTypes);
     db[model.name] = model;
   });
 
@@ -28,7 +28,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-db.sequelize = sequelizeConfig;
+db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 export default db;

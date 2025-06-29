@@ -1,10 +1,10 @@
-import sequelizeConfig from '../config/sequelize-config.js';
+import sequelize from '../config/database.js';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
 const sqlConnect = async () => {
   try {
-    await sequelizeConfig.authenticate();
+    await sequelize.authenticate();
     console.log('SQL connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the SQL database:', error);
