@@ -11,7 +11,10 @@
     "db:create": "node scripts/db-create.js",
     "db:migrate": "node scripts/db-migrate.js",
     "db:undo": "node scripts/db-undo.js",
-    "reset:mongo": "node scripts/db-reset-mongo.js"
+    "reset:mongo": "node scripts/db-reset-mongo.js",
+    "db:seed:all": "node scripts/db-seed.js",
+    "db:seed:undo": "node scripts/db-seed.js down",
+    "db:seed:mongo": "node scripts/db-seed-mongo.js"
   },
   "dependencies": {
     "@sequelize/postgres": "^7.0.0-alpha.40",

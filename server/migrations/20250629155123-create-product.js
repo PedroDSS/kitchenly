@@ -64,79 +64,19 @@ export const up = async ({ context: queryInterface }) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    operatingSystem: {
+    powerConsumption: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    computerHardwarePlatform: {
+    voltage: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    keyboardDescription: {
+    capacity: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    processorBrand: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    typeOfProcessor: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    speedOfProcessor: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    numberOfHearts: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    sizeRam: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    sizeSsd: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    typeOfStorage: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    sizeScreen: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    gpu: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    gpuRam: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    connectivityType: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    wirelessTechnologyType: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    computerHardwareInterface: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    connectorType: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    softwareIncluded: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    itemDimensionsLxWxH: {
+    dimensions: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -144,7 +84,19 @@ export const up = async ({ context: queryInterface }) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    resolution: {
+    energyEfficiencyClass: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    noiseLevel: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    warranty: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    material: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -152,7 +104,7 @@ export const up = async ({ context: queryInterface }) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    keyboardAndLanguage: {
+    plugType: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -21,7 +21,7 @@ async function sendMail(options) {
 
 export async function sendNewProductAlertEmail(userEmail, product) {
     await sendMail({
-        from: '"Kitchenly" <no-reply@kitchenly.com>',
+        from: '"Kitchenly" <kitchenly.contact@kitchenly.com>',
         to: userEmail,
         subject: `Nouveau produit disponible dans la catégorie ${product.product_category} chez Kitchenly`,
         html: `
@@ -31,7 +31,7 @@ export async function sendNewProductAlertEmail(userEmail, product) {
                 <p style="color: #000;">Nom du produit: ${product.product_title}</p>
                 <p style="color: #000;">Description: ${product.product_description}</p>
                 <p style="color: #000;">Prix: ${product.product_price} €</p>
-                <a href="http://sellerto.store/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
+                <a href="http://localhost:5173/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
             </div>
         `,
     });
@@ -49,14 +49,14 @@ export async function sendDeliveryConfirmationEmail(userEmail, trackingNumber, u
     `).join('');
 
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: userEmail,
-        subject: 'Confirmation de livraison par SellerTo',
+        subject: 'Confirmation de livraison par Kitchenly',
         html: `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #000; border: 1px solid #e0e0e0; padding: 20px; border-radius: 5px;">
                 <h2 style="color: #000;">Bonjour,</h2>
                 <p style="color: #000;">Nous vous remercions pour votre commande. Nous vous tiendrons informé par e-mail lorsque les articles de votre commande auront été expédiés.</p>
-                <p style="color: #000;">Votre date de livraison estimée est indiquée ci-dessous. Vous pouvez suivre l'état de votre commande dans <a href="http://localhost:5173/orders" style="color: #000;">Vos commandes sur SellerTo</a>.</p>
+                <p style="color: #000;">Votre date de livraison estimée est indiquée ci-dessous. Vous pouvez suivre l'état de votre commande dans <a href="http://localhost:5173/orders" style="color: #000;">Vos commandes sur Kitchenly</a>.</p>
                 <div style="border-top: 1px solid #e0e0e0; margin: 20px 0;"></div>
                 <h3 style="color: #000;">Confirmation de votre commande</h3>
                 <p style="color: #000;"><strong>Livraison prévue le </strong> ${orderDate}</p>
@@ -65,7 +65,7 @@ export async function sendDeliveryConfirmationEmail(userEmail, trackingNumber, u
                 <p style="color: #000;"><strong>Votre mode de livraison :</strong> Livraison Prioritaire</p>
                 <p style="color: #000;"><strong>Vos préférences d'expédition :</strong> Envoyer chaque article dès qu'il est disponible.</p>
                 <p style="color: #000;"><strong>Commande n°:</strong> ${trackingNumber}</p>
-                <a href="http://sellerto.store/orders" style="display: inline-block; padding: 10px 20px; margin: 20px 0; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Afficher les détails de la commande</a>
+                <a href="http://localhost:5173/orders" style="display: inline-block; padding: 10px 20px; margin: 20px 0; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Afficher les détails de la commande</a>
                 <div style="border-top: 1px solid #e0e0e0; margin: 20px 0;"></div>
                 ${productItems}
             </div>
@@ -75,16 +75,16 @@ export async function sendDeliveryConfirmationEmail(userEmail, trackingNumber, u
 
 export async function sendPriceChangeAlertEmail(userEmail, product) {
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: userEmail,
-        subject: `Changement de prix chez SellerTo pour le produit ${product.product_title}`,
+        subject: `Changement de prix chez Kitchenly pour le produit ${product.product_title}`,
         html: `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #000; padding: 20px;">
                 <h2 style="color: #000;">Bonjour,</h2>
                 <p style="color: #000;">Le prix du produit suivant a été modifié :</p>
                 <p style="color: #000;">Nom du produit: ${product.product_title}</p>
                 <p style="color: #000;">Nouveau prix: ${product.product_price} €</p>
-                <a href="http://sellerto.store/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
+                <a href="http://localhost:5173/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
             </div>
         `,
     });
@@ -92,7 +92,7 @@ export async function sendPriceChangeAlertEmail(userEmail, product) {
 
 export async function sendRestockAlertEmail(userEmail, product) {
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: userEmail,
         subject: `Produit réapprovisionné pour le produit ${product.product_title}`,
         html: `
@@ -102,7 +102,7 @@ export async function sendRestockAlertEmail(userEmail, product) {
                 <p style="color: #000;">Nom du produit: ${product.product_title}</p>
                 <p style="color: #000;">Description: ${product.product_description}</p>
                 <p style="color: #000;">Prix: ${product.product_price} €</p>
-                <a href="http://sellerto.store/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
+                <a href="http://localhost:5173/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
             </div>
         `,
     });
@@ -110,7 +110,7 @@ export async function sendRestockAlertEmail(userEmail, product) {
 
 export async function sendLowStockAlertEmail(product) {
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: process.env.ADMIN_EMAIL, // Utilisez une variable d'environnement pour l'email de l'admin
         subject: 'Alerte de stock faible',
         html: `
@@ -121,7 +121,7 @@ export async function sendLowStockAlertEmail(product) {
                 <p style="color: #000;">Description: ${product.product_description}</p>
                 <p style="color: #000;">Prix: ${product.product_price} €</p>
                 <p style="color: #000;">Stock actuel: ${product.product_stock}</p>
-                <a href="http://sellerto.store/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
+                <a href="http://localhost:5173/product/${product.id}" style="display: inline-block; padding: 10px 20px; background-color: #0e51c2; color: #fff; text-decoration: none; border-radius: 5px;">Voir le produit</a>
             </div>
         `,
     });
@@ -129,7 +129,7 @@ export async function sendLowStockAlertEmail(product) {
 
 export async function sendNewsletterEmail(userEmail, subject, message) {
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: userEmail,
         subject: subject || '(aucun objet)',
         text: message || '',
@@ -140,7 +140,7 @@ export async function sendConfirmationEmail(user) {
     const confirmationUrl = `${process.env.APP_BASE_URL_SERVER}/api/auth/confirm/${user.confirmationToken}`;
 
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: user.email,
         subject: 'Veuillez confirmer votre compte',
         html: `Veuillez cliquer sur ce lien pour confirmer votre compte : <a href="${confirmationUrl}">Confirmer le compte</a>`,
@@ -151,7 +151,7 @@ export async function sendConfirmationEmail(user) {
 
 export async function sendPasswordResetEmail(user, resetUrl) {
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: user.email,
         subject: 'Réinitialisez votre mot de passe',
         html: `Veuillez cliquer sur ce lien pour réinitialiser votre mot de passe : <a href="${resetUrl}">Réinitialiser le mot de passe</a>`,
@@ -160,7 +160,7 @@ export async function sendPasswordResetEmail(user, resetUrl) {
 
 export async function sendLockoutEmail(user) {
     await sendMail({
-        from: '"SellerTo" <no-reply@sellerto.com>',
+        from: '"Kitchenly" <kitchenly.contact@gmail.com>',
         to: user.email,
         subject: 'Compte bloqué',
         html: `Votre compte a été bloqué en raison de multiples tentatives de connexion échouées. Il sera automatiquement débloqué dans 20 minutes.`,

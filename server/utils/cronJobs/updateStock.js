@@ -45,7 +45,8 @@ const updateProductStock = async () => {
             }
 
             if (totalStock < 4) {
-                await sendLowStockAlertEmail(product);
+                // TODO: ADD CHECK TO SEE IS ALERT IS SEND OR NOT peut être un champ du produit ?
+                // await sendLowStockAlertEmail(product);
             }
         }
     } catch (error) {

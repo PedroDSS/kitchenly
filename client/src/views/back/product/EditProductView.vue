@@ -342,6 +342,8 @@ const getLabel = (key: string) => {
       return "Matériau";
     case "plugType":
       return "Type de prise éléctrique";
+    case "series":
+      return "Numéro de série";
     default:
       return key;
   }

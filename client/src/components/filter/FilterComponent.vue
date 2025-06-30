@@ -48,7 +48,7 @@ const customTitles = {
 const availableFilters = computed(() => {
   const result = {};
   for (const [filterKey, field] of Object.entries(filters)) {
-    result[filterKey] = ['Peu importe', ...new Set(
+    result[filterKey] = ['Tout', ...new Set(
         props.filteredProducts
             .map(product => product[field])
             .filter(value => value !== undefined && value !== null && value !== '')
@@ -68,15 +68,15 @@ const updatePriceFilter = () => {
 };
 
 const isChecked = (filterType, value) => {
-  return productStore.filters[filterType].includes(value) || (value === 'Peu importe' && productStore.filters[filterType].length === 0);
+  return productStore.filters[filterType].includes(value) || (value === 'Tout' && productStore.filters[filterType].length === 0);
 };
 
 const isDisabled = (filterType, value) => {
-  return value === 'Peu importe';
+  return value === 'Tout';
 };
 
 const updateFilter = (filterType, value) => {
-  if (value !== 'Peu importe') {
+  if (value !== 'Tout') {
     if (productStore.filters[filterType].includes(value)) {
       productStore.filters[filterType] = productStore.filters[filterType].filter(v => v !== value);
     } else {

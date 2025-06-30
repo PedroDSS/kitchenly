@@ -116,7 +116,7 @@ onMounted(() => {
             @change="updateNewsletterSubscription"
           />
           <span class="ml-2 text-lg"
-            >Recevoir notre newsletter sur l'actualité du reconditionné.</span
+            >Recevoir notre newsletter sur l'actualité de l'électroménager.</span
           >
         </label>
       </div>

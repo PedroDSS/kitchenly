@@ -79,7 +79,7 @@ export const useProductsStore = defineStore("products", {
       this.error = null;
       try {
         const response = await axios.delete(
-          `/upload/products/${productId}/images/${imageId}`
+          `api/upload/products/${productId}/images/${imageId}`
         );
         return response.data;
       } catch (error) {
@@ -94,7 +94,7 @@ export const useProductsStore = defineStore("products", {
       try {
         const cleanedImageId = imageUrl.replace(/^\/+/, "");
         const response = await axios.get(
-          `/upload/product/images/${cleanedImageId}`
+          `api/upload/product/images/${cleanedImageId}`
         );
         return response.data;
       } catch (error) {
@@ -139,7 +139,7 @@ export const useProductsStore = defineStore("products", {
           formData.append("files", file);
         });
         // Create the product with images
-        const response = await axios.post("/upload/products/images", formData, {
+        const response = await axios.post("api/upload/products/images", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -222,7 +222,7 @@ export const useProductsStore = defineStore("products", {
         });
         // Update the product with images
         const response = await axios.put(
-          `/upload/products/${productId}/images`,
+          `api/upload/products/${productId}/images`,
           formData,
           {
             headers: {
