@@ -1,7 +1,6 @@
-import db from '../models/index.js';
+import Products from '../models/postgres/productModel.js';
 
 export const up = async ({ context: queryInterface }) => {
-  const { sequelize } = db;
   const products = [
     // Réfrigérateurs
     {
@@ -330,10 +329,11 @@ export const up = async ({ context: queryInterface }) => {
     }
   ];
 
-  await sequelize.getQueryInterface().bulkInsert('Products', products, {});
+  await Products.bulkCreate(products, { 
+    individualHooks: true
+  });
 };
 
 export const down = async ({ context: queryInterface }) => {
-  const { sequelize } = db;
-  await sequelize.getQueryInterface().bulkDelete('Products', null, {});
+  await Products.destroy({ where: {}, individualHooks: true });
 };

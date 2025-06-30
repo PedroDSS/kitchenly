@@ -114,10 +114,10 @@ const Products = sequelize.define(
     timestamps: true,
     hooks: {
       afterCreate: async (product, options) => {
-        await denormalizeProduct({ id: product.id }, { Product: Products });
+        await denormalizeProduct(product.id, { Product: Products, Images: Images });
       },
       afterUpdate: async (product, options) => {
-        await denormalizeProduct({ id: product.id }, { Product: Products });
+        await denormalizeProduct(product.id, { Product: Products, Images: Images });
       },
       afterDestroy: async (product, options) => {
         await ProductMongo.findByIdAndDelete(product.id);

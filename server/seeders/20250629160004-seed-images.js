@@ -7,7 +7,7 @@ export const up = async ({ context: queryInterface }) => {
     // Samsung Réfrigérateur (ID: 1)
     {
       title: 'Samsung RF23M8070SR Vue de face',
-      url: 'https://images.samsung.com/is/image/samsung/rf23m8070sr-front-1.jpg',
+      url: 'https://images.samsung.com/is/image/samsung/ca-rf8000m-fdr-refrigerator-with-flexzone-rf23m8070sr-aa-frontsilver-205014479?$684_547_PNG$',
       description: 'Vue de face du réfrigérateur 4 portes Samsung',
       size: 250000,
       width: 1200,
@@ -19,7 +19,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Samsung RF23M8070SR Vue intérieure',
-      url: 'https://images.samsung.com/is/image/samsung/rf23m8070sr-interior-1.jpg',
+      url: 'https://images.samsung.com/is/image/samsung/ca-rf8000m-fdr-refrigerator-with-flexzone-rf23m8070sr-aa-frontopensilver-205014446?$684_547_JPG$',
       description: 'Vue intérieure avec FlexZone',
       size: 230000,
       width: 1200,
@@ -31,7 +31,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Samsung RF23M8070SR Panneau de contrôle',
-      url: 'https://images.samsung.com/is/image/samsung/rf23m8070sr-control-1.jpg',
+      url: 'https://images.samsung.com/is/image/samsung/ca-rf8000m-fdr-refrigerator-with-flexzone-rf23m8070sr-aa-detailsilver-205014453?$684_547_JPG$',
       description: 'Écran tactile et distributeur',
       size: 180000,
       width: 1200,

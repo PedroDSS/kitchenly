@@ -1,8 +1,7 @@
 import bcrypt from 'bcryptjs';
-import db from '../models/index.js';
+import Users from '../models/postgres/userModel.js';
 
 export const up = async ({ context: queryInterface }) => {
-  const { sequelize } = db;
   const hashedPassword = await bcrypt.hash('Password1234!', 10);
   
   const users = [
@@ -88,10 +87,11 @@ export const up = async ({ context: queryInterface }) => {
     }
   ];
 
-  await sequelize.getQueryInterface().bulkInsert('Users', users, {});
+  await Users.bulkCreate(users, { 
+    individualHooks: true
+  });
 };
 
 export const down = async ({ context: queryInterface }) => {
-  const { sequelize } = db;
-  await sequelize.getQueryInterface().bulkDelete('Users', null, {});
+  await Users.destroy({ where: {}, individualHooks: true });
 };
