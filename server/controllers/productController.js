@@ -225,52 +225,52 @@ const applyFilters = (filters) => {
     query["brand"] = filters.brand;
   }
 
-  if (filters.sizeSsd) {
-    query["sizeSsd"] = filters.sizeSsd;
+  if (filters.series) {
+    query["series"] = filters.series;
   }
 
-  if (filters.sizeRam) {
-    query["sizeRam"] = filters.sizeRam;
+  if (filters.itemModelNumber) {
+    query["itemModelNumber"] = filters.itemModelNumber;
   }
 
-  if (filters.sizeScreen) {
-    query["sizeScreen"] = filters.sizeScreen;
+  if (filters.powerConsumption) {
+    query["powerConsumption"] = filters.powerConsumption;
   }
 
-  if (filters.typeOfProcessor) {
-    query["typeOfProcessor"] = filters.typeOfProcessor;
+  if (filters.voltage) {
+    query["voltage"] = filters.voltage;
   }
 
-  if (filters.speedOfProcessor) {
-    query["speedOfProcessor"] = filters.speedOfProcessor;
+  if (filters.capacity) {
+    query["capacity"] = filters.capacity;
   }
 
-  if (filters.typeOfStorage) {
-    query["typeOfStorage"] = filters.typeOfStorage;
+  if (filters.dimensions) {
+    query["dimensions"] = filters.dimensions;
   }
 
   if (filters.color) {
     query["color"] = filters.color;
   }
 
-  if (filters.series) {
-    query["series"] = filters.series;
+  if (filters.energyEfficiencyClass) {
+    query["energyEfficiencyClass"] = filters.energyEfficiencyClass;
   }
 
-  if (filters.resolution) {
-    query["resolution"] = filters.resolution;
-  }
-
-  if (filters.gpu) {
-    query["gpu"] = filters.gpu;
+  if (filters.noiseLevel) {
+    query["noiseLevel"] = filters.noiseLevel;
   }
 
   if (filters.weight) {
     query["weight"] = filters.weight;
   }
 
-  if (filters.keyboardAndLanguage) {
-    query["keyboardAndLanguage"] = filters.keyboardAndLanguage;
+  if (filters.warranty) {
+    query["warranty"] = filters.warranty;
+  }
+
+  if (filters.material) {
+    query["material"] = filters.material;
   }
 
   if (filters.minPrice || filters.maxPrice) {
@@ -283,6 +283,7 @@ const applyFilters = (filters) => {
         $gte: [{ $toDouble: "$product_price" }, parseFloat(filters.minPrice)],
       });
     }
+
     if (filters.maxPrice) {
       query.$expr.$and.push({
         $lte: [{ $toDouble: "$product_price" }, parseFloat(filters.maxPrice)],

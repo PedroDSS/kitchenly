@@ -16,33 +16,35 @@ const route = useRoute();
 const router = useRouter();
 
 const filters = {
+  brand: 'brand',
   series: 'series',
-  sizeSsd: 'sizeSsd',
-  sizeRam: 'sizeRam',
-  sizeScreen: 'sizeScreen',
-  typeOfProcessor: 'typeOfProcessor',
-  speedOfProcessor: 'speedOfProcessor',
-  typeOfStorage: 'typeOfStorage',
+  itemModelNumber: 'itemModelNumber',
+  powerConsumption: 'powerConsumption',
+  voltage: 'voltage',
+  capacity: 'capacity',
+  dimensions: 'dimensions',
   color: 'color',
-  resolution: 'resolution',
-  gpu: 'gpu',
+  energyEfficiencyClass: 'energyEfficiencyClass',
+  noiseLevel: 'noiseLevel',
   weight: 'weight',
-  keyboardAndLanguage: 'keyboardAndLanguage'
+  warranty: 'warranty',
+  material: 'material'
 };
 
 const customTitles = {
+  brand: 'Marque',
   series: 'Modèle',
-  sizeSsd: 'Capacité de stockage (Go)',
-  sizeRam: 'Mémoire Vive (Go)',
-  sizeScreen: 'Taille d\'écran',
-  typeOfProcessor: 'Type du processeur',
-  speedOfProcessor: 'Vitesse du processeur (GHz)',
-  typeOfStorage: 'Type de stockage',
+  itemModelNumber: 'Numéro de modèle',
+  powerConsumption: 'Consommation éléctrique',
+  voltage: 'Tension',
+  capacity: 'Capacité (L / Kg)',
+  dimensions: 'Dimensions (HxLxP)',
   color: 'Couleur',
-  resolution: 'Résolution',
-  gpu: 'GPU',
+  energyEfficiencyClass: 'Classe Energétique',
+  noiseLevel: 'Nuisance Sonore',
   weight: 'Poids du produit (kg)',
-  keyboardAndLanguage: 'Langue du clavier'
+  warranty: 'Garantie',
+  material: 'Matériaux'
 };
 
 const availableFilters = computed(() => {

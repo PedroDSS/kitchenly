@@ -209,9 +209,7 @@ const error = computed(() => productsStore.error); // Get the error state
                           </h6>
                           <br />
                           <h6>
-                            En cas de panne le produit est réparé sans frais. Si
-                            la réparation n’est pas possible, le produit est
-                            échangé. Olé.
+                            En cas de panne, le produit est réparé gratuitement. Si la réparation est impossible, il est remplacé.
                           </h6>
                         </div>
                       </div>

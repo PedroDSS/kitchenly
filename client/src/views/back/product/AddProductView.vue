@@ -153,7 +153,7 @@ const productSpecifications = ref<Record<string, ProductField>>({
   dimensions: {
     value: "",
     type: "string",
-    placeholder: "Saisir les dimensions (LxPxH)...",
+    placeholder: "Saisir les dimensions (HxLxP)...",
   },
   weight: {
     value: "",

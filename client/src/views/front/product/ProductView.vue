@@ -58,19 +58,18 @@ onMounted(async () => {
 const accordionItems = [
   {
     value: "item-1",
-    title: "Is it accessible?",
-    content: "Yes. It adheres to the WAI-ARIA design pattern.",
+    title: "Comment installer mon appareil ?",
+    content: "Chaque appareil est livré avec un manuel d’installation détaillé. Assurez-vous de suivre les instructions pour une installation sécurisée.",
   },
   {
     value: "item-2",
-    title: "Is it unstyled?",
-    content:
-        "Yes. It's unstyled by default, giving you freedom over the look and feel.",
+    title: "Quels sont les conseils d’entretien ?",
+    content: "Nettoyez régulièrement votre appareil avec un chiffon doux et évitez les produits abrasifs pour prolonger sa durée de vie.",
   },
   {
     value: "item-3",
-    title: "Can it be animated?",
-    content: "Yes! You can use the transition prop to configure the animation.",
+    title: "Que faire en cas de panne ?",
+    content: "Contactez notre service client pour une assistance rapide et des solutions adaptées à votre problème.",
   },
 ];
 
@@ -189,31 +188,18 @@ onMounted(async () => {
                       <p>Tous les produits vendus sur Kitchenly sont 100% fonctionnel, vérifiés et garanti.</p>
                       <ul class="mt-4">
                         <li v-if="productDetail.brand"><strong>Marque:</strong> {{ productDetail.brand }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.series"><strong>Modèle:</strong> {{ productDetail.series }} <Hr class="my-4" /></li>
                         <li v-if="productDetail.itemModelNumber"><strong>Numéro de modèle:</strong> {{ productDetail.itemModelNumber }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.powerConsumption"><strong>Consommation éléctrique:</strong> {{ productDetail.powerConsumption }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.voltage"><strong>Tension:</strong> {{ productDetail.voltage }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.capacity"><strong>Capacité (L / Kg):</strong> {{ productDetail.capacity }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.dimensions"><strong>Dimensions (HxLxP):</strong> {{ productDetail.dimensions }} <Hr class="my-4" /></li>
                         <li v-if="productDetail.color"><strong>Couleur:</strong> {{ productDetail.color }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.operatingSystem"><strong>Système d'exploitation:</strong> {{ productDetail.operatingSystem }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.computerHardwarePlatform"><strong>Plateforme matérielle:</strong> {{ productDetail.computerHardwarePlatform }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.keyboardDescription"><strong>Description du clavier:</strong> {{ productDetail.keyboardDescription }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.processorBrand"><strong>Marque du processeur:</strong> {{ productDetail.processorBrand }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.typeOfProcessor"><strong>Type de processeur:</strong> {{ productDetail.typeOfProcessor }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.speedOfProcessor"><strong>Vitesse du processeur:</strong> {{ productDetail.speedOfProcessor }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.numberOfHearts"><strong>Nombre de coeurs:</strong> {{ productDetail.numberOfHearts }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.sizeRam"><strong>Taille de la RAM:</strong> {{ productDetail.sizeRam }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.sizeSsd"><strong>Taille du SSD:</strong> {{ productDetail.sizeSsd }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.typeOfStorage"><strong>Type de stockage:</strong> {{ productDetail.typeOfStorage }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.sizeScreen"><strong>Taille de l'écran:</strong> {{ productDetail.sizeScreen }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.gpu"><strong>GPU:</strong> {{ productDetail.gpu }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.gpuRam"><strong>RAM du GPU:</strong> {{ productDetail.gpuRam }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.connectivityType"><strong>Type de connectivité:</strong> {{ productDetail.connectivityType }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.wirelessTechnologyType"><strong>Type de technologie sans fil:</strong> {{ productDetail.wirelessTechnologyType }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.computerHardwareInterface"><strong>Interface matérielle:</strong> {{ productDetail.computerHardwareInterface }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.connectorType"><strong>Type de connecteur:</strong> {{ productDetail.connectorType }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.softwareIncluded"><strong>Logiciels inclus:</strong> {{ productDetail.softwareIncluded }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.itemDimensionsLxWxH"><strong>Dimensions:</strong> {{ productDetail.itemDimensionsLxWxH }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.weight"><strong>Poids:</strong> {{ productDetail.weight }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.resolution"><strong>Résolution:</strong> {{ productDetail.resolution }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.series"><strong>Série:</strong> {{ productDetail.series }} <Hr class="my-4" /></li>
-                        <li v-if="productDetail.keyboardAndLanguage"><strong>Clavier et langue:</strong> {{ productDetail.keyboardAndLanguage }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.energyEfficiencyClass"><strong>Classe Energétique:</strong> {{ productDetail.energyEfficiencyClass }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.noiseLevel"><strong>Nuisance Sonore:</strong> {{ productDetail.noiseLevel }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.weight"><strong>Poids du produit (kg):</strong> {{ productDetail.weight }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.warranty"><strong>Garantie:</strong> {{ productDetail.warranty }} <Hr class="my-4" /></li>
+                        <li v-if="productDetail.material"><strong>Matériaux:</strong> {{ productDetail.material }} <Hr class="my-4" /></li>
                       </ul>
                     </SheetDescription>
                   </SheetHeader>
@@ -238,7 +224,7 @@ onMounted(async () => {
                         </div>
                         <div>
                           <h7 class="font-semibold">Garantie commerciale 12 mois</h7> <br>
-                          <h7>En cas de panne le produit est réparé sans frais. Si la réparation n’est pas possible, le produit est échangé. Olé.</h7>
+                          <h7>En cas de panne, le produit est réparé gratuitement. Si la réparation est impossible, il est remplacé.</h7>
                         </div>
                       </div>
                       <div class="flex gap-4">
@@ -300,10 +286,6 @@ onMounted(async () => {
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
-                    <SheetDescription>
-                      This action cannot be undone. This will permanently delete your account
-                      and remove your data from our servers.
-                    </SheetDescription>
                   </SheetHeader>
                 </SheetContent>
               </Sheet>
