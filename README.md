@@ -12,5 +12,12 @@ DA SILVA SOUSA Pedro (PedroDSS)
 ## Initialiser le projet
 
 ```
-To be determined.
+docker compose build
+docker compose up -d
+make db-drop
+make db-create
+make migrate
+make seeders
+
+Enjoy !
 ```

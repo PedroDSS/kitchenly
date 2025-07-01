@@ -1,5 +1,6 @@
 import Cart from '../models/postgres/cartModel.js';
 import Product from '../models/postgres/productModel.js';
+import Images from '../models/postgres/imagesModel.js';
 
 export const addToCart = async (req, res) => {
   const { productId } = req.body;
@@ -33,11 +34,22 @@ export const addToCart = async (req, res) => {
       where: { id: cartItem.id },
       include: [{
         model: Product,
-        as: 'Product'
+        as: 'Product',
+        include: [{
+          model: Images,
+          as: 'images',
+          attributes: ['url']
+        }]
       }],
     });
 
-    res.status(201).json(detailedCartItem);
+    // Transform the data to include imageUrls
+    const cartItemJSON = detailedCartItem.toJSON();
+    if (cartItemJSON.Product && cartItemJSON.Product.images) {
+      cartItemJSON.Product.imageUrls = cartItemJSON.Product.images.map(img => img.url);
+    }
+
+    res.status(201).json(cartItemJSON);
 
     // Schedule the removal of the cart item
     setTimeout(async () => {
@@ -64,7 +76,7 @@ export const removeFromCart = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const cartItem = await Cart.findOne({ where: { id: cartItemId, userId }, include: [{ model: Product, as: 'Product' }] });
+    const cartItem = await Cart.findOne({ where: { id: cartItemId, userId }, include: [{ model: Product, as: 'Product', include: [{ model: Images, as: 'images', attributes: ['url'] }] }] });
 
     const product = await Product.findByPk(cartItem.productId);
     if (product) {
@@ -88,10 +100,25 @@ export const getCart = async (req, res) => {
       where: { userId },
       include: [{
         model: Product,
-        as: 'Product'
+        as: 'Product',
+        include: [{
+          model: Images,
+          as: 'images',
+          attributes: ['url']
+        }]
       }],
     });
-    res.status(200).json(carts);
+    
+    // Transform the data to include imageUrls
+    const cartsWithImageUrls = carts.map(cart => {
+      const cartJSON = cart.toJSON();
+      if (cartJSON.Product && cartJSON.Product.images) {
+        cartJSON.Product.imageUrls = cartJSON.Product.images.map(img => img.url);
+      }
+      return cartJSON;
+    });
+    
+    res.status(200).json(cartsWithImageUrls);
   } catch (error) {
     res.sendStatus(500);
   }
@@ -102,7 +129,7 @@ export const updateCartQuantity = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const cartItem = await Cart.findOne({ where: { id: cartItemId, userId }, include: [{ model: Product, as: 'Product' }] });
+    const cartItem = await Cart.findOne({ where: { id: cartItemId, userId }, include: [{ model: Product, as: 'Product', include: [{ model: Images, as: 'images', attributes: ['url'] }] }] });
     if (!cartItem) {
       return res.sendStatus(404);
     }
@@ -110,7 +137,13 @@ export const updateCartQuantity = async (req, res) => {
     cartItem.quantity = quantity;
     await cartItem.save();
 
-    res.status(200).json(cartItem);
+    // Transform the data to include imageUrls
+    const cartItemJSON = cartItem.toJSON();
+    if (cartItemJSON.Product && cartItemJSON.Product.images) {
+      cartItemJSON.Product.imageUrls = cartItemJSON.Product.images.map(img => img.url);
+    }
+
+    res.status(200).json(cartItemJSON);
   } catch (error) {
     res.sendStatus(500);
   }

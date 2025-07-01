@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { defineProps, defineEmits, ref, watch } from 'vue';
+import { defineProps, defineEmits, ref, watch, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import {
   Card,
@@ -31,12 +31,24 @@ const updateQuantity = () => {
 watch(quantity, (newQuantity) => {
   updateQuantity();
 });
+
+// Construct the full image URL
+const imageUrl = computed(() => {
+  if (!props.productImage) return '';
+  // If it's already a full URL, return as is
+  if (props.productImage.startsWith('http://') || props.productImage.startsWith('https://')) {
+    return props.productImage;
+  }
+  // Otherwise, prepend the base URL
+  const baseUrl = import.meta.env.VITE_APP_BASE_URL_SERVER || 'http://localhost:3000';
+  return `${baseUrl}${props.productImage.startsWith('/') ? '' : '/'}${props.productImage}`;
+});
 </script>
 
 <template>
   <Card :class="['w-full md:h-80 h-[34rem] flex flex-col md:flex-row items-center mt-4', cardClass]">
     <RouterLink class="flex flex-col md:flex-row hover:bg-inherit" :to="cardLink">
-      <img :class="['p-8 rounded-t-lg h-56']" :src="productImage" alt="product image" />
+      <img :class="['p-8 rounded-t-lg h-56 object-contain']" :src="imageUrl" alt="product image" />
       <CardHeader class="mt-8">
         <CardTitle>{{ productCategory }}</CardTitle>
         <CardDescription>{{ productDescription }}</CardDescription>

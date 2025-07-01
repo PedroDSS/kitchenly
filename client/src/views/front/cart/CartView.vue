@@ -77,7 +77,7 @@ const applyPromoCode = async () => {
           <CartComponent
               v-for="item in cart"
               :key="item.id"
-              :productImage="item.Product.product_photo"
+              :productImage="item.Product.imageUrls && item.Product.imageUrls[0] ? item.Product.imageUrls[0] : ''"
               :productCategory="item.Product.product_category"
               :productDescription="item.Product.product_title"
               :productPrice="item.Product.product_price"
@@ -100,11 +100,15 @@ const applyPromoCode = async () => {
         </div>
         <div class="flex justify-between border-t pt-2 mt-2">
           <span>Livraison</span>
-          <span>Offert</span>
+          <span>Livré par La Poste - Offert</span>
         </div>
-        <div class="flex justify-between border-t pt-2 mt-2">
+        <div class="flex justify-between pt-2 mt-2">
           <span>Sous-total</span>
           <span>{{ subTotal }} €</span>
+        </div>
+        <div class="flex justify-between pt-2">
+          <span>Frais de traitement</span>
+          <span>10 €</span>
         </div>
         <div v-if="discountAmount > 0" class="flex justify-between border-t pt-2 mt-2 font-bold">
           <span>Remise appliquée</span>
@@ -115,8 +119,8 @@ const applyPromoCode = async () => {
           <span>{{ total.toFixed(2) }} €</span>
         </div>
         <div class="mt-4 text-sm">
-          <p>Paiement sécurisé</p>
-          <p>En passant commande vous acceptez nos Conditions générales d'utilisation, nos Conditions générales de vente et notre politique de protection des données</p>
+          <p class="font-semibold mb-2">Paiement sécurisé</p>
+          <p class="text-xs text-gray-600 leading-relaxed">En passant commande vous acceptez nos Conditions générales d'utilisation, nos Conditions générales de vente et notre politique de protection des données</p>
         </div>
         <div class="mt-4">
           <input type="text" v-model="promoCode" placeholder="Code promo" class="w-full p-2 border rounded" />
@@ -130,7 +134,7 @@ const applyPromoCode = async () => {
         </div>
         <div class="text-center mt-4">
           <Button @click="handleCheckout" size="medium">Passer commande</Button>
-          <Button @click="generatePaymentLink" size="medium">Générer un lien de paiement</Button>
+          <!-- <Button @click="generatePaymentLink" size="medium">Générer un lien de paiement</Button> -->
         </div>
         <div v-if="paymentLink" class="mt-4">
           <p>Lien de paiement :</p>
