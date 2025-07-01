@@ -5,6 +5,12 @@ import UserAlert from '../../models/postgres/userAlertsModel.js';
 import { getUserByIdDiff } from "../../controllers/userController.js";
 import {sendLowStockAlertEmail, sendRestockAlertEmail} from "../../services/mailer/mailService.js";
 
+// Stockage en mémoire pour éviter les spams
+const lastRestockAlerts = new Map();
+const lastLowStockAlerts = new Map();
+const RESTOCK_COOLDOWN = 2 * 60 * 60 * 1000;
+const LOW_STOCK_COOLDOWN = 2 * 60 * 60 * 1000;
+
 const updateProductStock = async () => {
     try {
         const products = await Product.findAll();
@@ -35,9 +41,16 @@ const updateProductStock = async () => {
 
                 for (const alert of userAlerts) {
                     try {
-                        const user = await getUserByIdDiff({ params: { id: alert.userId } });
-                        if (user && user.email) {
-                            await sendRestockAlertEmail(user.email, product);
+                        const alertKey = `${alert.userId}-${productId}`;
+                        const lastSent = lastRestockAlerts.get(alertKey);
+                        const now = Date.now();
+                        
+                        if (!lastSent || (now - lastSent) > RESTOCK_COOLDOWN) {
+                            const user = await getUserByIdDiff({ params: { id: alert.userId } });
+                            if (user && user.email) {
+                                await sendRestockAlertEmail(user.email, product);
+                                lastRestockAlerts.set(alertKey, now);
+                            }
                         }
                     } catch (userError) {
                     }
@@ -45,8 +58,13 @@ const updateProductStock = async () => {
             }
 
             if (totalStock < 4) {
-                // TODO: ADD CHECK TO SEE IS ALERT IS SEND OR NOT peut être un champ du produit ?
-                // await sendLowStockAlertEmail(product);
+                const lastSent = lastLowStockAlerts.get(productId);
+                const now = Date.now();
+                
+                if (!lastSent || (now - lastSent) > LOW_STOCK_COOLDOWN) {
+                    await sendLowStockAlertEmail(product);
+                    lastLowStockAlerts.set(productId, now);
+                }
             }
         }
     } catch (error) {
@@ -54,7 +72,7 @@ const updateProductStock = async () => {
 };
 
 const startStockUpdateCronJob = () => {
-    cron.schedule('*/1 * * * *', updateProductStock);
+    cron.schedule('*/30 * * * *', updateProductStock);
 };
 
 export default startStockUpdateCronJob;
