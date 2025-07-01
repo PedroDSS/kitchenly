@@ -30,7 +30,28 @@ const starRating = computed(() => {
     emptyStars,
   };
 });
-console.log(props.product);
+const getConsistentRandomNumber = (
+  str: string,
+  min = 1000,
+  max = 10000
+) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash;
+  }
+  const positiveHash = hash >>> 0;
+  return (positiveHash % (max - min + 1)) + min;
+};
+
+const reviewCount = computed(() => {
+  const id = props.product._id || props.product.id || "default";
+  const starRating = props.product.product_star_rating?.toString() || "0";
+  const price = props.product.product_price?.toString() || "0";
+
+  const combinedStr = id + "-" + starRating + "-" + price;
+  return getConsistentRandomNumber(combinedStr);
+});
 </script>
 
 <template>
@@ -93,7 +114,7 @@ console.log(props.product);
               />
             </svg>
           </div>
-          <span class="px-2">(8661)</span>
+          <span class="px-2">({{ reviewCount }})</span>
         </div>
       </CardContent>
       <CardFooter class="px-4 mt-auto">

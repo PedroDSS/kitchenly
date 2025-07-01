@@ -45,7 +45,7 @@ export const up = async ({ context: queryInterface }) => {
     // LG Réfrigérateur (ID: 2)
     {
       title: 'LG GSL761PZXV Vue de face',
-      url: 'https://www.lg.com/fr/images/refrigerateurs/gsl761pzxv-front.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/8806096440315_h_f_l_0?wid=224&hei=224&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Vue de face avec InstaView',
       size: 240000,
       width: 1200,
@@ -57,7 +57,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'LG GSL761PZXV Door-in-Door',
-      url: 'https://www.lg.com/fr/images/refrigerateurs/gsl761pzxv-door.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/8806096440315_h_f_l_2?wid=224&hei=224&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Système Door-in-Door ouvert',
       size: 220000,
       width: 1200,
@@ -71,7 +71,7 @@ export const up = async ({ context: queryInterface }) => {
     // Bosch Lave-linge (ID: 3)
     {
       title: 'Bosch WAX32LH9FF Vue de face',
-      url: 'https://media.bosch.com/images/wax32lh9ff-front.jpg',
+      url: 'https://media3.bsh-group.com/Product_Shots/1000x/25248749_WGB256A2FR_STP_def.webp',
       description: 'Lave-linge Serie 8 vue de face',
       size: 210000,
       width: 1200,
@@ -83,7 +83,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Bosch WAX32LH9FF Panneau de contrôle',
-      url: 'https://media.bosch.com/images/wax32lh9ff-control.jpg',
+      url: 'https://media3.bsh-group.com/Product_Shots/1000x/25249984_WGB256A2FR_PGA1_def.webp',
       description: 'Panneau de contrôle avec i-DOS',
       size: 150000,
       width: 1200,
@@ -95,7 +95,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Bosch WAX32LH9FF Tambour',
-      url: 'https://media.bosch.com/images/wax32lh9ff-drum.jpg',
+      url: 'https://media3.bsh-group.com/Product_Shots/1000x/25249985_WGB256A2FR_PGA3_def.webp',
       description: 'Vue du tambour inox',
       size: 190000,
       width: 1200,
@@ -109,7 +109,7 @@ export const up = async ({ context: queryInterface }) => {
     // Samsung Lave-linge (ID: 4)
     {
       title: 'Samsung WW90T684DLH Vue de face',
-      url: 'https://images.samsung.com/is/image/samsung/ww90t684dlh-front.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/8806095550190_h_f_l_0?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Lave-linge AddWash vue de face',
       size: 200000,
       width: 1200,
@@ -121,7 +121,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Samsung WW90T684DLH AddWash',
-      url: 'https://images.samsung.com/is/image/samsung/ww90t684dlh-addwash.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/8806095550190_h_u_l_2?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Porte AddWash ouverte',
       size: 180000,
       width: 1200,
@@ -135,7 +135,7 @@ export const up = async ({ context: queryInterface }) => {
     // Siemens Four (ID: 5)
     {
       title: 'Siemens HB678GBS6 Vue de face',
-      url: 'https://media.siemens.com/images/hb678gbs6-front.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/4242003956304_h_f_l_0?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Four encastrable iQ700',
       size: 220000,
       width: 1200,
@@ -147,7 +147,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Siemens HB678GBS6 Intérieur',
-      url: 'https://media.siemens.com/images/hb678gbs6-interior.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/4242003956304_h_f_l_4?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Intérieur avec rails télescopiques',
       size: 200000,
       width: 1200,
@@ -161,7 +161,7 @@ export const up = async ({ context: queryInterface }) => {
     // Panasonic Micro-ondes (ID: 6)
     {
       title: 'Panasonic NN-SD28HSGTG Vue de face',
-      url: 'https://www.panasonic.com/content/dam/nn-sd28hsgtg-front.jpg',
+      url: 'https://image.darty.com/darty?type=image&source=/market/2019/05/14/5662633_1520_1.jpg&width=267&height=400&quality=90&effects=Pad(CC,FFFFFF)',
       description: 'Micro-ondes Inverter vue de face',
       size: 160000,
       width: 1200,
@@ -175,7 +175,7 @@ export const up = async ({ context: queryInterface }) => {
     // Dyson Aspirateur (ID: 7)
     {
       title: 'Dyson V15 Detect Vue complète',
-      url: 'https://dyson-cdn.azureedge.net/v15-detect-full.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/5025155081754_h_f_l_0?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Aspirateur V15 Detect complet',
       size: 190000,
       width: 1200,
@@ -187,7 +187,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Dyson V15 Detect Laser',
-      url: 'https://dyson-cdn.azureedge.net/v15-detect-laser.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/5025155081754_h_f_l_1?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Technologie laser en action',
       size: 170000,
       width: 1200,
@@ -199,7 +199,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Dyson V15 Detect Écran LCD',
-      url: 'https://dyson-cdn.azureedge.net/v15-detect-lcd.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/5025155081754_h_f_l_6?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Écran LCD avec statistiques',
       size: 150000,
       width: 1200,
@@ -213,7 +213,7 @@ export const up = async ({ context: queryInterface }) => {
     // Miele Lave-vaisselle (ID: 8)
     {
       title: 'Miele G 7160 SCVi Vue de face',
-      url: 'https://media.miele.com/images/g7160scvi-front.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/4002516740810_h_f_l_0?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Lave-vaisselle tout intégrable',
       size: 200000,
       width: 1200,
@@ -225,7 +225,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'Miele G 7160 SCVi Intérieur',
-      url: 'https://media.miele.com/images/g7160scvi-interior.jpg',
+      url: 'https://boulanger.scene7.com/is/image/Boulanger/4002516740810_h_f_l_3?wid=508&hei=508&resMode=sharp2&op_usm=1.75,0.3,2,0&fmt=png-alpha',
       description: 'Intérieur avec paniers flexibles',
       size: 210000,
       width: 1200,
@@ -239,21 +239,9 @@ export const up = async ({ context: queryInterface }) => {
     // Daikin Climatiseur (ID: 9)
     {
       title: 'Daikin Emura 3 Vue de face',
-      url: 'https://www.daikin.eu/content/dam/emura3-white-front.jpg',
+      url: 'https://cdn.manomano.com/images/images_products/22406698/L/82675839_1.jpg',
       description: 'Climatiseur design Emura blanc',
       size: 180000,
-      width: 1200,
-      height: 800,
-      format: 'jpg',
-      productId: 9,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      title: 'Daikin Emura 3 Profil',
-      url: 'https://www.daikin.eu/content/dam/emura3-white-profile.jpg',
-      description: 'Vue de profil ultra-mince',
-      size: 160000,
       width: 1200,
       height: 800,
       format: 'jpg',
@@ -265,7 +253,7 @@ export const up = async ({ context: queryInterface }) => {
     // De'Longhi Cafetière (ID: 10)
     {
       title: 'De\'Longhi Dinamica Plus Vue de face',
-      url: 'https://www.delonghi.com/ecam370-95-t-front.jpg',
+      url: 'https://m.media-amazon.com/images/I/61oiQLhfcfL._AC_SL1500_.jpg',
       description: 'Machine à café automatique titane',
       size: 190000,
       width: 1200,
@@ -277,7 +265,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'De\'Longhi Dinamica Plus Écran',
-      url: 'https://www.delonghi.com/ecam370-95-t-screen.jpg',
+      url: 'https://m.media-amazon.com/images/I/61Ncd-oISAL._AC_SL1500_.jpg',
       description: 'Écran tactile couleur 3.5 pouces',
       size: 150000,
       width: 1200,
@@ -289,7 +277,7 @@ export const up = async ({ context: queryInterface }) => {
     },
     {
       title: 'De\'Longhi Dinamica Plus LatteCrema',
-      url: 'https://www.delonghi.com/ecam370-95-t-milk.jpg',
+      url: 'https://m.media-amazon.com/images/I/71Tn6N1YOqL._AC_SL1500_.jpg',
       description: 'Système LatteCrema automatique',
       size: 170000,
       width: 1200,
@@ -303,7 +291,7 @@ export const up = async ({ context: queryInterface }) => {
     // Whirlpool Four (ID: 11)
     {
       title: 'Whirlpool AKZ96230IX Vue de face',
-      url: 'https://www.whirlpool.fr/akz96230ix-front.jpg',
+      url: 'https://frwhirlpool.vtexassets.com/arquivos/ids/180523-800-auto?v=638678937987330000&width=800&height=auto&aspect=true',
       description: 'Four pyrolyse encastrable',
       size: 200000,
       width: 1200,

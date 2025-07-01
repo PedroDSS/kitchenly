@@ -81,7 +81,7 @@ watch(
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@exemple.com"
+                  placeholder="customer@example.com"
                   required
                   v-model="localUser.email"
                 />

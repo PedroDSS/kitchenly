@@ -282,7 +282,7 @@ onMounted(async () => {
                       <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">
                         <AccordionTrigger>{{ item.title }}</AccordionTrigger>
                         <AccordionContent>
-                          ezffezlkm
+                          {{ item.content }}
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>

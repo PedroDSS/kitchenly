@@ -51,7 +51,7 @@ const handleLogin = async () => {
             v-model="authStore.email"
             id="email"
             type="email"
-            placeholder="m@exemple.com"
+            placeholder="customer@example.com"
             required
           />
         </div>

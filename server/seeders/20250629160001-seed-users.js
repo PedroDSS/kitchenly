@@ -1,7 +1,7 @@
 import Users from '../models/postgres/userModel.js';
 
 export const up = async ({ context: queryInterface }) => {
-  const plainPassword = 'Password1234!';
+  const plainPassword = 'Km7!pQs@eT39vLUx';
   
   const users = [
     {
@@ -11,11 +11,11 @@ export const up = async ({ context: queryInterface }) => {
       password: plainPassword,
       role: 'SuperAdmin',
       isVerified: true,
-      address: '1 rue de la Paix',
+      address: '1 rue ernest renan',
       country: 'France',
       phoneNumber: '+33123456789',
-      postalCode: '75001',
-      city: 'Paris',
+      postalCode: '92130',
+      city: 'Issy-Les-Moulineaux',
       acceptLegal: true,
       createdAt: new Date(),
       updatedAt: new Date()

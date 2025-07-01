@@ -66,7 +66,7 @@ watch(() => authStore.successMessage, (newMessage) => {
                 v-model="values.email.value"
                 id="email"
                 type="email"
-                placeholder="customer@exemple.com"
+                placeholder="customer@example.com"
                 required
               />
               <p v-if="errors.email" class="text-red-500">{{ errors.email }}</p>

@@ -82,7 +82,7 @@ watch(() => authStore.successMessage, (newMessage) => {
           </div>
           <div class="grid gap-2">
             <Label for="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@exemple.com" v-model="values.email.value" />
+            <Input id="email" type="email" placeholder="customer@example.com" v-model="values.email.value" />
             <p v-if="errors.email" class="text-red-500">{{ errors.email }}</p>
           </div>
           <div class="grid gap-2">
