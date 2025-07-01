@@ -1,8 +1,6 @@
-import db from '../models/index.js';
+import Images from '../models/postgres/imagesModel.js';
 
 export const up = async ({ context: queryInterface }) => {
-  const { sequelize } = db;
-  // Get product IDs - we'll assume they start from 1
   const images = [
     // Samsung Réfrigérateur (ID: 1)
     {
@@ -303,7 +301,9 @@ export const up = async ({ context: queryInterface }) => {
     }
   ];
 
-  await sequelize.getQueryInterface().bulkInsert('Images', images, {});
+  await Images.bulkCreate(images, { 
+    individualHooks: true
+  });
 };
 
 export const down = async ({ context: queryInterface }) => {

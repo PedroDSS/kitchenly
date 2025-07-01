@@ -92,6 +92,14 @@ const dynamicSuggestions = computed(() => {
             </SheetTitle>
           </SheetHeader>
           <nav class="flex flex-col gap-4 mt-8">
+            <SheetClose as-child>
+              <RouterLink 
+                :to="`/products`" 
+                class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+              >
+                Tout les produits
+              </RouterLink>
+            </SheetClose>
             <h3 class="font-semibold text-sm text-muted-foreground px-2">Catégories</h3>
             <template v-for="category in productStore.productCategories" :key="category">
               <SheetClose as-child>
@@ -215,6 +223,12 @@ const dynamicSuggestions = computed(() => {
     <nav class="hidden md:block border-t">
       <div class="container px-4">
         <div class="flex items-center gap-6 overflow-x-auto py-3 scrollbar-none">
+          <RouterLink 
+            :to="`/products`" 
+            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+          >
+            Tout les produits
+          </RouterLink>
           <RouterLink 
             v-for="category in productStore.productCategories" 
             :key="category"

@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import HeaderComponent from "@/components/common/HeaderComponent.vue";
 import Button from "@/components/ui/button/Button.vue";
+import CookieConsentModal from "@/components/modal/CookieConsentModal.vue";
 import { useAuthStore } from "@/stores/authStore";
+import { useCookieConsentStore } from "@/stores/cookieConsentStore";
 import { Gauge } from "lucide-vue-next";
 import { RouterView, useRouter } from "vue-router";
+import { onMounted } from "vue";
+
 const authStore = useAuthStore();
+const cookieStore = useCookieConsentStore();
 const user = authStore.user ?? null;
 const router = useRouter();
 const navigateTo = (route: string) => router.push({ name: route });
 const AdminDashboard = "AdminDashboard";
+
+onMounted(() => {
+  cookieStore.init();
+});
 </script>
 
 <template>
@@ -27,4 +36,5 @@ const AdminDashboard = "AdminDashboard";
   <div class="px-6 md:px-0">
     <RouterView />
   </div>
+  <CookieConsentModal />
 </template>

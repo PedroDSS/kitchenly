@@ -9,11 +9,10 @@ import Orders from "../models/postgres/orderModel.js";
 import User from '../models/postgres/userModel.js';
 import {sendDeliveryConfirmationEmail} from "../services/mailer/mailService.js";
 
-// TODO: Check & Rework.
-
 dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+console.log(stripe);
 
 const generateUniqueOrderID = () => {
     return Math.floor(Math.random() * 1000000000);
@@ -31,6 +30,8 @@ const stripeWebhookHandler = async (req, res) => {
         return res.sendStatus(400);
     }
 
+    console.log('LE WEBHOOK A ETE APPELER HAHAHAHAHA');
+    console.log(event.type);
     // Handle the event
     switch (event.type) {
         case 'checkout.session.completed':

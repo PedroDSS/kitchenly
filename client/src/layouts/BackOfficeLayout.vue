@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import SidebarComponent from "@/components/common/SidebarComponent.vue";
+import CookieConsentModal from "@/components/modal/CookieConsentModal.vue";
+import { useCookieConsentStore } from "@/stores/cookieConsentStore";
 import { RouterView } from "vue-router";
+import { onMounted } from "vue";
+
+const cookieStore = useCookieConsentStore();
+
+onMounted(() => {
+  cookieStore.init();
+});
 </script>
 
 <template>
@@ -14,4 +23,5 @@ import { RouterView } from "vue-router";
       </main>
     </div>
   </div>
+  <CookieConsentModal />
 </template>

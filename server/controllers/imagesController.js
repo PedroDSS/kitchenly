@@ -3,7 +3,7 @@ import Images from "../models/postgres/imagesModel.js";
 import Products from "../models/postgres/productModel.js";
 import Stock from "../models/postgres/stockModel.js";
 import UserAlert from "../models/postgres/userAlertsModel.js";
-import denormalizeProduct from "../services/denormalization/product.js";
+// import denormalizeProduct from "../services/denormalization/product.js";
 import {uploadFiles} from "../services/imageUploadService.js";
 import {sendNewProductAlertEmail} from "../services/mailer/mailService.js";
 import {getUserByIdDiff} from "./userController.js";
@@ -45,10 +45,10 @@ export const createProductWithImages = async (req, res) => {
           });
         }
 
-        await denormalizeProduct(newProduct.id, {
-          Product: Products,
-          Images: Images,
-        });
+        // await denormalizeProduct(newProduct.id, {
+        //   Product: Products,
+        //   Images: Images,
+        // });
 
         const userAlerts = await UserAlert.findAll({
           where: {
@@ -116,10 +116,10 @@ export const addImagesToProduct = async (req, res) => {
 
           const savedFiles = await Promise.all(filePromises);
           // Denormalize the product
-          await denormalizeProduct(productId, {
-            Product: Products,
-            Images: Images,
-          });
+          // await denormalizeProduct(productId, {
+          //   Product: Products,
+          //   Images: Images,
+          // });
           return res.status(200).json({ files: savedFiles });
         } catch (dbError) {
           return res.sendStatus(500);
