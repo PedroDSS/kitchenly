@@ -1,15 +1,14 @@
-import bcrypt from 'bcryptjs';
 import Users from '../models/postgres/userModel.js';
 
 export const up = async ({ context: queryInterface }) => {
-  const hashedPassword = await bcrypt.hash('Password1234!', 10);
+  const plainPassword = 'Password1234!';
   
   const users = [
     {
       firstname: 'Super',
       lastname: 'Admin',
       email: 'superadmin@kitchenly.com',
-      password: hashedPassword,
+      password: plainPassword,
       role: 'SuperAdmin',
       isVerified: true,
       address: '1 rue de la Paix',
@@ -25,7 +24,7 @@ export const up = async ({ context: queryInterface }) => {
       firstname: 'Admin',
       lastname: 'User',
       email: 'admin@kitchenly.com',
-      password: hashedPassword,
+      password: plainPassword,
       role: 'Admin',
       isVerified: true,
       address: '2 avenue des Champs',
@@ -41,7 +40,7 @@ export const up = async ({ context: queryInterface }) => {
       firstname: 'John',
       lastname: 'Doe',
       email: 'john.doe@example.com',
-      password: hashedPassword,
+      password: plainPassword,
       role: 'User',
       isVerified: true,
       address: '123 Main Street',
@@ -57,7 +56,7 @@ export const up = async ({ context: queryInterface }) => {
       firstname: 'Jane',
       lastname: 'Smith',
       email: 'jane.smith@example.com',
-      password: hashedPassword,
+      password: plainPassword,
       role: 'User',
       isVerified: true,
       address: '456 Oak Avenue',
@@ -73,7 +72,7 @@ export const up = async ({ context: queryInterface }) => {
       firstname: 'Alice',
       lastname: 'Johnson',
       email: 'alice.johnson@example.com',
-      password: hashedPassword,
+      password: plainPassword,
       role: 'User',
       isVerified: false,
       address: '789 Pine Road',

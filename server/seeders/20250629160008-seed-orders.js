@@ -107,7 +107,7 @@ export const up = async ({ context: queryInterface }) => {
       amount: 189.99,
       status: 'pending',
       paymentIntentId: 'pi_4567890123defghi', // Fourth payment (pending)
-      trackingCode: 'PENDING-TRACKING',
+      trackingCode: 'FR3456789012345',
       createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
       updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
     },
@@ -151,7 +151,7 @@ export const up = async ({ context: queryInterface }) => {
       amount: 1999.99,
       status: 'processing',
       paymentIntentId: 'pi_6789012345fghijk', // Sixth payment
-      trackingCode: 'PENDING-TRACKING',
+      trackingCode: 'FR7291038465127',
       createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
       updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
     },
@@ -171,7 +171,7 @@ export const up = async ({ context: queryInterface }) => {
       amount: 1899.99,
       status: 'processing',
       paymentIntentId: 'pi_6789012345fghijk', // Same payment
-      trackingCode: 'PENDING-TRACKING',
+      trackingCode: 'FR0583746291834',
       createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
       updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
     }
