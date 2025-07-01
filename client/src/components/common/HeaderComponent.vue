@@ -4,11 +4,12 @@ import { useRouter, useRoute } from 'vue-router';
 import { useProductsStore } from '@/stores/productsStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useCartStore } from '@/stores/cartStore';
-import { CircleUser, Search, ShoppingBasket, Menu } from 'lucide-vue-next';
+import { CircleUser, Search, ShoppingCart, Menu, X } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose, SheetFooter } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Badge } from '@/components/ui/badge';
 
 const productStore = useProductsStore();
 const cartStore = useCartStore();
@@ -17,11 +18,7 @@ const router = useRouter();
 const route = useRoute();
 const searchQuery = ref("");
 const showSuggestions = ref(false);
-const isMenuOpen = ref(false);
-
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
-};
+const isSearchFocused = ref(false);
 
 onMounted(() => {
   productStore.fetchProducts();
@@ -34,6 +31,7 @@ const handleSearch = async () => {
   if (searchQuery.value.trim() !== "") {
     await productStore.searchProductByTitleOrDescription(searchQuery.value);
     router.push({ path: "/products", query: { query: searchQuery.value } });
+    showSuggestions.value = false;
   }
 };
 
@@ -47,132 +45,208 @@ const isLoggedIn = computed(() => authStore.user !== null);
 const handleSuggestionClick = (path: string) => {
   router.push(path);
   showSuggestions.value = false;
+  searchQuery.value = "";
 };
 
-const closeSheet = (closeFn) => {
-  return () => {
-    closeFn();
-  };
-};
+const dynamicSuggestions = computed(() => {
+  const categories = productStore.productCategories;
+  if (!searchQuery.value) {
+    return categories.slice(0, 5).map(cat => ({ 
+      label: cat, 
+      path: `/category/${cat}` 
+    }));
+  }
+  
+  const filtered = categories.filter(cat => 
+    cat.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+  
+  return filtered.slice(0, 5).map(cat => ({ 
+    label: cat, 
+    path: `/category/${cat}` 
+  }));
+});
 </script>
 
 <template>
-  <header class="sticky gap-4 bg-background mb-8">
-    <div class="flex px-4 bg-white pt-2 pb-2 md:pb-0 items-center">
-      <Sheet>
-        <SheetTrigger as-child>
-          <Button class="block md:hidden" variant="outline">
-            <Menu/>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
+  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <!-- Main Header -->
+    <div class="container flex h-16 items-center px-4">
+      <!-- Mobile Menu -->
+      <div class="md:hidden">
+        <Sheet>
+          <SheetTrigger as-child>
+            <Button variant="ghost" size="icon">
+              <Menu class="h-5 w-5" />
+              <span class="sr-only">Menu</span>
+            </Button>
+          </SheetTrigger>
+        <SheetContent side="left" class="w-[300px] sm:w-[400px]">
           <SheetHeader>
             <SheetTitle>
               <SheetClose as-child>
-                <RouterLink to="/"> <img src="@/assets/Kitchenly-no-bg.png" class="h-20" alt="Kitchenly Logo" /></RouterLink>
+                <RouterLink to="/" class="flex items-center gap-2">
+                  <img src="@/assets/Kitchenly-no-bg.png" class="h-16" alt="Kitchenly" />
+                </RouterLink>
               </SheetClose>
             </SheetTitle>
-            <SheetDescription>
-              <nav class="p-2 gap-6 text-lg font-medium flex flex-col md:items-center md:gap-5 md:text-sm lg:gap-6 px-8">
-                <template v-for="category in productStore.productCategories" :key="category">
-                  <SheetClose as-child>
-                    <RouterLink :to="`/category/${category}`" class="transition-colors hover:text-foreground capitalize">{{ category }}</RouterLink>
-                  </SheetClose>
-                </template>
-              </nav>
-            </SheetDescription>
           </SheetHeader>
+          <nav class="flex flex-col gap-4 mt-8">
+            <h3 class="font-semibold text-sm text-muted-foreground px-2">Catégories</h3>
+            <template v-for="category in productStore.productCategories" :key="category">
+              <SheetClose as-child>
+                <RouterLink 
+                  :to="`/category/${category}`" 
+                  class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground"
+                >
+                  {{ category }}
+                </RouterLink>
+              </SheetClose>
+            </template>
+          </nav>
         </SheetContent>
-      </Sheet>
-      <nav :class="{'flex': isMenuOpen, 'hidden': !isMenuOpen, 'flex-col': true, 'gap-6': true, 'text-lg': true, 'font-medium': true, 'md:flex': true, 'md:flex-row': true, 'md:items-center': true, 'md:gap-5': true, 'md:text-sm': true, 'lg:gap-6': true, 'mr-12': true}">
-        <RouterLink to="/">
-          <img
-            src="@/assets/Kitchenly-no-bg.png"
-            class="h-20"
-            alt="Kitchenly Logo"
-          />
-        </RouterLink>
-      </nav>
-      <div class="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form @submit.prevent="handleSearch" class="ml-2 md:ml-auto flex-1">
-          <div class="relative" @click.stop>
-            <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input v-model="searchQuery" @focus="showSuggestions = true" @blur="showSuggestions = false" type="search" placeholder="Que cherchez-vous ?" class="pl-8 w-full md:w-10/12" />
-            <div v-if="showSuggestions" class="absolute bg-white border border-gray-200 w-full mt-1 z-10">
-              <ul>
-                <li>
-                  <RouterLink
-                    :to="`/category/Aspirateur`"
-                    class="block px-4 py-2 hover:bg-gray-100"
-                    @mousedown.prevent="
-                      handleSuggestionClick(`/category/Aspirateur`)
-                    "
+        </Sheet>
+      </div>
+
+      <!-- Logo -->
+      <RouterLink to="/" class="flex items-center gap-2 md:mr-8">
+        <img src="@/assets/Kitchenly-no-bg.png" class="h-10 md:h-12" alt="Kitchenly" />
+      </RouterLink>
+
+      <!-- Search Bar -->
+      <div class="flex-1 flex items-center px-3">
+        <form @submit.prevent="handleSearch" class="relative w-full max-w-lg mx-auto">
+          <div class="relative">
+            <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input 
+              v-model="searchQuery" 
+              @focus="isSearchFocused = true; showSuggestions = true" 
+              @blur="isSearchFocused = false; setTimeout(() => showSuggestions = false, 200)"
+              type="search" 
+              placeholder="Rechercher des produits..." 
+              class="h-10 w-full rounded-full bg-muted/40 pl-10 pr-4 focus:bg-background"
+            />
+            
+            <!-- Search Suggestions -->
+            <transition name="fade">
+              <div v-if="showSuggestions && (dynamicSuggestions.length > 0 || searchQuery)" 
+                class="absolute top-full left-0 right-0 mt-2 rounded-lg border bg-popover p-1 shadow-lg">
+                <div v-if="searchQuery" class="px-3 py-2 text-sm text-muted-foreground">
+                  Appuyez sur Entrée pour rechercher
+                </div>
+                <div v-if="dynamicSuggestions.length > 0" class="border-t pt-1">
+                  <p class="px-3 py-1 text-xs text-muted-foreground">Catégories suggérées</p>
+                  <button
+                    v-for="suggestion in dynamicSuggestions"
+                    :key="suggestion.path"
+                    type="button"
+                    @mousedown.prevent="handleSuggestionClick(suggestion.path)"
+                    class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
                   >
-                    Aspirateur
-                  </RouterLink>
-                </li>
-                <li>
-                  <RouterLink
-                    :to="`/category/Lave-linge`"
-                    class="block px-4 py-2 hover:bg-gray-100"
-                    @mousedown.prevent="
-                      handleSuggestionClick(`/category/Lave-linge`)
-                    "
-                  >
-                    Lave-Linge
-                  </RouterLink>
-                </li>
-                <li>
-                  <RouterLink
-                    :to="`/category/Réfrigérateur`"
-                    class="block px-4 py-2 hover:bg-gray-100"
-                    @mousedown.prevent="
-                      handleSuggestionClick(`/category/Réfrigérateur`)
-                    "
-                  >
-                    Réfrigérateur
-                  </RouterLink>
-                </li>
-              </ul>
-            </div>
+                    <Search class="h-3 w-3" />
+                    {{ suggestion.label }}
+                  </button>
+                </div>
+              </div>
+            </transition>
           </div>
         </form>
+      </div>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-2">
+        <!-- User Menu -->
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
-            <RouterLink :to="isLoggedIn ? '' : '/login'">
-              <Button variant="secondary" size="icon" class="rounded-full">
-                <CircleUser class="h-5 w-5" />
-              </Button>
-            </RouterLink>
+            <Button variant="ghost" size="icon" class="relative">
+              <CircleUser class="h-5 w-5" />
+              <span class="sr-only">Compte utilisateur</span>
+            </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent v-if="isLoggedIn">
-            <DropdownMenuItem>
-              <RouterLink to="/account">Mon compte</RouterLink>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <RouterLink to="/orders">Mes commandes</RouterLink>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem @click="handleLogout">
-              Déconnexion
-            </DropdownMenuItem>
+          <DropdownMenuContent align="end" class="w-56">
+            <template v-if="isLoggedIn">
+              <DropdownMenuItem as-child>
+                <RouterLink to="/account" class="flex items-center">
+                  Mon compte
+                </RouterLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem as-child>
+                <RouterLink to="/orders" class="flex items-center">
+                  Mes commandes
+                </RouterLink>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem @click="handleLogout" class="text-destructive">
+                Déconnexion
+              </DropdownMenuItem>
+            </template>
+            <template v-else>
+              <DropdownMenuItem as-child>
+                <RouterLink to="/login" class="flex items-center">
+                  Se connecter
+                </RouterLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem as-child>
+                <RouterLink to="/register" class="flex items-center">
+                  S'inscrire
+                </RouterLink>
+              </DropdownMenuItem>
+            </template>
           </DropdownMenuContent>
         </DropdownMenu>
-        <RouterLink to="/cart">
-          <span v-if="cartStore.cart.length" class="text-sm absolute ml-3 -mt-4">{{
-            cartStore.cart.length
-          }}</span>
-          <ShoppingBasket class="h-5 w-5" />
+
+        <!-- Cart -->
+        <RouterLink to="/cart" class="relative">
+          <Button variant="ghost" size="icon">
+            <ShoppingCart class="h-5 w-5" />
+            <span class="sr-only">Panier</span>
+            <Badge 
+              v-if="cartStore.cart.length" 
+              class="absolute -right-1 -top-1 h-5 w-5 rounded-full p-0 text-xs"
+            >
+              {{ cartStore.cart.length }}
+            </Badge>
+          </Button>
         </RouterLink>
       </div>
     </div>
-    <div>
-      <nav class="p-2 hidden bg-gray-200 gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 px-8 overflow-hidden overflow-x-scroll no-scrollbar">
-        <template v-for="category in productStore.productCategories" :key="category">
-          <RouterLink :to="`/category/${category}`" class="transition-colors hover:text-foreground capitalize">{{ category }}</RouterLink>
-        </template>
-      </nav>
-    </div>
+
+    <!-- Category Navigation -->
+    <nav class="hidden md:block border-t">
+      <div class="container px-4">
+        <div class="flex items-center gap-6 overflow-x-auto py-3 scrollbar-none">
+          <RouterLink 
+            v-for="category in productStore.productCategories" 
+            :key="category"
+            :to="`/category/${category}`" 
+            class="whitespace-nowrap text-sm font-medium transition-colors hover:text-primary"
+            :class="{ 'text-primary': route.params.category === category }"
+          >
+            {{ category }}
+          </RouterLink>
+        </div>
+      </div>
+    </nav>
   </header>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+</style>

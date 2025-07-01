@@ -35,7 +35,7 @@ export const useProductsStore = defineStore("products", {
       const categories = this.products.map(
         (product) => product.product_category
       );
-      return [...new Set(categories)];
+      return [...new Set(categories)].sort((a, b) => a.localeCompare(b));
     },
   },
   actions: {
