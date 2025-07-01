@@ -1,159 +1,78 @@
 @import './base.css';
 
-*,:before,:after {
-  box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-#app {
-  margin: 0 auto;
-  font-weight: normal;
-}
+  #app {
+    margin: 0 auto;
+    font-weight: normal;
+  }
 
-main {
-  max-width: 1100px;
-  margin: auto;
-}
+  main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 1rem;
+  }
 
-a,
-.green {
-  text-decoration: none;
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+  a {
+    @apply text-foreground transition-colors hover:text-primary;
+    text-decoration: none;
   }
 }
 
-
-/* color palette from <https://github.com/vuejs/theme> */
-:root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
-
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
-
-  --vt-c-indigo: #2c3e50;
-
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-}
-
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
-
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
-}
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
+@layer base {
+  h1 {
+    @apply text-3xl font-bold tracking-tight text-foreground;
+    scroll-margin-top: 80px;
   }
-} */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
-}
+  h2 {
+    @apply text-2xl font-semibold tracking-tight text-foreground;
+    scroll-margin-top: 80px;
+  }
 
-body {
-  color: var(--color-text);
-  background: #F8F9FC;
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Roboto,
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  h3 {
+    @apply text-xl font-semibold tracking-tight text-foreground;
+    scroll-margin-top: 80px;
+  }
 
-h1 {
-  font-size: 1.625rem;
-  font-weight: bold;
-}
+  h4 {
+    @apply text-lg font-semibold tracking-tight text-foreground;
+    scroll-margin-top: 80px;
+  }
 
-h2 {
-  font-size: 1.375rem;
-  font-weight: bold;
-}
+  h5 {
+    @apply text-base font-semibold tracking-tight text-foreground;
+    scroll-margin-top: 80px;
+  }
 
-h3 {
-  font-size: 1.125rem;
-  font-weight: bold;
-}
+  h6 {
+    @apply text-sm font-semibold tracking-tight text-foreground;
+    scroll-margin-top: 80px;
+  }
 
-h4 {
-  font-size: 1rem;
-  font-weight: bold;
-}
+  p {
+    @apply text-base text-muted-foreground leading-relaxed;
+  }
 
-h5 {
-  font-size: 0.875rem;
-  font-weight: bold;
-}
+  .text-muted {
+    @apply text-muted-foreground;
+  }
 
-/* Pour les card  */
-h6 {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.h7 {
-  /* Pour 14px */
-  font-size: 0.875rem;
-  font-weight: bold;
-  /* Pour 12px */
-  font-size: 0.875rem;
-}
-
-p {
-  font-size: 1rem;
+  .text-subtle {
+    @apply text-sm text-muted-foreground;
+  }
 }

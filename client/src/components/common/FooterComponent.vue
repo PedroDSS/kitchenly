@@ -12,13 +12,7 @@
                     <a href="#" class=" hover:underline">Qui sommes nous ?</a>
                 </li>
                 <li class="mb-4">
-                    <a href="#" class="hover:underline">Offre étudiante</a>
-                </li>
-                <li class="mb-4">
                     <a href="#" class="hover:underline">On recrute !</a>
-                </li>
-                <li class="mb-4">
-                    <a href="#" class="hover:underline">Presse</a>
                 </li>
             </ul>
         </div>
@@ -40,7 +34,7 @@
             </ul>
         </div>
         <div>
-            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">La loi et l'ordre</h2>
+            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Informations légales</h2>
             <ul class="text-gray-500 dark:text-gray-400 font-medium">
             <li class="mb-4">
                 <router-link to="/terms-of-use" class="hover:underline">Conditions générales d'utilisation</router-link>

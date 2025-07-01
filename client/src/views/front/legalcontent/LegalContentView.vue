@@ -226,7 +226,7 @@ const loadContent = () => {
       <h3>Comment exercer mes droits vis à vis de mes données ?</h3>
       <p>Depuis votre compte : Vous accédez à vos données et votre historique d’achat. Depuis la rubrique « mes consentements » vous pouvez modifier vos choix.</p>
       <p>Depuis les liens de désabonnement en bas des Emails ou par STOP SMS : Chaque SMS, envoyé de notre initiative, vous informera de la possibilité d’un désabonnement « STOP SMS » à un numéro non surtaxé. Pour des raisons techniques, l’arrêt d’envoi de nos offres n’est pas immédiat. Un délai de 48 maximum est parfois constaté afin d’enregistrer et traiter votre demande.</p>
-      <p>En écrivant votre demande par courrier postal à Kitchenly - DPO - , 210 avenue du 8 mai 1945, Le Blanc Mesnil ou à l’adresse courriel kitchenly.contact@gmail.com.</p>
+      <p>En écrivant votre demande par courrier postal à Kitchenly - DPO - , 1 rue ernest renan, Issy-Les-Moulineaux ou à l’adresse courriel kitchenly.contact@gmail.com.</p>
       <p>Par votre inscription sur BLOCTEL : Conformément aux articles L.223-1 et suivants du code de la consommation, si vous ne souhaitez plus être démarché par téléphone sur le numéro communiqué à Kitchenly vous pouvez inscrire à tout moment ce numéro de téléphone sur la liste d’opposition au démarchage téléphonique par Internet sur le site <a href="http://www.bloctel.gouv.fr">www.bloctel.gouv.fr</a>.</p>
       
       <h3>Push Notification</h3>
@@ -362,7 +362,7 @@ const loadContent = () => {
   <p>Les présentes CGU sont régies par la loi française. En cas de litige et à défaut de solution amiable, les tribunaux français seront seuls compétents pour connaître de ce litige.</p>
 
   <h3>ARTICLE 13 - CONTACT</h3>
-  <p>Pour toute question relative aux présentes CGU, vous pouvez nous contacter par courrier électronique à l'adresse suivante : kitchenly.contact@gmail.com ou par courrier postal à Kitchenly, 210 avenue du 8 mai 1945, Le Blanc Mesnil.</p>
+  <p>Pour toute question relative aux présentes CGU, vous pouvez nous contacter par courrier électronique à l'adresse suivante : kitchenly.contact@gmail.com ou par courrier postal à Kitchenly, 1 rue ernest renan, Issy-Les-Moulineaux.</p>
 `;
 
   } else if (contentType === 'terms-of-sales') {
@@ -419,7 +419,7 @@ const loadContent = () => {
       <p>7.2. Modalités d’exercice du droit de rétractation</p>
       <p>Pour exercer son droit de rétractation, le Client informe Kitchenly de sa décision de se rétracter soit en adressant le formulaire type de rétractation en Annexe 1 des présentes Conditions Générales de Vente, soit en adressant toute déclaration dénuée d'ambiguïté exprimant sa volonté de se rétracter, avant l’expiration du délai de 14 jours mentionné à l’article 7.1 :</p>
       <ul>
-        <li>par courrier à l’adresse Service client Kitchenly, 210 avenue du 8 mai 1945, Le Blanc Mesnil,</li>
+        <li>par courrier à l’adresse Service client Kitchenly, 1 rue ernest renan, Issy-Les-Moulineaux,</li>
         <li>par email à l’adresse suivante : kitchenly.contact@gmail.com. Kitchenly accuse réception, sans délai, de la rétractation du Client par email.</li>
         <li>par téléphone au 0767336979, gratuits (hors éventuels surcoûts de l’opérateur) disponibles 7J/7 de 8h à 22h, en se munissant de son numéro de facture.</li>
       </ul>
@@ -437,7 +437,7 @@ const loadContent = () => {
       
       <p>7.4. Modalités de retour des articles</p>
       <p>Le Client dispose d’un délai de 14 jours calendaires à compter de la communication de sa décision de se rétracter pour retourner son article à Kitchenly, dans un carton adapté, à l’adresse suivante :</p>
-      <p>SAV Kitchenly<br>210 avenue du 8 mai 1945, Le Blanc Mesnil</p>
+      <p>SAV Kitchenly<br>1 rue ernest renan, Issy-Les-Moulineaux</p>
       <p>Les frais de retour sont à la charge du Client. Pour les articles qui ne peuvent être retournés par la Poste en raison de leur nature (article de plus de 30 kg), vous trouverez ci-dessous une estimation des frais de retour auprès d’un transporteur de votre choix.</p>
       <p>De droit commun, les marchandises voyagent aux risques et périls du Client et à ce titre, Kitchenly conseille tout particulièrement au Client de prendre toutes les assurances appropriées pour couvrir ce risque et/ou toutes mesures appropriées pour une protection optimale du produit.</p>
       
@@ -510,7 +510,7 @@ const loadContent = () => {
       <ul>
         <li>par téléphone au 0767336979, numéros gratuits (hors éventuels surcoûts de l’opérateur), du lundi au dimanche (hors jours fériés) de 8 à 22 heures pour toute question relative ;</li>
         <li>par email à l’adresse suivante : kitchenly.contact@gmail.com;</li>
-        <li>par courrier à l'adresse suivante : Service Clientèle Kitchenly, 210 avenue du 8 mai 1945, Le Blanc Mesnil.</li>
+        <li>par courrier à l'adresse suivante : Service Clientèle Kitchenly, 1 rue ernest renan, Issy-Les-Moulineaux.</li>
       </ul>
       
       <h3>ARTICLE 13 - DROIT APPLICABLE, LITIGES ET MEDIATION</h3>
@@ -524,7 +524,7 @@ const loadContent = () => {
       <p>A défaut d'accord amiable entre les Parties, le litige sera soumis aux Tribunaux français.</p>
       
       <h3>ARTICLE 14 - DONNEES PERSONNELLES</h3>
-      <p>Kitchenly, 210 avenue du 8 mai 1945, Le Blanc Mesnil, traite vos données personnelles en qualité de responsable du traitement à des fins de gestion de votre demande, de la relation client, et du service après-vente. Ce traitement est basé sur le contrat liant Kitchenly au client.</p>
+      <p>Kitchenly, 1 rue ernest renan, Issy-Les-Moulineaux, traite vos données personnelles en qualité de responsable du traitement à des fins de gestion de votre demande, de la relation client, et du service après-vente. Ce traitement est basé sur le contrat liant Kitchenly au client.</p>
       <p>Sur le fondement de son intérêt légitime, Kitchenly peut également utiliser ces données à des fins :</p>
       <ul>
         <li>d’analyses statistiques</li>

@@ -102,35 +102,35 @@ const closeSheet = (closeFn) => {
               <ul>
                 <li>
                   <RouterLink
-                    :to="`/category/macbook`"
+                    :to="`/category/Aspirateur`"
                     class="block px-4 py-2 hover:bg-gray-100"
                     @mousedown.prevent="
-                      handleSuggestionClick(`/category/macbook`)
+                      handleSuggestionClick(`/category/Aspirateur`)
                     "
                   >
-                    MacBooks
+                    Aspirateur
                   </RouterLink>
                 </li>
                 <li>
                   <RouterLink
-                    :to="`/category/headphone`"
+                    :to="`/category/Lave-linge`"
                     class="block px-4 py-2 hover:bg-gray-100"
                     @mousedown.prevent="
-                      handleSuggestionClick(`/category/headphone`)
+                      handleSuggestionClick(`/category/Lave-linge`)
                     "
                   >
-                    Écouteur
+                    Lave-Linge
                   </RouterLink>
                 </li>
                 <li>
                   <RouterLink
-                    :to="`/category/huawei`"
+                    :to="`/category/Réfrigérateur`"
                     class="block px-4 py-2 hover:bg-gray-100"
                     @mousedown.prevent="
-                      handleSuggestionClick(`/category/huawei`)
+                      handleSuggestionClick(`/category/Réfrigérateur`)
                     "
                   >
-                    Huawei
+                    Réfrigérateur
                   </RouterLink>
                 </li>
               </ul>

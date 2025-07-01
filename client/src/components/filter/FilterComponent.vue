@@ -60,7 +60,7 @@ const availableFilters = computed(() => {
 });
 
 const minPrice = ref(0);
-const maxPrice = ref(2000);
+const maxPrice = ref(10000);
 
 const updatePriceFilter = () => {
   productStore.filters.minPrice = minPrice.value;
@@ -136,7 +136,7 @@ onMounted(() => {
         <input
             type="range"
             min="0"
-            max="2000"
+            max="1OOOO"
             v-model="minPrice"
             @input="updatePriceFilter"
             class="w-4/5 mb-2"
@@ -144,7 +144,7 @@ onMounted(() => {
         <input
             type="range"
             min="0"
-            max="2000"
+            max="10000"
             v-model="maxPrice"
             @input="updatePriceFilter"
             class="w-4/5 mb-2"

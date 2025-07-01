@@ -35,7 +35,7 @@ console.log(props.product);
 
 <template>
   <RouterLink class="hover:bg-inherit" :to="{ name: 'Product', params: { id: product._id || product.id } } ">
-    <Card :class="['w-96 md:w-64 h-[18rem] md:h-[22.75rem] p-0 mb-2 md:mb-8', cardClass]">
+    <Card :class="['w-96 md:w-64 h-[18rem] md:h-[22.75rem] p-0 mb-2 md:mb-8 flex flex-col', cardClass]">
       <CardImage>
         <img
           :class="['p-8 rounded-t-lg h-32', cardImageClass]"
@@ -43,12 +43,12 @@ console.log(props.product);
           alt="product image"
         />
       </CardImage>
-      <CardHeader>
-        <CardTitle>{{ product.product_title }}</CardTitle>
-        <CardDescription>{{ product.product_description }}</CardDescription>
+      <CardHeader class="flex-1 pb-2">
+        <CardTitle class="text-sm font-semibold leading-tight mb-1 overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ product.product_title }}</CardTitle>
+        <CardDescription class="text-xs text-muted-foreground leading-tight overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ product.product_description }}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <div class="flex items-center mt-2.5">
+      <CardContent class="py-2">
+        <div class="flex items-center">
           <span>{{ product.product_star_rating }}</span>
           <div class="ml-1 flex items-center space-x-1 rtl:space-x-reverse">
             <!-- Full stars -->
@@ -96,9 +96,8 @@ console.log(props.product);
           <span class="px-2">(8661)</span>
         </div>
       </CardContent>
-      <CardFooter class="px-4">
-        <span></span>
-        <p>
+      <CardFooter class="px-4 mt-auto">
+        <p class="text-sm">
           À partir de
           <span class="font-bold">{{ product.product_price }} €</span>
         </p>
